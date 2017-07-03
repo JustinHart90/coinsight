@@ -4,11 +4,12 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 module.exports = new WebpackConfig().merge({
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: '[name].bundle.js'
+    filename: 'app.[name].js'
   },
   context:  path.join(__dirname,'/app'),
   module: {
@@ -56,6 +57,11 @@ module.exports = new WebpackConfig().merge({
       title: 'Home Page',
       template: 'index.ejs',
       inject: 'body'
-    })
+    }),
+    new CopyWebpackPlugin([
+      {from: 'offline.html', to: 'offline.html'},
+      {from: 'service-worker.js', to: 'service-worker.js'},
+      {from: 'manifest.json', to: 'manifest.json'}
+    ])
   ]
 })

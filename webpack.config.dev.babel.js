@@ -3,14 +3,15 @@ import path from 'path';
 import WebpackConfig from 'webpack-config';
 
 module.exports = new WebpackConfig().extend('./webpack.config.common.babel.js').merge({
-  output: {
-    pathinfo: true
-  },
-  devtool: '#eval',
   entry: {
     bundle: path.join(__dirname,'/app/app.module.js'),
     vendor: ['angular','angular-ui-router'],
   },
+  output: {
+    path: path.join(__dirname, '/dist'),
+    filename: 'app.[name].js'
+  },
+  devtool: '#eval',
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor')
   ]
