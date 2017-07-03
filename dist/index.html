@@ -12,6 +12,18 @@
   <link href="app/css/home.css" rel="stylesheet"></head>
   <body ng-app="app">
     <div id="app-wrapper" ui-view></div>
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script>
+      var config = {
+      apiKey: "AIzaSyCBre5CoWKSRHBILRj60JXW8QZO3B9CK2k",
+      authDomain: "ng-client.firebaseapp.com",
+      databaseURL: "https://ng-client.firebaseio.com",
+      projectId: "ng-client",
+      storageBucket: "ng-client.appspot.com",
+      messagingSenderId: "969463679741"
+      };
+      firebase.initializeApp(config);
+    </script>
   <script type="text/javascript" src="app.main.js"></script></body>
   <script type="text/javascript">
     if ('serviceWorker' in navigator) {
