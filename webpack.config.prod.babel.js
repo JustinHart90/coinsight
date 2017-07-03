@@ -8,7 +8,6 @@ module.exports = new WebpackConfig().extend('./webpack.config.common.babel.js').
   plugins: [
     // new webpack.optimize.CommonsChunkPlugin('common.js'),
     new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new ngAnnotatePlugin({
       add: true
