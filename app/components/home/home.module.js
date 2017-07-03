@@ -1,5 +1,5 @@
 import angular from 'angular';
-import routing from '../../app.config';
+import routing from './home.route';
 import component from './home.component';
 import service from './home.service';
 
