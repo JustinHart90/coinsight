@@ -39,7 +39,6 @@
     "angular/di": 2,
     "angular/di-order": 2,
     "angular/function-type": [2,"named"],
-    "angular/no-service-method": 2,
     "angular/rest-service": [2,"Restangular"],
     "angular/watchers-execution": [2,"$apply"],
     "angular/angularelement": 2,
@@ -105,8 +104,8 @@
       8
     ],
     "max-len": [
-      2,
-      100
+      1,
+      150
     ],
     "semi": 0,
     "no-cond-assign": 0,
@@ -136,7 +135,7 @@
       2,
       "after"
     ],
-    "no-mixed-spaces-and-tabs": 2,
+    "no-mixed-spaces-and-tabs": 0,
     "no-trailing-spaces": 2,
     "space-unary-ops": [
       2,

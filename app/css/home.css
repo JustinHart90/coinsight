@@ -1,0 +1,39 @@
+html {
+  background-color: black;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+
+img {
+  height: 700px;
+  width: 100%;
+}
+
+/* NAV */
+header.darken {
+  background-color: black;
+  opacity: 0.95;
+  margin-left: 15px !important;
+  margin-right: 15px !important;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tagline {
+  margin: 0;
+  padding: 20px 0;
+}
+
+div.rightbuttons a {
+  margin-right: 15px;
+}
+
+div.rightbuttons {
+  margin-right: 20px;
+}

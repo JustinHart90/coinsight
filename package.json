@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/JustinHart90/capstone#readme",
   "dependencies": {
+    "@uirouter/angularjs": "^1.0.3",
     "angular": "^1.6.4",
-    "@uirouter/angularjs": "^1.0.3"
+    "autobahn": "^17.5.2",
+    "bootstrap": "^3.3.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",

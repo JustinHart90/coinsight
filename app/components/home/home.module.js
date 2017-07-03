@@ -1,10 +1,10 @@
 import angular from 'angular';
-import routing from './home.route';
-import component from './home.component';
-import service from './home.service';
+import HomeRoutes from './home.route';
+import HomeComponent from './home.component';
+import HomeService from './home.service';
 
-angular
+export default angular
   .module('home', [])
-  .component('home', component)
-  .factory('homeService', service)
-  .config(routing);
+  .component('home', HomeComponent)
+  .service('homeService', HomeService)
+  .config(HomeRoutes);
