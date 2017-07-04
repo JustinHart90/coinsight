@@ -25,7 +25,8 @@
     "@uirouter/angularjs": "^1.0.3",
     "angular": "^1.6.4",
     "autobahn": "^17.5.2",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "d3": "^4.9.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
