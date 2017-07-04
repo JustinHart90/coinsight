@@ -47,7 +47,7 @@ module.exports = new WebpackConfig().merge({
     ]
   },
   plugins: [
-    new ExtractTextPlugin('app/css/home.css'),
+    new ExtractTextPlugin('app/css/dashboard.css'),
     new CleanWebpackPlugin(['dist'], {
       root: __dirname,
       verbose: true,

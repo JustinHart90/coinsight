@@ -1,7 +1,7 @@
 'use strict'
 import autobahn from 'autobahn'
 
-function homeService ($http, $log) {
+function dashboardService ($http, $log) {
   const vm = this
   vm.movieData
   vm.getTradeHistory = getTradeHistory;
@@ -49,4 +49,4 @@ function homeService ($http, $log) {
   }
 }
 
-export default homeService;
+export default dashboardService;

@@ -1,6 +1,6 @@
 {
-  "name": "Home Page",
-  "short_name": "Home",
+  "name": "Dashboard",
+  "short_name": "Dashboard",
   "icons": [{
           "src": "app/images/icon-128.png",
           "type": "image/png",

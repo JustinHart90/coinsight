@@ -16,10 +16,10 @@ img {
 /* NAV */
 header.darken {
   background-color: black;
-  opacity: 0.95;
-  margin-left: 15px !important;
-  margin-right: 15px !important;
-  width: 100%;
+  color: white;
+  opacity: 0.90;
+  padding-left: 15px !important;
+  padding-right: 10px !important;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,9 +1,9 @@
-import homeHtml from './home.html';
+import dashboardHtml from './dashboard.html';
 
-let homeComponent = {
-  template: homeHtml,
-  controllerAs: 'home',
-  controller: function(homeService, $log) {
+let dashboardComponent = {
+  template: dashboardHtml,
+  controllerAs: 'dashboard',
+  controller: function(dashboardService, $log) {
     const vm = this;
     vm.$onInit = $onInit
     vm.mainChart = mainChart
@@ -13,11 +13,11 @@ let homeComponent = {
     }
 
     function mainChart () {
-      homeService.getTradeHistory()
+      dashboardService.getTradeHistory()
         .then(data => $log.log('data', data.data))
         .catch(err => $log.error(err))
     }
   }
 }
 
-export default homeComponent;
+export default dashboardComponent;

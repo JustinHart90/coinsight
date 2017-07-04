@@ -1,11 +1,11 @@
 import angular from 'angular';
 import uirouter from 'angular-ui-router';
-import home from './components/home/home.module.js';
+import dashboard from './components/dashboard/dashboard.module.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import './css/home.css';
+import './css/dashboard.css';
 
 angular.module('app', [
   uirouter,
-  'home'
+  'dashboard'
 ]);
