@@ -56,6 +56,7 @@ module.exports = new WebpackConfig().merge({
     new HtmlWebpackPlugin({
       title: 'Home Page',
       template: 'index.ejs',
+      favicon: './images/favicon.ico',
       inject: 'body'
     }),
     new CopyWebpackPlugin([
