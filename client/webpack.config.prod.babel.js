@@ -13,7 +13,7 @@ module.exports = new WebpackConfig().extend('./webpack.config.common.babel.js').
       add: true
     }),
     new webpack.optimize.UglifyJsPlugin({
-      cacheFolder: path.resolve(__dirname, 'dist/app/cached_uglify/'),
+      cacheFolder: path.resolve(__dirname, 'dist/app'),
       debug: true,
       minimize: true,
       sourceMap: false,
