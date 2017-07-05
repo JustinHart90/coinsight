@@ -4,7 +4,7 @@ const cacheVersion = 1;
 const currentCache = {
   offline: 'offline-cache' + cacheVersion
 };
-const offlineUrl = 'offline.html';
+const offlineUrl = 'index.ejs';
 
 this.addEventListener('install', event => {
   event.waitUntil(
@@ -12,6 +12,10 @@ this.addEventListener('install', event => {
       return cache.addAll([
           'manifest.json',
           'offline.html',
+          'index.html',
+          'app/css/d3.css',
+          'app/css/dashboard.css',
+          'app/images/mockup.png',
           'app/images/icon-128.png',
           'app/images/icon-152.png',
           'app/images/icon-144.png',

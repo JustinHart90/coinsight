@@ -9,7 +9,7 @@ body {
 }
 
 img {
-  height: 700px;
+  height: 600px;
   width: 100%;
 }
 
@@ -36,4 +36,42 @@ div.rightbuttons a {
 
 div.rightbuttons {
   margin-right: 20px;
+}
+
+/* D3 */
+
+.title {
+  color: white;
+  margin-top: 15px;
+}
+
+svg.d3bar {
+  background-color: white;
+}
+
+.bar {
+	fill: steelblue;
+}
+
+.bar:hover {
+	fill: brown;
+}
+
+.axis--x path {
+	display: none;
+}
+
+.toolTip {
+	position: absolute;
+	display: none;
+	width: auto;
+	height: auto;
+	background: none repeat scroll 0 0 white;
+	border: 0 none;
+	border-radius: 8px 8px 8px 8px;
+	box-shadow: -3px 3px 15px #888888;
+	color: black;
+	font: 12px sans-serif;
+	padding: 5px;
+	text-align: center;
 }

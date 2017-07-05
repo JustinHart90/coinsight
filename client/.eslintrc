@@ -48,7 +48,7 @@
     "angular/log": 2,
     "angular/json-functions": 2,
     "angular/interval-service": 2,
-    "angular/foreach": 2,
+    "angular/foreach": 0,
     "angular/document-service": 2,
     "angular/definedundefined": 2,
     "no-bitwise": 2,
@@ -84,7 +84,7 @@
       2,
       "single"
     ],
-    "no-undef": 2,
+    "no-undef": 0,
     "no-unused-vars": 0,
     "strict": 0,
     "max-params": [
@@ -105,7 +105,7 @@
     ],
     "max-len": [
       1,
-      150
+      10000
     ],
     "semi": 0,
     "no-cond-assign": 0,

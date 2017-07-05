@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
     <meta name=theme-color content=#536878>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name=application-name content="MicroLens">
@@ -19,7 +19,7 @@
     <meta name=msapplication-TileImage content=favicon.ico>
     <link rel="shortcut icon" href="favicon.ico">
     <link rel=apple-touch-icon href=favicon.ico>
-
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     <base href="/">
   </head>
   <body ng-app="app">
@@ -36,6 +36,7 @@
       };
       firebase.initializeApp(config);
     </script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
   </body>
   <script type="text/javascript">
     if ('serviceWorker' in navigator) {
