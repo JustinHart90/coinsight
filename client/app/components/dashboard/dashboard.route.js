@@ -1,3 +1,5 @@
+'use strict'
+
 function dashboardRoutes($stateProvider, $locationProvider) {
 
   $stateProvider

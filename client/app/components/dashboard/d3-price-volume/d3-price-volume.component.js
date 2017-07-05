@@ -1,14 +1,11 @@
+'use strict'
+
 import d3PriceVolumeHtml from './d3-price-volume.html';
+import D3PriceVolumeController from './d3-price-volume.controller.js';
 
 let d3PriceVolumeComponent = {
   template: d3PriceVolumeHtml,
-  controllerAs: 'd3-price-volume',
-  controller: function(d3PriceVolumeService) {
-    const vm = this;
-    vm.$onInit = $onInit
-
-    function $onInit () {}
-  }
+  controller: D3PriceVolumeController
 }
 
 export default d3PriceVolumeComponent;

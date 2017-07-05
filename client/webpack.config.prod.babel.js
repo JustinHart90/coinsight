@@ -11,18 +11,6 @@ module.exports = new WebpackConfig().extend('./webpack.config.common.babel.js').
     new webpack.optimize.AggressiveMergingPlugin(),
     new ngAnnotatePlugin({
       add: true
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      cacheFolder: path.resolve(__dirname, 'dist/app'),
-      debug: true,
-      minimize: true,
-      sourceMap: false,
-      output: {
-        comments: false
-      },
-      compressor: {
-        warnings: false
-      }
     })
   ]
 })
