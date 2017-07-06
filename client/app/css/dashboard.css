@@ -8,9 +8,15 @@ body {
   background-color: black;
 }
 
-img {
-  height: 600px;
-  width: 100%;
+#main-pic img {
+  width: 1422px;
+  height: auto;
+}
+
+div.col-lg-4 img {
+  margin-top: 20px;
+  width: 500px;
+  height: 400px;
 }
 
 /* NAV */

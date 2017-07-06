@@ -1,13 +1,13 @@
 'use strict'
 
-function D3PriceVolumeController ($log) {
-  $log.log(d3);
-  const vm = this;
-  vm.$onInit = $onInit;
+export default class D3PriceVolumeController {
+  constructor ($log) {
+    $log.log(d3);
+    const vm = this;
+    vm.testdata = []
+  }
 
-  vm.testdata = []
-
-  function $onInit() {
+  $onInit () {
     const svg = d3.select('svg.d3bar'),
       margin = {
         top: 20,
@@ -226,5 +226,3 @@ function D3PriceVolumeController ($log) {
   }
 
 }
-
-export default D3PriceVolumeController;

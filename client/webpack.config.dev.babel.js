@@ -5,7 +5,7 @@ import WebpackConfig from 'webpack-config';
 module.exports = new WebpackConfig().extend('./webpack.config.common.babel.js').merge({
   entry: {
     bundle: path.join(__dirname,'/app/app.module.js'),
-    vendor: ['angular','angular-ui-router'],
+    vendor: ['angular','angular-ui-router', 'localforage', 'angular-localforage']
   },
   output: {
     path: path.join(__dirname, '/dist'),
