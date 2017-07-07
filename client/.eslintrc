@@ -154,13 +154,7 @@
       "always"
     ],
     "eol-last": 2,
-    "array-bracket-spacing": [
-      2,
-      "never",
-      {
-        "singleValue": true
-      }
-    ],
+    "array-bracket-spacing": 0,
     "space-in-parens": [
       2,
       "never"

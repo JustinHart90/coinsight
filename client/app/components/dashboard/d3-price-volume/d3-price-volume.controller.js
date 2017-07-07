@@ -1,13 +1,32 @@
 'use strict'
 
-export default class D3PriceVolumeController {
-  constructor ($log) {
-    $log.log(d3);
-    const vm = this;
-    vm.testdata = []
+export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
+  const vm = this;
+  vm.$onInit = $onInit
+  vm.mainChart = mainChart
+
+  vm.rawTradeData = []
+  vm.tradeHistory = {}
+
+
+  function mainChart () {
+    d3PriceVolumeService.getTradeHistory()
+      .then(data => {
+        vm.rawTradeData = data.data
+        vm.rawTradeData.forEach(trade => {
+          vm.tradeObject = {
+            date: trade.date,
+            rate: +trade.rate
+          }
+          vm.tradeHistory[trade.tradeID] = vm.tradeObject
+        })
+      })
+      .catch(err => $log.error(err))
   }
 
-  $onInit () {
+  function $onInit () {
+    mainChart();
+
     const svg = d3.select('svg.d3bar'),
       margin = {
         top: 20,
