@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "coinsight-api",
   "version": "0.0.0",
   "private": false,
   "engines": {
