@@ -14,8 +14,9 @@ export default function d3PriceVolumeService ($http, $log) {
   vm.connection = ''
   vm.tradeHistoryUrl = ''
 
-  function getTradeHistory (pair, interval, since) {
-    vm.tradeHistoryUrl = 'http://microlens-proxy.herokuapp.com/?url=https://api.kraken.com/0/public/OHLC?pair=' + pair + '&interval=' + interval + '&since=' + since
+  function getTradeHistory () {
+    vm.tradeHistoryUrl = 'http://localhost:3000/prices'
+    // vm.tradeHistoryUrl = 'http://microlens-proxy.herokuapp.com/?url=https://api.kraken.com/0/public/OHLC?pair=' + pair + '&interval=' + interval + '&since=' + since
     return $http
       .get(vm.tradeHistoryUrl)
       .then(res => res)

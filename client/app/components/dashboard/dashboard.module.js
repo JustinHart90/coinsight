@@ -1,3 +1,5 @@
+import uirouter from '@uirouter/angularjs';
+import angularMoment from 'angular-moment';
 import DashboardRoutes from './dashboard.route';
 import DashboardComponent from './dashboard.component';
 import DashboardService from './dashboard.service';
@@ -5,7 +7,7 @@ import d3PriceVolumeComponent from './d3-price-volume/d3-price-volume.component'
 import d3PriceVolumeService from './d3-price-volume/d3-price-volume.service';
 
 export default angular
-  .module('dashboard', [])
+  .module('dashboard', [uirouter, angularMoment])
   .component('dashboard', DashboardComponent)
   .component('d3PriceVolumeComponent', d3PriceVolumeComponent)
   .service('dashboardService', DashboardService)

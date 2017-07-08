@@ -2,7 +2,7 @@
 
 import 'cors';
 
-export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
+export default function D3PriceVolumeController (d3PriceVolumeService, $log, moment) {
   const vm = this;
   vm.$onInit = $onInit
 
@@ -10,9 +10,9 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
   vm.rawTradeData = []
   vm.tradeHistory = {}
   vm.tradeHistory = {}
-  vm.currencyPair = 'XXBTZUSD'
-  vm.interval = '1440'
-  vm.since = '1495324800'
+  // vm.currencyPair = 'XXBTZUSD'
+  // vm.interval = '1440'
+  // vm.since = '1495324800'
   let transactionDate = ''
 
   function $onInit () {
@@ -27,23 +27,26 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
   // }
 
   function candlestick () {
-    d3PriceVolumeService.getTradeHistory(vm.currencyPair, vm.interval, vm.since)
+    d3PriceVolumeService.getTradeHistory()
       .then(data => {
-        $log.log('raw trade history array: ', data.data.result[vm.currencyPair])
-        vm.rawTradeData = data.data.result[vm.currencyPair]
+        $log.log('raw trade history array: ', data.data)
+        vm.rawTradeData = data.data
         vm.rawTradeData.forEach(trade => {
-          transactionDate = Date(+trade[0] * 1000)
+          let t = new Date(+trade['time'] * 1000);
+          // t.setSeconds();
+          let formatted = moment(t).format('MM.DD');
+          transactionDate = formatted
           vm.tradeObject = {
             date: transactionDate,
-            open: trade[1],
-            high: trade[2],
-            low: trade[3],
-            close: trade[4],
-            vwap: trade[5],
-            volume: trade[6],
-            count: trade[7]
+            open: +trade['open'],
+            high: +trade['high'],
+            low: +trade['low'],
+            close: +trade['close'],
+            vwap: +trade['vwap'],
+            volume: +trade['volume'],
+            count: trade['count']
           }
-          vm.tradeHistory[trade[5]] = vm.tradeObject
+          vm.tradeHistory[trade['id']] = vm.tradeObject
         })
         $log.log('Trade History: ', vm.tradeHistory)
         return getD3()
@@ -69,12 +72,18 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
     Object.keys(vm.tradeHistory).forEach((key) => {
       rates.push({
         date: vm.tradeHistory[key].date,
-        vwap: vm.tradeHistory[key].vwap
+        vwap: vm.tradeHistory[key].vwap,
+        open: vm.tradeHistory[key].open,
+        high: vm.tradeHistory[key].high,
+        low: vm.tradeHistory[key].low,
+        close: vm.tradeHistory[key].close,
+        volume: vm.tradeHistory[key].volume,
+        count: vm.tradeHistory[key].count
       });
     });
     $log.log('rates: ', rates)
 
-    const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+    const x = d3.scaleBand().rangeRound([0, width]);
     const y = d3.scaleLinear().rangeRound([height, 0]);
 
     const g = svg.append('g')
@@ -89,11 +98,11 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
     g.append('g')
       .attr('class', 'axis axis--x')
       .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(x).ticks(10))
+      .call(d3.axisBottom(x).ticks(5))
 
     g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(7, '$'))
+      .call(d3.axisLeft(y).ticks(5, '$'))
       .append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', 6)
@@ -136,7 +145,7 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
       div.style('left', d3.event.pageX + 10 + 'px');
       div.style('top', d3.event.pageY - 25 + 'px');
       div.style('display', 'inline-block');
-      div.html((d.date) + '<br>' + (d.vwap) + 'BTC/ETH');
+      div.html((d.date) + '<br>' + 'Price (USD):  ' + (d.vwap) + '<br>' + 'Open:  ' + (d.open) + '<br>' + 'High:  ' + (d.high) + '<br>' + 'Low:  ' + (d.low) + '<br>' + 'Close:  ' + (d.close) + '<br>' + 'Volume:  ' + (d.volume) + '<br>' + 'Count:  ' + (d.count));
     });
 
     d3.selectAll('.bar').on('mouseout', function(d) {
