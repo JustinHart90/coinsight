@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('bot_transactions', (table) => {
     table.increments();
-    table.string('bot_id').notNullable().references('id').inTable('bots').onDelete('CASCADE')
+    table.string('bot_id').notNullable();
     table.string('date').notNullable();
     table.string('time').notNullable();
     table.integer('buy_price');

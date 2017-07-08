@@ -1,12 +1,12 @@
-import express from 'express';
-import path from 'path';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
-import cors from 'cors';
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const cors = require('cors')
 
-import index from './routes/index';
-import users from './routes/users';
-import prices from './routes/prices';
+const index = require('./routes/index');
+const users = require('./routes/users');
+const prices = require('./routes/prices');
 
 const app = express();
 
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(logger('dev'));
 }
 
-app.use(cors());
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
