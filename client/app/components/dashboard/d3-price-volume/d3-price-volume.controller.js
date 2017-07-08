@@ -1,32 +1,57 @@
 'use strict'
 
+import 'cors';
+
 export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
   const vm = this;
   vm.$onInit = $onInit
-  vm.mainChart = mainChart
 
+  vm.testdata = []
   vm.rawTradeData = []
   vm.tradeHistory = {}
+  vm.tradeHistory = {}
+  vm.currencyPair = 'XXBTZUSD'
+  vm.interval = '1440'
+  vm.since = '1495324800'
+  let transactionDate = ''
 
+  function $onInit () {
+    candlestick();
+    // poloniexData();
+  }
 
-  function mainChart () {
-    d3PriceVolumeService.getTradeHistory()
+  // function poloniexData () {
+  //   d3PriceVolumeService.getBitUsd()
+  //     .then(data => $log.log(data))
+  //     .catch(err => $log.error(err.message))
+  // }
+
+  function candlestick () {
+    d3PriceVolumeService.getTradeHistory(vm.currencyPair, vm.interval, vm.since)
       .then(data => {
-        vm.rawTradeData = data.data
+        $log.log('raw trade history array: ', data.data.result[vm.currencyPair])
+        vm.rawTradeData = data.data.result[vm.currencyPair]
         vm.rawTradeData.forEach(trade => {
+          transactionDate = Date(+trade[0] * 1000)
           vm.tradeObject = {
-            date: trade.date,
-            rate: +trade.rate
+            date: transactionDate,
+            open: trade[1],
+            high: trade[2],
+            low: trade[3],
+            close: trade[4],
+            vwap: trade[5],
+            volume: trade[6],
+            count: trade[7]
           }
-          vm.tradeHistory[trade.tradeID] = vm.tradeObject
+          vm.tradeHistory[trade[5]] = vm.tradeObject
         })
+        $log.log('Trade History: ', vm.tradeHistory)
+        return getD3()
       })
       .catch(err => $log.error(err))
   }
 
-  function $onInit () {
-    mainChart();
-
+  function getD3 () {
     const svg = d3.select('svg.d3bar'),
       margin = {
         top: 20,
@@ -37,163 +62,38 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
       width = +svg.attr('width') - margin.left - margin.right,
       height = +svg.attr('height') - margin.top - (margin.bottom * 2);
 
-    let div = d3.select('body').append('div').attr('class', 'toolTip');
+    let div = d3.select('body').append('div').attr('class', 'toolTip')
 
-    const dri = {
-      'calcium': {
-        'value': 1000,
-        'unit': 'mg/d'
-      },
-      'chromium': {
-        'value': 35,
-        'unit': 'μg/d'
-      },
-      'copper': {
-        'value': 900,
-        'unit': 'μg/d'
-      },
-      'fluoride': {
-        'value': 4,
-        'unit': 'mg/d'
-      },
-      'iodine': {
-        'value': 150,
-        'unit': 'μg/d'
-      },
-      'iron': {
-        'value': 8,
-        'unit': 'mg/d'
-      },
-      'magnesium': {
-        'value': 400,
-        'unit': 'mg/d'
-      },
-      'manganese': {
-        'value': 2.3,
-        'unit': 'mg/d'
-      },
-      'molybdenum': {
-        'value': 45,
-        'unit': 'μg/d'
-      },
-      'phosphorus': {
-        'value': 700,
-        'unit': 'mg/d'
-      },
-      'selenium': {
-        'value': 55,
-        'unit': 'μg/d'
-      },
-      'zinc': {
-        'value': 11,
-        'unit': 'mg/d'
-      },
-      'potassium': {
-        'value': 4.7,
-        'unit': 'g/d'
-      },
-      'sodium': {
-        'value': 1.5,
-        'unit': 'g/d'
-      },
-      'chloride': {
-        'value': 2.3,
-        'unit': 'g/d'
-      }
-    };
+    let rates = [];
 
-    const current = {
-      'calcium': {
-        'value': 600,
-        'unit': 'mg/d'
-      },
-      'chromium': {
-        'value': 10,
-        'unit': 'μg/d'
-      },
-      'copper': {
-        'value': 200,
-        'unit': 'μg/d'
-      },
-      'fluoride': {
-        'value': 1,
-        'unit': 'mg/d'
-      },
-      'iodine': {
-        'value': 30,
-        'unit': 'μg/d'
-      },
-      'iron': {
-        'value': 5,
-        'unit': 'mg/d'
-      },
-      'magnesium': {
-        'value': 400,
-        'unit': 'mg/d'
-      },
-      'manganese': {
-        'value': 1.1,
-        'unit': 'mg/d'
-      },
-      'molybdenum': {
-        'value': 45,
-        'unit': 'μg/d'
-      },
-      'phosphorus': {
-        'value': 900,
-        'unit': 'mg/d'
-      },
-      'selenium': {
-        'value': 0,
-        'unit': 'μg/d'
-      },
-      'zinc': {
-        'value': 4,
-        'unit': 'mg/d'
-      },
-      'potassium': {
-        'value': 2.9,
-        'unit': 'g/d'
-      },
-      'sodium': {
-        'value': 0.4,
-        'unit': 'g/d'
-      },
-      'chloride': {
-        'value': 1,
-        'unit': 'g/d'
-      }
-    };
-
-    let percentages = [];
-
-    Object.keys(dri).forEach((key) => {
-      percentages.push({
-        name: key,
-        value: Math.min(1, current[key].value / dri[key].value)
+    Object.keys(vm.tradeHistory).forEach((key) => {
+      rates.push({
+        date: vm.tradeHistory[key].date,
+        vwap: vm.tradeHistory[key].vwap
       });
     });
+    $log.log('rates: ', rates)
 
-    const x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-      y = d3.scaleLinear().rangeRound([height, 0]);
+    const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+    const y = d3.scaleLinear().rangeRound([height, 0]);
 
     const g = svg.append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    x.domain(Object.keys(dri).map((d) => {
-      return d;
+    x.domain(Object.keys(vm.tradeHistory).map((d) => {
+      return vm.tradeHistory[d].date;
     }));
-    //y.domain([0, d3.max(dri, (d) => { return d.value; console.log(d.value) })]);
-    y.domain([0, 1]);
 
-    // g.append('g')
-    //     .attr('class', 'axis axis--x')
-    //     .attr('transform', 'translate(0,' + height + ')')
-    //     .call(d3.axisBottom(x));
+    y.domain([2000, 2800]);
+
+    g.append('g')
+      .attr('class', 'axis axis--x')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(d3.axisBottom(x).ticks(10))
 
     g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(10, '%'))
+      .call(d3.axisLeft(y).ticks(7, '$'))
       .append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', 6)
@@ -212,13 +112,13 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
       .text('Price & Volume History');
 
     g.selectAll('.bar')
-      .data(percentages)
+      .data(rates)
       .enter().append('rect')
       .attr('class', 'bar')
       .attr('x', (d) => {
-        return x(d.name);
+        return x(d.date);
       })
-      //.attr('y', (d) => { return y(d.value); })
+
       .attr('y', (d) => {
         return height;
       })
@@ -226,22 +126,21 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log) {
       .transition()
       .duration(1000)
       .attr('y', (d) => {
-        return y(d.value);
+        return y(d.vwap);
       })
       .attr('height', (d) => {
-        return height - y(d.value);
+        return height - y(d.vwap);
       });
 
     d3.selectAll('.bar').on('mousemove', function(d) {
       div.style('left', d3.event.pageX + 10 + 'px');
       div.style('top', d3.event.pageY - 25 + 'px');
       div.style('display', 'inline-block');
-      div.html((d.name) + '<br>' + (Math.round(d.value * 100)) + '% of DRI');
+      div.html((d.date) + '<br>' + (d.vwap) + 'BTC/ETH');
     });
 
     d3.selectAll('.bar').on('mouseout', function(d) {
       div.style('display', 'none');
     });
   }
-
 }

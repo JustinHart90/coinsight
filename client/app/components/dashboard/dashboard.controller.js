@@ -8,7 +8,7 @@ export default function DashboardController (dashboardService, $log) {
   vm.addChart = addChart;
 
   function $onInit () {
-    addChart()
+    // addChart()
   }
 
   function addChart () {

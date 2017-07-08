@@ -28,9 +28,11 @@
     "angularjs-nvd3-directives": "0.0.8",
     "autobahn": "^17.5.2",
     "bootstrap": "^3.3.7",
+    "cors": "^2.8.3",
     "d3": "^4.9.1",
     "localforage": "^1.5.0",
-    "nvd3": "^1.8.5"
+    "nvd3": "^1.8.5",
+    "poloniex-api-node": "^1.3.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
@@ -57,7 +59,7 @@
     "svg-inline-loader": "^0.7.1",
     "url-loader": "^0.5.9",
     "webpack": "^3.0.0",
-    "webpack-config": "^7.0.0", 
+    "webpack-config": "^7.0.0",
     "webpack-dev-server": "^2.5.0",
     "webpack-stream": "^3.2.0",
     "yargs": "^8.0.2"

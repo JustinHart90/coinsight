@@ -1,5 +1,8 @@
-'use strict'
-import autobahn from 'autobahn'
+
+import autobahn from 'autobahn';
+// import Poloniex from 'poloniex-api-node';
+// vm.poloniex = ''
+// vm.poloniex = new Poloniex();
 
 export default function d3PriceVolumeService ($http, $log) {
   const vm = this
@@ -11,13 +14,19 @@ export default function d3PriceVolumeService ($http, $log) {
   vm.connection = ''
   vm.tradeHistoryUrl = ''
 
-  function getTradeHistory () {
-    vm.tradeHistoryUrl = 'https://poloniex.com/public?command=returnTradeHistory&currencyPair=BTC_ETH'
+  function getTradeHistory (pair, interval, since) {
+    vm.tradeHistoryUrl = 'http://microlens-proxy.herokuapp.com/?url=https://api.kraken.com/0/public/OHLC?pair=' + pair + '&interval=' + interval + '&since=' + since
     return $http
       .get(vm.tradeHistoryUrl)
       .then(res => res)
       .catch(err => $log.error(err))
   }
+
+  // function getBitUsd () {
+  //   return Poloniex.returnTicker()
+  //     .then(ticker => ticker)
+  //     .catch(err => $log.log(err));
+  // }
 
   function getFeed () {
     vm.wsuri = 'wss://api.poloniex.com';
