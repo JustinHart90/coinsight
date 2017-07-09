@@ -2,9 +2,6 @@
   "name": "ng-client",
   "version": "1.0.0",
   "description": "",
-  "engines": {
-    "node": "7.5.0"
-  },
   "scripts": {
     "test-server": "http-server dist -p 9000 -a localhost",
     "start": "webpack-dev-server --config webpack.config.dev.babel.js --port 9000 --inline --hot",
@@ -30,11 +27,13 @@
     "autobahn": "^17.5.2",
     "bootstrap": "^3.3.7",
     "cors": "^2.8.3",
+    "csv-loader": "^2.1.1",
     "d3": "^4.9.1",
     "localforage": "^1.5.0",
     "moment": "^2.18.1",
     "nvd3": "^1.8.5",
-    "poloniex-api-node": "^1.3.0"
+    "poloniex-api-node": "^1.3.0",
+    "techan": "^0.8.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
@@ -65,5 +64,9 @@
     "webpack-dev-server": "^2.5.0",
     "webpack-stream": "^3.2.0",
     "yargs": "^8.0.2"
+  },
+  "engines": {
+    "node": "7.5.0",
+    "npm": "5.1.0"
   }
 }

@@ -59,7 +59,7 @@
       }
     ],
     "curly": [
-      2,
+      0,
       "all"
     ],
     "eqeqeq": 2,
@@ -96,7 +96,7 @@
       5
     ],
     "max-statements": [
-      2,
+      0,
       40
     ],
     "complexity": [
@@ -148,7 +148,7 @@
       2,
       {}
     ],
-    "space-infix-ops": 2,
+    "space-infix-ops": 1,
     "space-before-blocks": [
       2,
       "always"

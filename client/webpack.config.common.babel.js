@@ -28,26 +28,35 @@ module.exports = new WebpackConfig().merge({
         })
       },
       {
-          test: /\.(eot|woff|woff2|ttf|png|svg|jpg)$/,
-          loader: 'url-loader?limit=300'
+        test: /\.(eot|woff|woff2|ttf|png|svg|jpg)$/,
+        loader: 'url-loader?limit=300'
       },
       {
-          test: /\.json$/,
-          loader: 'json-loader'
+        test: /\.json$/,
+        loader: 'json-loader'
       },
       {
-          test: /\.html$/,
-          loader: 'ng-cache-loader?prefix=[dir]/[dir]'
+        test: /\.html$/,
+        loader: 'ng-cache-loader?prefix=[dir]/[dir]'
       },
       {
-          test: /\.js$/,
-          loader: 'babel-loader?presets[]=es2015',
-          exclude: /node_modules/
+        test: /\.js$/,
+        loader: 'babel-loader?presets[]=es2015',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.csv$/,
+        loader: 'csv-loader',
+        options: {
+          dynamicTyping: true,
+          header: true,
+          skipEmptyLines: true
+        }
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin('app/css/dashboard.css'),
+    new ExtractTextPlugin('[name].css'),
     new CleanWebpackPlugin(['dist'], {
       root: __dirname,
       verbose: true,
@@ -62,7 +71,8 @@ module.exports = new WebpackConfig().merge({
     new CopyWebpackPlugin([
       {from: 'offline.html', to: 'offline.html'},
       {from: 'service-worker.js', to: 'service-worker.js'},
-      {from: 'manifest.json', to: 'manifest.json'}
+      {from: 'manifest.json', to: 'manifest.json'},
+      {from: 'components/dashboard/candlestick/btc.csv', to: 'btc.csv'}
     ])
   ]
 })

@@ -15,6 +15,7 @@ this.addEventListener('install', event => {
           'index.html',
           'app/css/d3.css',
           'app/css/dashboard.css',
+          'app/images/favicon.ico',
           'app/images/mockup.png',
           'app/images/icon-128.png',
           'app/images/icon-152.png',

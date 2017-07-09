@@ -8,6 +8,16 @@ body {
   background-color: black;
 }
 
+div.col-lg-8.align-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+img#coinLogo {
+  height: 20px;
+  width: auto;
+}
+
 #main-pic img {
   width: 1422px;
   height: auto;

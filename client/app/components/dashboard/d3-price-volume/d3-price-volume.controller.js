@@ -31,11 +31,14 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log, mom
       .then(data => {
         $log.log('raw trade history array: ', data.data)
         vm.rawTradeData = data.data
+        let volumeMin = +vm.rawTradeData[0]['volume'];
+        let volumeMax = 0;
+
         vm.rawTradeData.forEach(trade => {
           let t = new Date(+trade['time'] * 1000);
-          // t.setSeconds();
           let formatted = moment(t).format('MM.DD');
           transactionDate = formatted
+
           vm.tradeObject = {
             date: transactionDate,
             open: +trade['open'],
@@ -47,14 +50,22 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log, mom
             count: trade['count']
           }
           vm.tradeHistory[trade['id']] = vm.tradeObject
+
+          if (+trade['volume'] < volumeMin) {
+            volumeMin = +trade['volume'];
+          }
+
+          if (+trade['volume'] > volumeMax) {
+            volumeMax = +trade['volume'];
+          }
         })
         $log.log('Trade History: ', vm.tradeHistory)
-        return getD3()
+        return getD3(volumeMin, volumeMax)
       })
       .catch(err => $log.error(err))
   }
 
-  function getD3 () {
+  function getD3 (min, max) {
     const svg = d3.select('svg.d3bar'),
       margin = {
         top: 20,
@@ -93,16 +104,16 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log, mom
       return vm.tradeHistory[d].date;
     }));
 
-    y.domain([2000, 2800]);
+    y.domain([min - 500, max]);
 
     g.append('g')
       .attr('class', 'axis axis--x')
       .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(x).ticks(5))
+      .call(d3.axisBottom(x).ticks(6))
 
     g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(5, '$'))
+      .call(d3.axisLeft(y).ticks(6, '$'))
       .append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', 6)
@@ -118,7 +129,7 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log, mom
     g.append('text')
       .attr('text-anchor', 'middle') // this makes it easy to centre the text as the transform is applied to the anchor
       .attr('transform', 'translate(' + (width / 2) + ',' + (height + margin.bottom) + ')') // centre below axis
-      .text('Price & Volume History');
+      .text('Volume History');
 
     g.selectAll('.bar')
       .data(rates)
@@ -135,10 +146,10 @@ export default function D3PriceVolumeController (d3PriceVolumeService, $log, mom
       .transition()
       .duration(1000)
       .attr('y', (d) => {
-        return y(d.vwap);
+        return y(d.volume);
       })
       .attr('height', (d) => {
-        return height - y(d.vwap);
+        return height - y(d.volume);
       });
 
     d3.selectAll('.bar').on('mousemove', function(d) {
