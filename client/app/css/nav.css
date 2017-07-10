@@ -1,0 +1,41 @@
+header.darken {
+  background-color: black;
+  color: white;
+  opacity: 0.90;
+  padding-left: 15px !important;
+  padding-right: 10px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+img#coinLogo {
+  height: 40px;
+  width: auto;
+  padding-left: 5px;
+  padding-right: 3px;
+}
+
+.tagline {
+  margin: 10px 0;
+  padding: 5px;
+  padding-bottom: 10px !important;
+  font-size: 4.3em;
+  font-family: 'PoiretOne', sans-serif, 'Lucida Grande', Helvetica, Arial;
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(19, 77, 153, 0.79),
+      rgba(159, 2, 2, 0.76)
+    );
+  border-radius: 15px;
+  border: 1px solid white;
+}
+
+div.rightbuttons a {
+  margin-right: 15px;
+}
+
+div.rightbuttons {
+  margin-right: 20px;
+}

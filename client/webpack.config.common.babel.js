@@ -72,7 +72,10 @@ module.exports = new WebpackConfig().merge({
       {from: 'offline.html', to: 'offline.html'},
       {from: 'service-worker.js', to: 'service-worker.js'},
       {from: 'manifest.json', to: 'manifest.json'},
-      {from: 'components/dashboard/candlestick/btc.csv', to: 'btc.csv'}
+      {from: 'components/dashboard/candlestick/btc.csv', to: 'btc.csv'},
+      {from: 'libraries/d3.js', to: 'd3.js'},
+      {from: 'libraries/techan.js', to: 'techan.js'},
+      {from: 'fonts/PoiretOne-Regular.ttf', to: 'PoiretOne-Regular.ttf'}
     ])
   ]
 })

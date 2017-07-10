@@ -13,35 +13,36 @@ export default function CandlestickController (candlestickService, $log, moment)
   let transactionDate = ''
 
   function $onInit () {
-    candlestickChart();
+    getD3();
   }
 
   function candlestickChart () {
-    candlestickService.getTradeData()
-      .then(data => {
-        $log.log('candlestick raw trade history array: ', data.data)
-        vm.rawTradeData = data.data
-        vm.rawTradeData.forEach(trade => {
-          let t = new Date(+trade['time'] * 1000);
-          // t.setSeconds();
-          let formatted = moment(t).format('MM.DD');
-          transactionDate = formatted
-          vm.tradeObject = {
-            date: transactionDate,
-            open: +trade['open'],
-            high: +trade['high'],
-            low: +trade['low'],
-            close: +trade['close'],
-            vwap: +trade['vwap'],
-            volume: +trade['volume'],
-            count: trade['count']
-          }
-          vm.tradeHistory[trade['id']] = vm.tradeObject
-        })
-        $log.log('Candlestick Trade History: ', vm.tradeHistory)
-        return getD3()
-      })
-      .catch(err => $log.error(err))
+    return getD3()
+    // candlestickService.getTradeData()
+    //   .then(data => {
+    //     $log.log('candlestick raw trade history array: ', data.data)
+    //     vm.rawTradeData = data.data
+    //     vm.rawTradeData.forEach(trade => {
+    //       let t = new Date(+trade['time'] * 1000);
+    //       // t.setSeconds();
+    //       let formatted = moment(t).format('MM.DD');
+    //       transactionDate = formatted
+    //       vm.tradeObject = {
+    //         date: transactionDate,
+    //         open: +trade['open'],
+    //         high: +trade['high'],
+    //         low: +trade['low'],
+    //         close: +trade['close'],
+    //         vwap: +trade['vwap'],
+    //         volume: +trade['volume'],
+    //         count: trade['count']
+    //       }
+    //       vm.tradeHistory[trade['id']] = vm.tradeObject
+    //     })
+    //     $log.log('Candlestick Trade History: ', vm.tradeHistory)
+    //     return getD3()
+    //   })
+    //   .catch(err => $log.error(err))
   }
 
   function getD3 () {

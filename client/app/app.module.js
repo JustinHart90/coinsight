@@ -5,6 +5,7 @@ import dashboard from './components/dashboard/dashboard.module.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './css/dashboard.css';
+import './css/nav.css';
 import './css/candle.css';
 
 angular.module('app', [
