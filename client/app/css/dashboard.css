@@ -8,25 +8,78 @@ body {
   background-color: black;
 }
 
-div.col-lg-8.align-right {
+div.row.align-right {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+div.col-lg-4.news {
+  border: 1px solid #BBBBBB;
+  margin-left: 5px;
+  margin-right: 0px;
+  padding-left: 5px;
+  padding-right: 2px;
+  border-radius: 3px;
+  height: 506px;
+  overflow: auto;
+  background-color: #BBBBBB;
+}
+
+.showDetails {
+  font-size: 0.6em;
+  padding: 5px;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgb(41,29,212);
+  -webkit-box-shadow: 0 0 1px rgb(41,29,212);
+}
+
+div.col-lg-8 {
+  border: 1px solid #BBBBBB;
+  border-radius: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 img#coinLogo {
-  height: 20px;
+  height: 30px;
   width: auto;
+  padding-left: 2px;
+  padding-right: 1px;
 }
 
-#main-pic img {
-  width: 1422px;
-  height: auto;
+div.article-container {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  border: 1px solid #BBBBBB;
+  border-radius: 5px;
+  padding: 20px;
 }
 
-div.col-lg-4 img {
-  margin-top: 20px;
-  width: 500px;
-  height: 400px;
+div.articles.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.title {
+  color: white;
+  font-size: 1em;
+}
+
+.articleThumbnail {
+  height: 30px;
+  width: auto;
+  margin-right: 10px;
 }
 
 /* NAV */
@@ -44,6 +97,7 @@ header.darken {
 .tagline {
   margin: 0;
   padding: 20px 0;
+  font-size: 3.2em;
 }
 
 div.rightbuttons a {
@@ -56,7 +110,7 @@ div.rightbuttons {
 
 /* D3 */
 
-.title {
+/*.title {
   color: white;
   margin-top: 15px;
 }
@@ -90,4 +144,4 @@ svg.d3bar {
 	font: 12px sans-serif;
 	padding: 5px;
 	text-align: center;
-}
+}*/

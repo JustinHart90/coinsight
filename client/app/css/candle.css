@@ -1,6 +1,4 @@
-svg {
-  border: 1px solid #BBBBBB;
-  border-radius: 3px;
+svg.candle {
   background-color: black;
   padding: 10px;
 }

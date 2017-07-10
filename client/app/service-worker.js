@@ -13,7 +13,6 @@ this.addEventListener('install', event => {
           'manifest.json',
           'offline.html',
           'index.html',
-          'app/css/d3.css',
           'app/css/dashboard.css',
           'app/images/favicon.ico',
           'app/images/mockup.png',

@@ -45,8 +45,11 @@ export default function CandlestickController (candlestickService, $log, moment)
   }
 
   function getD3 () {
+    let screenWidth = window.innerWidth;
+    let screenHeight = window.innerHeight;
+    $log.log('HEIGHT: ', screenHeight);
     var dim = {
-      width: 960, height: 500,
+      width: screenWidth * 0.65, height: screenHeight * 0.74,
       margin: { top: 20, right: 50, bottom: 30, left: 50 },
       ohlc: { height: 305 },
       indicator: { height: 65, padding: 5 }
@@ -227,9 +230,13 @@ export default function CandlestickController (candlestickService, $log, moment)
       .yAnnotation([rsiAnnotation, rsiAnnotationLeft])
       .verticalWireRange([0, dim.plot.height]);
 
-    var svg = d3.select('body').append('svg')
+    var svg = d3.select('svg.candle')
       .attr('width', dim.width)
-      .attr('height', dim.height);
+      .attr('height', dim.height)
+      .attr('position', 'fixed');
+
+    var news = d3.select('.news')
+      .attr('height', screenHeight * 0.74);
 
     var defs = svg.append('defs');
 

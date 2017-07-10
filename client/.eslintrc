@@ -42,7 +42,7 @@
     "angular/rest-service": [2,"Restangular"],
     "angular/watchers-execution": [2,"$apply"],
     "angular/angularelement": 2,
-    "angular/window-service": 2,
+    "angular/window-service": 1,
     "angular/timeout-service": 2,
     "angular/no-jquery-angularelement": 2,
     "angular/log": 2,

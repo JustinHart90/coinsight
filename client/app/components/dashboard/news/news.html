@@ -1,0 +1,11 @@
+
+<div class="articles container-fluid" ng-repeat="article in $ctrl.articles">
+  <div class="article-container">
+    <img class="articleThumbnail" src="{{article.source.details.thumbImage}}" alt="">
+    <span class="title">{{article.title}}</span>
+    <a href="#" class="showDetails btn btn-success" ng-click="article.showArticleDetails = !article.showArticleDetails">Show Details</a>
+  </div>
+  <div class="">
+    <p ng-show="article.showArticleDetails">{{article.body}}</p>
+  </div>
+</div>
