@@ -1,11 +1,34 @@
-
-<div class="articles container-fluid" ng-repeat="article in $ctrl.articles">
+<div class="search-sort">
+  <span class="search">
+    <label>Search:</label>
+    <input class="searchText" type="text" ng-model="searchText">
+  </span>
+  <span class="sort">
+    <label>Sort:</label>
+    <select class="sortText" ng-model="sortBy" ng-init="sortBy='-socialScore'">
+      <option value="-socialScore">Social Score</option>
+      <option value="sim">Source Importance</option>
+      <option value="-created_at">Date</option>
+    </select>
+  </span>
+</div>
+<div class="articles container-fluid" ng-repeat="article in $ctrl.articles | filter:searchText | orderBy:sortBy">
   <div class="article-container">
-    <img class="articleThumbnail" src="{{article.source.details.thumbImage}}" alt="">
-    <span class="title">{{article.title}}</span>
-    <a href="#" class="showDetails btn btn-success" ng-click="article.showArticleDetails = !article.showArticleDetails">Show Details</a>
+    <div class="article-indicators">
+      <span class="align-time" am-time-ago="article.created_at"></span>
+      <span>Social Score: {{article.socialScore}}</span>
+    </div>
+    <div class="article-heading">
+      <img class="articleThumbnail" src="{{article.source.details.thumbImage}}" alt="">
+      <span class="title"><a href="{{article.url}}" target="_blank">{{article.title}}</a></span>
+      <a href="#" class="showDetails btn btn-success" ng-click="article.showArticleDetails = !article.showArticleDetails">Show Details</a>
+    </div>
   </div>
-  <div class="">
-    <p ng-show="article.showArticleDetails">{{article.body}}</p>
+  <div class="article-details" ng-show="article.showArticleDetails">
+    <p>Date:   {{article.date}}</p>
+    <p>Social Score:  {{article.socialScore}}</p>
+    <p>Source Importance:  {{article.sim}}</p>
+    <h4 class="subHeading">Description</h4>
+    <p>{{article.body}}</p>
   </div>
 </div>

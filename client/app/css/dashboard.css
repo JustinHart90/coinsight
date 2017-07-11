@@ -26,13 +26,13 @@ div.row.align-right {
 }
 
 div.col-lg-4.news {
-  border: 1px solid #BBBBBB;
+  border: 2px solid #BBBBBB;
   margin-left: 5px;
   margin-right: 0px;
   padding-left: 5px;
   padding-right: 2px;
   border-radius: 3px;
-  height: 506px;
+  height: 508px;
   overflow: auto;
   background-color: #BBBBBB;
 }
@@ -40,6 +40,9 @@ div.col-lg-4.news {
 .showDetails {
   font-size: 0.6em;
   padding: 5px;
+  background-color: #BBBBBB;
+  color: black;
+  border: none;
 }
 
 ::-webkit-scrollbar {
@@ -53,7 +56,7 @@ div.col-lg-4.news {
 }
 
 div.col-lg-8 {
-  border: 1px solid #BBBBBB;
+  border: 2px solid #BBBBBB;
   border-radius: 3px;
   padding-left: 5px;
   padding-right: 5px;
@@ -61,12 +64,57 @@ div.col-lg-8 {
 
 div.article-container {
   background-color: black;
-  display: flex;
-  align-items: center;
   margin-top: 5px;
   border: 1px solid #BBBBBB;
   border-radius: 5px;
   padding: 20px;
+}
+
+div.search-sort {
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+  color: white;
+  margin-top: 0px;
+  border: 1px solid #BBBBBB;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+div.article-details {
+  background-color: black;
+  align-items: center;
+  margin-top: 0px;
+  border: 1px solid #BBBBBB;
+  border-radius: 5px;
+  padding: 20px;
+  color: white;
+}
+
+input.searchText {
+  font-size: .75em;
+}
+
+.searchText, .sortText {
+  border-radius: 5px;
+  color: black;
+}
+
+div.article-heading {
+  display: flex;
+  align-items: center;
+}
+
+.subHeading {
+  color: rgb(104,4,7);
+}
+
+.article-indicators {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-size: 0.75em;
+  margin-bottom: 7px;
 }
 
 div.articles.container-fluid {
