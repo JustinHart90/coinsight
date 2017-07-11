@@ -1,11 +1,53 @@
+div.candleTools {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.timeOptions {
+  display: flex;
+}
+
+a.timeScale.btn.btn-default {
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 5px 5px;
+  background-color: #BBBBBB;
+  border: none;
+}
+
+.advancedToolOptions {
+  margin-top: 10px;
+  margin-left: 10px;
+  padding: 5px 5px;
+}
+
+.toolButtons {
+  margin-top: 10px;
+  margin-left: 10px;
+  padding: 5px 5px;
+}
+
 svg.candle {
   background-color: black;
   padding: 10px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+g.close.annotation.up g.data text {
+  /*stroke: black;
+  fill: white;*/
+}
+
+g.data.scope-composed-annotation g.data text {
+  stroke: black;
+  padding: 15px;
 }
 
 text {
   fill: black;
   stroke: #BBBBBB;
+  font-size: 0.75em;
 }
 
 text.symbol {

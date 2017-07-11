@@ -4,7 +4,15 @@ import 'cors';
 
 export default function CandlestickController (candlestickService, $log, moment) {
   const vm = this;
-  vm.$onInit = $onInit
+  vm.$onInit = $onInit;
+  vm.resetD3 = resetD3;
+
+  vm.dateOption = dateOption;
+  vm.sma0Tool = sma0Tool;
+  vm.sma1Tool = sma1Tool;
+  vm.emaTool = emaTool;
+  vm.macdTool = macdTool;
+  vm.rsiTool = rsiTool;
 
   vm.testdata = []
   vm.rawTradeData = []
@@ -13,11 +21,60 @@ export default function CandlestickController (candlestickService, $log, moment)
   let transactionDate = ''
 
   function $onInit () {
-    getD3();
+    vm.dateOptionText = '3 Months'
+    vm.showAdvancedTools = false;
+    vm.showSma0 = false;
+    vm.showSma1 = false;
+    vm.showEma = false;
+    vm.showMacd = false;
+    vm.showRsi = false;
+    getD3(vm.dateOptionText);
+  }
+
+  function dateOption (e, selectedOption) {
+    e.preventDefault();
+    vm.dateOptionText = selectedOption;
+    resetD3();
+    return getD3(selectedOption);
+  }
+
+  function sma0Tool (e) {
+    e.preventDefault();
+    vm.showSma0 = !vm.showSma0;
+    resetD3();
+    return getD3(vm.dateOptionText);
+  }
+
+  function sma1Tool (e) {
+    e.preventDefault();
+    vm.showSma1 = !vm.showSma1;
+    resetD3();
+    return getD3(vm.dateOptionText);
+  }
+
+  function emaTool (e) {
+    e.preventDefault();
+    vm.showEma = !vm.showEma;
+    resetD3();
+    return getD3(vm.dateOptionText);
+  }
+
+  function macdTool (e) {
+    e.preventDefault();
+    vm.showMacd = !vm.showMacd;
+    resetD3();
+    return getD3(vm.dateOptionText);
+  }
+
+  function rsiTool (e) {
+    e.preventDefault();
+    vm.showRsi = !vm.showRsi;
+    resetD3();
+    return getD3(vm.dateOptionText);
   }
 
   function candlestickChart () {
-    return getD3()
+    return getD3(vm.dateOptionText)
     // candlestickService.getTradeData()
     //   .then(data => {
     //     $log.log('candlestick raw trade history array: ', data.data)
@@ -45,7 +102,12 @@ export default function CandlestickController (candlestickService, $log, moment)
     //   .catch(err => $log.error(err))
   }
 
-  function getD3 () {
+  function resetD3 () {
+    d3.select('.candle').selectAll('*').remove();
+    d3.select('.candleSvg').append('svg.candle');
+  }
+
+  function getD3 (dynamicDate) {
     let screenWidth = window.innerWidth;
     let screenHeight = window.innerHeight;
     $log.log('HEIGHT: ', screenHeight);
@@ -262,11 +324,6 @@ export default function CandlestickController (candlestickService, $log, moment)
     svg = svg.append('g')
       .attr('transform', 'translate(' + dim.margin.left + ',' + dim.margin.top + ')');
 
-    svg.append('text')
-      .attr('class', 'symbol')
-      .attr('x', 20)
-      .text('Bitcoin (USD/BTC)');
-
     svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + dim.plot.height + ')');
@@ -296,17 +353,23 @@ export default function CandlestickController (candlestickService, $log, moment)
       .attr('class', 'candlestick')
       .attr('clip-path', 'url(#ohlcClip)');
 
-    ohlcSelection.append('g')
-      .attr('class', 'indicator sma ma-0')
-      .attr('clip-path', 'url(#ohlcClip)');
+    if (vm.showSma0) {
+      ohlcSelection.append('g')
+        .attr('class', 'indicator sma ma-0')
+        .attr('clip-path', 'url(#ohlcClip)');
+    }
 
-    ohlcSelection.append('g')
-      .attr('class', 'indicator sma ma-1')
-      .attr('clip-path', 'url(#ohlcClip)');
+    if (vm.showSma1) {
+      ohlcSelection.append('g')
+        .attr('class', 'indicator sma ma-1')
+        .attr('clip-path', 'url(#ohlcClip)');
+    }
 
-    ohlcSelection.append('g')
-      .attr('class', 'indicator ema ma-2')
-      .attr('clip-path', 'url(#ohlcClip)');
+    if (vm.showEma) {
+      ohlcSelection.append('g')
+        .attr('class', 'indicator ema ma-2')
+        .attr('clip-path', 'url(#ohlcClip)');
+    }
 
     ohlcSelection.append('g')
       .attr('class', 'percent axis');
@@ -318,17 +381,27 @@ export default function CandlestickController (candlestickService, $log, moment)
       .append('g')
       .attr('class', function(d) { return d + ' indicator'; });
 
-    indicatorSelection.append('g')
-      .attr('class', 'axis right')
-      .attr('transform', 'translate(' + x(1) + ',0)');
+    if (vm.showMacd) {
+      indicatorSelection.append('g')
+        .attr('class', 'axis right')
+        .attr('transform', 'translate(' + x(1) + ',0)');
 
-    indicatorSelection.append('g')
-      .attr('class', 'axis left')
-      .attr('transform', 'translate(' + x(0) + ',0)');
+      indicatorSelection.append('g')
+        .attr('class', 'axis left')
+        .attr('transform', 'translate(' + x(0) + ',0)');
 
-    indicatorSelection.append('g')
-      .attr('class', 'indicator-plot')
-      .attr('clip-path', function(d, i) { return 'url(#indicatorClip-' + i + ')'; });
+      indicatorSelection.append('g')
+        .attr('class', 'indicator-plot')
+        .attr('clip-path', function(d, i) { return 'url(#indicatorClip-' + i + ')'; });
+
+      svg.append('g')
+        .attr('class', 'crosshair macd');
+    }
+
+    if (vm.showRsi) {
+      svg.append('g')
+        .attr('class', 'crosshair rsi');
+    }
 
     // Add trendlines and other interactions last to be above zoom pane
     svg.append('g')
@@ -338,84 +411,136 @@ export default function CandlestickController (candlestickService, $log, moment)
       .attr('class', 'tradearrow')
       .attr('clip-path', 'url(#ohlcClip)');
 
-    svg.append('g')
-      .attr('class', 'crosshair macd');
-
-    svg.append('g')
-      .attr('class', 'crosshair rsi');
-
-    svg.append('g')
-      .attr('class', 'trendlines analysis')
-      .attr('clip-path', 'url(#ohlcClip)');
-    svg.append('g')
-      .attr('class', 'supstances analysis')
-      .attr('clip-path', 'url(#ohlcClip)');
-
     d3.select('button').on('click', reset);
 
     d3.csv('btc.csv', function(error, data) {
-      var accessor = candlestick.accessor(),
-        indicatorPreRoll = 33;  // Don't show where indicators don't have data
+      $log.log('raw btc.csv: ', data);
+      let dataLength = 0;
 
-      data = data.map(function(d) {
-        return {
-          date: parseDate(d.Date),
-          open: +d.Open,
-          high: +d.High,
-          low: +d.Low,
-          close: +d.Close,
-          volume: +d.Volume
-        };
-      }).sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
+      if (dynamicDate === '1 Week') {
+        dataLength = 7;
+      }
+      if (dynamicDate === '1 Month') {
+        dataLength = 31;
+      }
+      if (dynamicDate === '3 Months') {
+        dataLength = 90;
+      }
+      if (dynamicDate === '6 Months') {
+        dataLength = 183;
+      }
+      if (dynamicDate === '1 Year') {
+        dataLength = 365;
+      }
+      if (dynamicDate === '3 Years') {
+        dataLength = data.length;
+      }
+
+      let newData = []
+      let accessor = candlestick.accessor();
+      let indicatorPreRoll = newData.length;
+
+      if (dataLength > 0) {
+        for (let i = dataLength - 1; i >= 0; i--) {
+          newData.push(data[i])
+        }
+        $log.log('New Data Array: ', newData);
+      }
+
+      if (newData.length) {
+        data = newData.map(function(d) {
+          return {
+            date: parseDate(d.Date),
+            open: +d.Open,
+            high: +d.High,
+            low: +d.Low,
+            close: +d.Close,
+            volume: +d.Volume
+          };
+        }).sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
+      } else {
+        data = data.map(function(d) {
+          return {
+            date: parseDate(d.Date),
+            open: +d.Open,
+            high: +d.High,
+            low: +d.Low,
+            close: +d.Close,
+            volume: +d.Volume
+          };
+        }).sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
+      }
+
+      $log.log('ACTUAL DATA USED: ', data)
 
       x.domain(techan.scale.plot.time(data).domain());
       y.domain(techan.scale.plot.ohlc(data.slice(indicatorPreRoll)).domain());
       yPercent.domain(techan.scale.plot.percent(y, accessor(data[indicatorPreRoll])).domain());
       yVolume.domain(techan.scale.plot.volume(data).domain());
 
-      var trendlineData = [
-        { start: { date: new Date(2014, 2, 11), value: 72.50 }, end: { date: new Date(2014, 5, 9), value: 63.34 } },
-        { start: { date: new Date(2013, 10, 21), value: 43 }, end: { date: new Date(2014, 2, 17), value: 70.50 } }
-      ];
-
-      var supstanceData = [
-        { start: new Date(2014, 2, 11), end: new Date(2014, 5, 9), value: 63.64 },
-        { start: new Date(2013, 10, 21), end: new Date(2014, 2, 17), value: 55.50 }
-      ];
-
-      var trades = [
-        { date: data[67].date, type: 'buy', price: data[67].low, low: data[67].low, high: data[67].high },
-        { date: data[100].date, type: 'sell', price: data[100].high, low: data[100].low, high: data[100].high },
-        { date: data[130].date, type: 'buy', price: data[130].low, low: data[130].low, high: data[130].high },
-        { date: data[170].date, type: 'sell', price: data[170].low, low: data[170].low, high: data[170].high }
-      ];
-
       var macdData = techan.indicator.macd()(data);
       macdScale.domain(techan.scale.plot.macd(macdData).domain());
+
       var rsiData = techan.indicator.rsi()(data);
       rsiScale.domain(techan.scale.plot.rsi(rsiData).domain());
 
       svg.select('g.candlestick').datum(data).call(candlestick);
       svg.select('g.close.annotation').datum([data[data.length - 1]]).call(closeAnnotation);
       svg.select('g.volume').datum(data).call(volume);
-      svg.select('g.sma.ma-0').datum(techan.indicator.sma().period(10)(data)).call(sma0);
-      svg.select('g.sma.ma-1').datum(techan.indicator.sma().period(20)(data)).call(sma1);
-      svg.select('g.ema.ma-2').datum(techan.indicator.ema().period(50)(data)).call(ema2);
-      svg.select('g.macd .indicator-plot').datum(macdData).call(macd);
-      svg.select('g.rsi .indicator-plot').datum(rsiData).call(rsi);
+
+      if (vm.showSma0) {
+        svg.select('g.sma.ma-0').datum(techan.indicator.sma().period(10)(data)).call(sma0);
+      }
+
+      if (vm.showSma1) {
+        svg.select('g.sma.ma-1').datum(techan.indicator.sma().period(20)(data)).call(sma1);
+      }
+
+      if (vm.showEma) {
+        svg.select('g.ema.ma-2').datum(techan.indicator.ema().period(50)(data)).call(ema2);
+      }
+
+      if (vm.showMacd) {
+        svg.select('g.macd .indicator-plot').datum(macdData).call(macd);
+        svg.select('g.crosshair.macd').call(macdCrosshair).call(zoom);
+      }
+
+      if (vm.showRsi) {
+        svg.select('g.rsi .indicator-plot').datum(rsiData).call(rsi);
+        svg.select('g.crosshair.rsi').call(rsiCrosshair).call(zoom);
+      }
 
       svg.select('g.crosshair.ohlc').call(ohlcCrosshair).call(zoom);
-      svg.select('g.crosshair.macd').call(macdCrosshair).call(zoom);
-      svg.select('g.crosshair.rsi').call(rsiCrosshair).call(zoom);
-      svg.select('g.trendlines').datum(trendlineData).call(trendline).call(trendline.drag);
-      svg.select('g.supstances').datum(supstanceData).call(supstance).call(supstance.drag);
 
-      svg.select('g.tradearrow').datum(trades).call(tradearrow);
+      // svg.select('g.trendlines').datum(trendlineData).call(trendline).call(trendline.drag);
+      // svg.select('g.supstances').datum(supstanceData).call(supstance).call(supstance.drag);
+      //
+      // svg.select('g.tradearrow').datum(trades).call(tradearrow);
 
       // Stash for zooming
       zoomableInit = x.zoomable().domain([indicatorPreRoll, data.length]).copy(); // Zoom in a little to hide indicator preroll
       yInit = y.copy();
       yPercentInit = yPercent.copy();
+
+      svg.append('text')
+        .attr('class', 'symbol')
+        .attr('x', 20)
+        .text('Open: ' + data[data.length - 1].open);
+
+      svg.append('text')
+        .attr('class', 'symbol')
+        .attr('x', 120)
+        .text('High: ' + data[data.length - 1].high);
+
+      svg.append('text')
+        .attr('class', 'symbol')
+        .attr('x', 220)
+        .text('Low: ' + data[data.length - 1].low);
+
+      svg.append('text')
+        .attr('class', 'symbol')
+        .attr('x', 320)
+        .text('Close: ' + data[data.length - 1].close);
 
       draw();
     });
@@ -448,17 +573,33 @@ export default function CandlestickController (candlestickService, $log, moment)
       svg.select('g.candlestick').call(candlestick.refresh);
       svg.select('g.close.annotation').call(closeAnnotation.refresh);
       svg.select('g.volume').call(volume.refresh);
-      svg.select('g .sma.ma-0').call(sma0.refresh);
-      svg.select('g .sma.ma-1').call(sma1.refresh);
-      svg.select('g .ema.ma-2').call(ema2.refresh);
-      svg.select('g.macd .indicator-plot').call(macd.refresh);
-      svg.select('g.rsi .indicator-plot').call(rsi.refresh);
+
+      if (vm.showSma0) {
+        svg.select('g .sma.ma-0').call(sma0.refresh);
+      }
+
+      if (vm.showSma1) {
+        svg.select('g .sma.ma-1').call(sma1.refresh);
+      }
+
+      if (vm.showEma) {
+        svg.select('g .ema.ma-2').call(ema2.refresh);
+      }
+
+      if (vm.showMacd) {
+        svg.select('g.macd .indicator-plot').call(macd.refresh);
+        svg.select('g.crosshair.macd').call(macdCrosshair.refresh);
+      }
+
+      if (vm.showRsi) {
+        svg.select('g.rsi .indicator-plot').call(rsi.refresh);
+        svg.select('g.crosshair.rsi').call(rsiCrosshair.refresh);
+      }
+
       svg.select('g.crosshair.ohlc').call(ohlcCrosshair.refresh);
-      svg.select('g.crosshair.macd').call(macdCrosshair.refresh);
-      svg.select('g.crosshair.rsi').call(rsiCrosshair.refresh);
-      svg.select('g.trendlines').call(trendline.refresh);
-      svg.select('g.supstances').call(supstance.refresh);
-      svg.select('g.tradearrow').call(tradearrow.refresh);
+      // svg.select('g.trendlines').call(trendline.refresh);
+      // svg.select('g.supstances').call(supstance.refresh);
+      // svg.select('g.tradearrow').call(tradearrow.refresh);
     }
   }
 }

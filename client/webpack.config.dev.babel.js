@@ -11,7 +11,7 @@ module.exports = new WebpackConfig().extend('./webpack.config.common.babel.js').
     path: path.join(__dirname, '/dist'),
     filename: 'app.[name].js'
   },
-  devtool: '#eval',
+  devtool: '#eval-source-map',
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor')
   ]
