@@ -32,7 +32,7 @@ div.col-lg-4.news {
   padding-left: 5px;
   padding-right: 2px;
   border-radius: 3px;
-  height: 508px;
+  height: 556px;
   overflow: auto;
   background-color: #BBBBBB;
 }
@@ -135,28 +135,7 @@ div.articles.container-fluid {
 
 /* D3 */
 
-/*.title {
-  color: white;
-  margin-top: 15px;
-}
-
-svg.d3bar {
-  background-color: white;
-}
-
-.bar {
-	fill: steelblue;
-}
-
-.bar:hover {
-	fill: brown;
-}
-
-.axis--x path {
-	display: none;
-}
-
-.toolTip {
+/*.toolTip {
 	position: absolute;
 	display: none;
 	width: auto;
@@ -169,4 +148,41 @@ svg.d3bar {
 	font: 12px sans-serif;
 	padding: 5px;
 	text-align: center;
-}*/
+}*/*/
+
+div#hide-when-large.col-lg-12.col-md-12.col-sm-12.col-xs-12 {
+  display: none !important;
+  width: 98%;
+  margin: 5px;
+}
+
+div.row.hide {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*='col-'] {
+      width: 95% !important;
+      height: 50% !important;
+      flex-wrap: wrap !important;
+    },
+    [id="test"] {
+      flex-direction: column !important;
+    },
+    [class="candleSvg"] {
+      width: 700px !important;
+      height: 500px !important;
+    },
+    [id="hide-when-large"] {
+      display: flex;
+      clear: left;
+    },
+    [class="hide"] {
+      display: flex;
+      clear: left;
+    },
+    [id="hide-when-small"] {
+      display: none;
+    }
+}

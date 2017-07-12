@@ -21,12 +21,17 @@
   </div>
 </header>
 
-<div class="row align-right">
-  <div class="col-lg-4 news">
+<div class="row align-right" id="test">
+  <div id="hide-when-small" class="col-lg-4 col-md-12 col-sm-12 col-xs-12 news">
     <news-component></news-component>
   </div>
-  <div class="col-lg-8">
+  <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
     <candlestick-component></candlestick-component>
+  </div>
+</div>
+<div class="row hide">
+  <div id="hide-when-large" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <news-component></news-component>
   </div>
 </div>
 <!-- <div class="row">

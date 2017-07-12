@@ -33,7 +33,8 @@
     "moment": "^2.18.1",
     "nvd3": "^1.8.5",
     "poloniex-api-node": "^1.3.0",
-    "techan": "^0.8.0"
+    "techan": "^0.8.0",
+    "watson-developer-cloud": "^2.34.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",

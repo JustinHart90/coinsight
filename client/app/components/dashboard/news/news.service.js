@@ -1,7 +1,9 @@
+// import nlu from 'watson-developer-cloud/natural-language-understanding/v1');
 
 export default function newsService ($http, $log) {
   const vm = this
   vm.getNews = getNews;
+  // vm.getSentiment = getSentiment;
   vm.requestUrl = ''
 
   function getNews () {
@@ -11,4 +13,33 @@ export default function newsService ($http, $log) {
       .then(res => res)
       .catch(err => $log.error(err))
   }
+
+  function botRequest () {
+    let botUrl = 'ec2-35-164-128-80.us-west-2.compute.amazonaws.com';
+    return $http
+      .get(botUrl)
+      .then(data => $log.log(data))
+      .catch(err => $log.log(err));
+  }
+
+  // function getSentiment () {
+  //   const myInstance = new Watson({
+  //     api_key: '601414e2-8dbd-4c39-a53b-a3ea1c7573f8',
+  //     /* username, password, version, etc... */
+  //     headers: {
+  //       'X-Watson-Learning-Opt-Out': true
+  //     }
+  //   });
+  //
+  //   let params = {
+  //     text: 'IBM Watson won the Jeopardy television show hosted by Alex Trebek'
+  //   };
+  //
+  //   nlu.sentiment(params, function (err, response) {
+  //     if (err)
+  //       console.log('error:', err);
+  //     else
+  //       console.log(JSON.stringify(response, null, 2));
+  //   });
+  // }
 }

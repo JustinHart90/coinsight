@@ -314,15 +314,27 @@ export default function CandlestickController (candlestickService, $log, moment)
     defs.selectAll('indicatorClip').data([0, 1])
       .enter()
       .append('clipPath')
-      .attr('id', function(d, i) { return 'indicatorClip-' + i; })
+      .attr('id', (d, i) => 'indicatorClip-' + i)
       .append('rect')
       .attr('x', 0)
-      .attr('y', function(d, i) { return indicatorTop(i); })
+      .attr('y', (d, i) => indicatorTop(i))
       .attr('width', dim.plot.width)
       .attr('height', dim.indicator.height);
 
     svg = svg.append('g')
       .attr('transform', 'translate(' + dim.margin.left + ',' + dim.margin.top + ')');
+
+    svg.on({
+      'mouseover': (d) => {
+        d3.select(this).style('cursor', 'grab !important')
+      },
+      'mousedown': (d) => {
+        d3.select(this).style('cursor', 'grabbing')
+      },
+      'mouseout': (d) => {
+        d3.select(this).style('cursor', 'default')
+      }
+    });
 
     svg.append('g')
       .attr('class', 'x axis')
