@@ -31,7 +31,7 @@ a.timeScale.btn.btn-default {
   padding: 5px 5px;
 }
 
-svg.candle {
+svg.candleChart {
   cursor: grab;
   background-color: black;
   padding: 10px;

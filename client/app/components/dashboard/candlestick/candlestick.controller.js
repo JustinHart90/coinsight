@@ -116,8 +116,8 @@ export default function CandlestickController (candlestickService, $log, moment)
   }
 
   function resetD3 () {
-    d3.select('.candle').selectAll('*').remove();
-    d3.select('.candleSvg').append('svg.candle');
+    d3.select('.candleChart').selectAll('*').remove();
+    d3.select('.candleSvg').append('svg.candleChart');
   }
 
   function getD3 (dynamicDate, resizeFactor) {
@@ -344,7 +344,7 @@ export default function CandlestickController (candlestickService, $log, moment)
       .yAnnotation([rsiAnnotation, rsiAnnotationLeft])
       .verticalWireRange([0, rsiCrosshairHeight]);
 
-    var svg = d3.select('svg.candle')
+    var svg = d3.select('svg.candleChart')
       .attr('width', dim.width)
       .attr('height', dim.height);
 
