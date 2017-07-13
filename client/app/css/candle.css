@@ -8,6 +8,7 @@ div.timeOptions {
 }
 
 a.timeScale.btn.btn-default {
+  font-size: 0.75em;
   margin-top: 10px;
   margin-right: 10px;
   padding: 5px 5px;
@@ -16,12 +17,15 @@ a.timeScale.btn.btn-default {
 }
 
 .advancedToolOptions {
+  font-size: 0.75em;
   margin-top: 10px;
   margin-left: 10px;
   padding: 5px 5px;
 }
 
 .toolButtons {
+  font-size: 0.75em;
+  background-color: black;
   margin-top: 10px;
   margin-left: 10px;
   padding: 5px 5px;

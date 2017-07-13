@@ -1,6 +1,13 @@
 <div class="candleTools">
   <div>
     <a ng-click="$ctrl.showAdvancedTools = !$ctrl.showAdvancedTools" class="btn btn-primary advancedToolOptions">Tools</a>
+    <span ng-show="$ctrl.showAdvancedTools" class="advancedTools">
+      <a href="#" ng-click="$ctrl.sma0Tool($event)" class="btn btn-primary toolButtons">SMA-5</a>
+      <a ng-click="$ctrl.sma1Tool($event)" href="#" class="btn btn-primary toolButtons">SMA-10</a>
+      <a ng-click="$ctrl.emaTool($event)" href="#" class="btn btn-primary toolButtons">EMA</a>
+      <a ng-click="$ctrl.macdTool($event)" href="#" class="btn btn-primary toolButtons">MACD</a>
+      <a ng-click="$ctrl.rsiTool($event)" href="#" class="btn btn-primary toolButtons">RSI</a>
+    </span>
   </div>
   <div class="timeOptions">
     <div class="">
@@ -26,13 +33,7 @@
     </div>
   </div>
 </div>
-<div ng-show="$ctrl.showAdvancedTools" class="advancedTools">
-  <a href="#" ng-click="$ctrl.sma0Tool($event)" class="btn btn-primary toolButtons">SMA 5-day</a>
-  <a ng-click="$ctrl.sma1Tool($event)" href="#" class="btn btn-primary toolButtons">SMA 10-day</a>
-  <a ng-click="$ctrl.emaTool($event)" href="#" class="btn btn-primary toolButtons">EMA</a>
-  <a ng-click="$ctrl.macdTool($event)" href="#" class="btn btn-primary toolButtons">MACD</a>
-  <a ng-click="$ctrl.rsiTool($event)" href="#" class="btn btn-primary toolButtons">RSI</a>
-</div>
+
 <div class="candleSvg">
   <svg class="candle"></svg>
 </div>

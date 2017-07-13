@@ -13,6 +13,7 @@ export default function CandlestickController (candlestickService, $log, moment)
   vm.emaTool = emaTool;
   vm.macdTool = macdTool;
   vm.rsiTool = rsiTool;
+  vm.calculateResizeFactor = calculateResizeFactor;
 
   vm.testdata = []
   vm.rawTradeData = []
@@ -28,49 +29,61 @@ export default function CandlestickController (candlestickService, $log, moment)
     vm.showEma = false;
     vm.showMacd = false;
     vm.showRsi = false;
-    getD3(vm.dateOptionText);
+    getD3(vm.dateOptionText, 0);
   }
 
   function dateOption (e, selectedOption) {
     e.preventDefault();
     vm.dateOptionText = selectedOption;
     resetD3();
-    return getD3(selectedOption);
+    return getD3(selectedOption, 0);
   }
 
   function sma0Tool (e) {
     e.preventDefault();
     vm.showSma0 = !vm.showSma0;
     resetD3();
-    return getD3(vm.dateOptionText);
+    return getD3(vm.dateOptionText, 0);
   }
 
   function sma1Tool (e) {
     e.preventDefault();
     vm.showSma1 = !vm.showSma1;
     resetD3();
-    return getD3(vm.dateOptionText);
+    return getD3(vm.dateOptionText, 0);
   }
 
   function emaTool (e) {
     e.preventDefault();
     vm.showEma = !vm.showEma;
     resetD3();
-    return getD3(vm.dateOptionText);
+    return getD3(vm.dateOptionText, 0);
   }
 
   function macdTool (e) {
     e.preventDefault();
     vm.showMacd = !vm.showMacd;
+    let factor = calculateResizeFactor();
     resetD3();
-    return getD3(vm.dateOptionText);
+    return getD3(vm.dateOptionText, factor);
   }
 
   function rsiTool (e) {
     e.preventDefault();
     vm.showRsi = !vm.showRsi;
+    let factor = calculateResizeFactor();
     resetD3();
-    return getD3(vm.dateOptionText);
+    return getD3(vm.dateOptionText, factor);
+  }
+
+  function calculateResizeFactor () {
+    let resizeFactor = 0;
+    if (vm.showMacd && vm.showRsi) {
+      resizeFactor = 2;
+    } else if (vm.showMacd || vm.showRsi) {
+      resizeFactor = 1;
+    }
+    return resizeFactor;
   }
 
   function candlestickChart () {
@@ -107,14 +120,37 @@ export default function CandlestickController (candlestickService, $log, moment)
     d3.select('.candleSvg').append('svg.candle');
   }
 
-  function getD3 (dynamicDate) {
+  function getD3 (dynamicDate, resizeFactor) {
     let screenWidth = window.innerWidth;
     let screenHeight = window.innerHeight;
+    let dimWidth;
+    let dimHeight;
+
+    if (screenWidth <= 768) {
+      dimWidth = screenWidth;
+      dimHeight = screenHeight;
+    } else {
+      dimWidth = screenWidth * 0.65;
+      dimHeight = screenHeight * 0.74;
+    }
+
     $log.log('HEIGHT: ', screenHeight);
+    $log.log('WIDTH: ', screenWidth);
+
+    let ohlcHeight = dimHeight * 0.85;
+    if (resizeFactor === 1) {
+      ohlcHeight = dimHeight * 0.75;
+      $log.log('screenHeight: ', screenHeight)
+      $log.log('resizeFactor: ', resizeFactor)
+      $log.log('ohlcHeight: ', ohlcHeight)
+    } else if (resizeFactor === 2) {
+      ohlcHeight = dimHeight * 0.65;
+    }
+
     var dim = {
-      width: screenWidth * 0.65, height: screenHeight * 0.74,
+      width: dimWidth, height: dimHeight,
       margin: { top: 20, right: 50, bottom: 30, left: 50 },
-      ohlc: { height: 305 },
+      ohlc: { height: ohlcHeight },
       indicator: { height: 65, padding: 5 }
     };
     dim.plot = {
@@ -224,11 +260,20 @@ export default function CandlestickController (candlestickService, $log, moment)
       .orient('right')
       .width(35);
 
-    var macdScale = d3.scaleLinear()
-      .range([indicatorTop(0) + dim.indicator.height, indicatorTop(0)]);
+    let macdScale = d3.scaleLinear()
+      .range([indicatorTop(0), indicatorTop(0)]);
+    let rsiScale = macdScale.copy()
+      .range([indicatorTop(1), indicatorTop(1)]);
 
-    var rsiScale = macdScale.copy()
-      .range([indicatorTop(1) + dim.indicator.height, indicatorTop(1)]);
+    if (vm.showMacd) {
+      macdScale = d3.scaleLinear()
+        .range([indicatorTop(0) + dim.indicator.height, indicatorTop(0)]);
+    }
+
+    if (vm.showRsi) {
+      rsiScale = macdScale.copy()
+        .range([indicatorTop(1) + dim.indicator.height, indicatorTop(1)]);
+    }
 
     var macd = techan.plot.macd()
       .xScale(x)
@@ -272,6 +317,12 @@ export default function CandlestickController (candlestickService, $log, moment)
       .orient('left')
       .format(d3.format(',.2f'));
 
+    let macdCrosshairHeight;
+    let rsiCrosshairHeight;
+
+    vm.showMacd ? macdCrosshairHeight = 0 : macdCrosshairHeight = dim.plot.height
+    vm.showRsi ? rsiCrosshairHeight = 0 : rsiCrosshairHeight = dim.plot.height
+
     var ohlcCrosshair = techan.plot.crosshair()
       .xScale(timeAnnotation.axis().scale())
       .yScale(ohlcAnnotation.axis().scale())
@@ -284,14 +335,14 @@ export default function CandlestickController (candlestickService, $log, moment)
       .yScale(macdAnnotation.axis().scale())
       .xAnnotation(timeAnnotation)
       .yAnnotation([macdAnnotation, macdAnnotationLeft])
-      .verticalWireRange([0, dim.plot.height]);
+      .verticalWireRange([0, macdCrosshairHeight]);
 
     var rsiCrosshair = techan.plot.crosshair()
       .xScale(timeAnnotation.axis().scale())
       .yScale(rsiAnnotation.axis().scale())
       .xAnnotation(timeAnnotation)
       .yAnnotation([rsiAnnotation, rsiAnnotationLeft])
-      .verticalWireRange([0, dim.plot.height]);
+      .verticalWireRange([0, rsiCrosshairHeight]);
 
     var svg = d3.select('svg.candle')
       .attr('width', dim.width)
@@ -386,8 +437,8 @@ export default function CandlestickController (candlestickService, $log, moment)
     ohlcSelection.append('g')
       .attr('class', 'percent axis');
 
-    ohlcSelection.append('g')
-      .attr('class', 'volume axis');
+    // ohlcSelection.append('g')
+    //   .attr('class', 'volume axis');
 
     var indicatorSelection = svg.selectAll('svg > g.indicator').data(['macd', 'rsi']).enter()
       .append('g')
@@ -576,10 +627,16 @@ export default function CandlestickController (candlestickService, $log, moment)
       svg.select('g.ohlc .axis').call(yAxis);
       svg.select('g.volume.axis').call(volumeAxis);
       svg.select('g.percent.axis').call(percentAxis);
-      svg.select('g.macd .axis.right').call(macdAxis);
-      svg.select('g.rsi .axis.right').call(rsiAxis);
-      svg.select('g.macd .axis.left').call(macdAxisLeft);
-      svg.select('g.rsi .axis.left').call(rsiAxisLeft);
+
+      if (vm.showMacd) {
+        svg.select('g.macd .axis.right').call(macdAxis);
+        svg.select('g.macd .axis.left').call(macdAxisLeft);
+      }
+
+      if (vm.showRsi) {
+        svg.select('g.rsi .axis.right').call(rsiAxis);
+        svg.select('g.rsi .axis.left').call(rsiAxisLeft);
+      }
 
       // We know the data does not change, a simple refresh that does not perform data joins will suffice.
       svg.select('g.candlestick').call(candlestick.refresh);

@@ -19,8 +19,8 @@
       <span>Social Score: {{article.socialScore}}</span>
     </div>
     <div class="article-heading">
-      <img class="articleThumbnail" src="{{article.source.details.thumbImage}}" alt="">
-      <span class="title"><a href="{{article.url}}" target="_blank">{{article.title}}</a></span>
+      <img class="articleThumbnail" ng-src="{{article.source.details.thumbImage}}" alt="">
+      <span class="title"><a ng-href="{{article.url}}" target="_blank">{{article.title}}</a></span>
       <a href="#" class="showDetails btn btn-success" ng-click="article.showArticleDetails = !article.showArticleDetails">Show Details</a>
     </div>
   </div>
