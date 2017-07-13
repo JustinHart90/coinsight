@@ -3,15 +3,33 @@
 export default function newsService ($http, $log) {
   const vm = this
   vm.getNews = getNews;
+  vm.getEvents = getEvents;
+  vm.getDbEvents = getDbEvents;
   // vm.getSentiment = getSentiment;
   vm.requestUrl = ''
 
   function getNews () {
-    vm.requestUrl = 'https://eventregistry.org/json/article?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22conceptUri%22%3A%7B%22%24and%22%3A%5B%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBitcoin%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEthereum%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCryptocurrency%22%5D%7D%7D%2C%7B%22dateStart%22%3A%222017-06-09%22%2C%22dateEnd%22%3A%222017-07-09%22%7D%5D%7D%7D&action=getArticles&resultType=articles&articlesSortBy=socialScore&articlesCount=20&articlesIncludeArticleCategories=true&articlesIncludeArticleSocialScore=true&articlesIncludeArticleDetails=true&articlesIncludeConceptImage=true&articlesIncludeConceptDescription=true&articlesIncludeConceptDetails=true&articlesIncludeConceptTrendingScore=true&articlesIncludeSourceDescription=true&articlesIncludeSourceImportance=true&articlesIncludeSourceDetails=true&apiKey=8afe38d5-7f41-44dd-b6ea-c3da0af84f61'
+    let apiKey = 'fda14e3b-91e2-455b-b7d4-a1283e6f8845';
+    let sortBy = 'socialScore';
+    vm.requestUrl = 'https://eventregistry.org/json/article?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22conceptUri%22%3A%7B%22%24and%22%3A%5B%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBitcoin%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEthereum%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCryptocurrency%22%5D%7D%7D%2C%7B%22dateStart%22%3A%222017-06-09%22%2C%22dateEnd%22%3A%222017-07-09%22%7D%5D%7D%7D&action=getArticles&resultType=articles&articlesSortBy=' + sortBy + '&articlesCount=20&articlesIncludeArticleCategories=true&articlesIncludeArticleSocialScore=true&articlesIncludeArticleDetails=true&articlesIncludeConceptImage=true&articlesIncludeConceptDescription=true&articlesIncludeConceptDetails=true&articlesIncludeConceptTrendingScore=true&articlesIncludeSourceDescription=true&articlesIncludeSourceImportance=true&articlesIncludeSourceDetails=true&apiKey=' + apiKey;
     return $http
       .get(vm.requestUrl)
       .then(res => res)
       .catch(err => $log.error(err))
+  }
+
+  function getEvents () {
+    return $http
+      .get('http://eventregistry.org/json/event?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22conceptUri%22%3A%7B%22%24and%22%3A%5B%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBitcoin%22%5D%7D%7D%2C%7B%22dateStart%22%3A%222013-04-29%22%2C%22dateEnd%22%3A%222017-07-20%22%2C%22lang%22%3A%22eng%22%7D%5D%7D%7D&action=getEvents&resultType=events&eventsSortBy=date&eventsCount=20&eventsIncludeEventSummary=true&eventsIncludeEventConcepts=false&eventsIncludeEventCategories=false&eventsIncludeEventLocation=false&eventsIncludeEventSocialScore=true&eventsEventImageCount=1&eventsIncludeConceptLabel=false&eventsIncludeSourceTitle=false&eventsIncludeSourceImportance=true&eventsIncludeStoryBasicStats=true&eventsIncludeStoryDate=true&eventsIncludeStorySocialScore=true')
+      .then(res => res)
+      .catch(err => $log.log(err));
+  }
+
+  function getDbEvents () {
+    return $http
+      .get('http://localhost:3000/news')
+      .then(res => res)
+      .catch(err => $log.log(err));
   }
 
   function botRequest () {

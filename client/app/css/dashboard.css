@@ -161,10 +161,9 @@ div.row.hide {
   display: none;
 }
 
-@media only screen and (max-width: 768px) {
-    /* For mobile phones: */
+/*@media only screen and (max-width: 768px) {
     [class*='col-'] {
-      width: 95% !important;
+      width: 100% !important;
       height: 50% !important;
       flex-wrap: wrap !important;
     },
@@ -182,8 +181,9 @@ div.row.hide {
     [class="hide"] {
       display: flex;
       clear: left;
-    },
-    [id="hide-when-small"] {
-      display: none;
     }
-}
+}*/
+
+/*[id="hide-when-small"] {
+  display: none;
+}*/

@@ -127,6 +127,14 @@ export default function CandlestickController (candlestickService, $log, moment)
     let dimHeight;
 
     if (screenWidth <= 768) {
+      d3.select('#test')
+        .attr('width', screenWidth)
+        .attr('height', 'auto');
+
+      d3.select('#hide-when-small')
+        .attr('width', screenWidth)
+        .attr('height', 'auto');
+
       dimWidth = screenWidth;
       dimHeight = screenHeight;
     } else {
@@ -359,22 +367,7 @@ export default function CandlestickController (candlestickService, $log, moment)
       .attr('x', 0)
       .attr('y', 0)
       .attr('width', dim.plot.width)
-      .attr('height', dim.ohlc.height);
-
-    // .attr('class', 'toolTip')
-
-    // let div = d3.select('body').append('div').attr('class', 'toolTip');
-
-    // defs.on('mousemove', (d) => {
-    //   div.style('left', d3.event.pageX + 10 + 'px');
-    //   div.style('top', d3.event.pageY - 25 + 'px');
-    //   div.style('display', 'inline-block');
-    //   div.html((d.open) + '<br>' + (d.close));
-    // });
-    //
-    // defs.on('mouseout', (d) => {
-    //   div.style('display', 'none');
-    // });
+      .attr('height', dim.ohlc.height)
 
     defs.selectAll('indicatorClip').data([0, 1])
       .enter()
@@ -389,17 +382,17 @@ export default function CandlestickController (candlestickService, $log, moment)
     svg = svg.append('g')
       .attr('transform', 'translate(' + dim.margin.left + ',' + dim.margin.top + ')');
 
-    svg.on({
-      'mouseover': (d) => {
-        d3.select(this).style('cursor', 'grab !important')
-      },
-      'mousedown': (d) => {
-        d3.select(this).style('cursor', 'grabbing')
-      },
-      'mouseout': (d) => {
-        d3.select(this).style('cursor', 'default')
-      }
-    });
+    // svg.on({
+    //   'mouseover': (d) => {
+    //     d3.select(this).style('cursor', 'grab !important')
+    //   },
+    //   'mousedown': (d) => {
+    //     d3.select(this).style('cursor', 'grabbing')
+    //   },
+    //   'mouseout': (d) => {
+    //     d3.select(this).style('cursor', 'default')
+    //   }
+    // });
 
     svg.append('g')
       .attr('class', 'x axis')
@@ -618,6 +611,26 @@ export default function CandlestickController (candlestickService, $log, moment)
         .attr('class', 'symbolSmall')
         .attr('x', 320)
         .text('Close: ' + data[data.length - 1].close);
+
+      // let div = d3.select('body').append('div').attr('class', 'toolTip');
+      //
+      // let dataPoint = svg.selectAll('.data').data(newData);
+      // let dataSelector = d3.selectAll('.candlestick');
+      // $log.log('dataPoint: ', dataPoint['_groups'][0][0]['__data__']);
+      // $log.log('dataSelector: ', dataSelector);
+      //
+      // dataSelector.on('mousemove', (d) => {
+      //   $log.log('MOUSEMOVE');
+      //   div.style('left', d3.event.pageX + 10 + 'px');
+      //   div.style('top', d3.event.pageY - 25 + 'px');
+      //   div.style('display', 'inline-block');
+      //   div.html((d.open) + '<br>' + (d.close));
+      // });
+      //
+      // dataSelector.on('mouseout', (d) => {
+      //   $log.log('MOUSEOUT');
+      //   div.style('display', 'none');
+      // });
 
       draw();
     });

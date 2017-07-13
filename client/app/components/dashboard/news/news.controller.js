@@ -4,6 +4,8 @@ export default function NewsController (newsService, $log) {
   const vm = this;
   vm.$onInit = $onInit;
   vm.getArticles = getArticles;
+  vm.showEvents = showEvents;
+  vm.eventsRequest = eventsRequest;
   vm.showDetails = showDetails;
   vm.getSocialScore = getSocialScore;
   vm.getTimeAgo = getTimeAgo;
@@ -12,6 +14,37 @@ export default function NewsController (newsService, $log) {
   function $onInit () {
     vm.articles = [];
     getArticles();
+    // eventsRequest();
+    showEvents();
+  }
+
+  function showEvents () {
+    newsService.getDbEvents()
+      .then(events => $log.log('EVENTS FROM DB', events))
+      .catch(err => $log.log(err));
+  }
+
+  function eventsRequest () {
+    newsService.getEvents()
+      .then(data => {
+        let eventsArray = data.data.events.results;
+        let result = [];
+        eventsArray.forEach(e => {
+          result.push({
+            eventId: e.uri,
+            articleCount: e.totalArticleCount,
+            date: e.eventDate,
+            imgUrl: e.images[0],
+            socialScore: e.socialScore,
+            summary: e.summary.eng,
+            title: e.title.eng
+          })
+        })
+        $log.log('RESULT OBJ: ', result);
+        // return result;
+      })
+      .catch(err => $log.log(err));
+
   }
 
   function getArticles () {

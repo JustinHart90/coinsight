@@ -12,7 +12,13 @@ function getBtcUsdData () {
     .select()
 }
 
+function getEvents () {
+  return knex('events')
+    .select()
+}
+
 module.exports = {
   addBtcUsdData,
-  getBtcUsdData
+  getBtcUsdData,
+  getEvents
 };
