@@ -346,8 +346,7 @@ export default function CandlestickController (candlestickService, $log, moment)
 
     var svg = d3.select('svg.candle')
       .attr('width', dim.width)
-      .attr('height', dim.height)
-      .attr('position', 'fixed');
+      .attr('height', dim.height);
 
     var news = d3.select('.news')
       .attr('height', screenHeight * 0.74);
@@ -361,6 +360,21 @@ export default function CandlestickController (candlestickService, $log, moment)
       .attr('y', 0)
       .attr('width', dim.plot.width)
       .attr('height', dim.ohlc.height);
+
+    // .attr('class', 'toolTip')
+
+    // let div = d3.select('body').append('div').attr('class', 'toolTip');
+
+    // defs.on('mousemove', (d) => {
+    //   div.style('left', d3.event.pageX + 10 + 'px');
+    //   div.style('top', d3.event.pageY - 25 + 'px');
+    //   div.style('display', 'inline-block');
+    //   div.html((d.open) + '<br>' + (d.close));
+    // });
+    //
+    // defs.on('mouseout', (d) => {
+    //   div.style('display', 'none');
+    // });
 
     defs.selectAll('indicatorClip').data([0, 1])
       .enter()
@@ -586,22 +600,22 @@ export default function CandlestickController (candlestickService, $log, moment)
       yPercentInit = yPercent.copy();
 
       svg.append('text')
-        .attr('class', 'symbol')
+        .attr('class', 'symbolSmall')
         .attr('x', 20)
         .text('Open: ' + data[data.length - 1].open);
 
       svg.append('text')
-        .attr('class', 'symbol')
+        .attr('class', 'symbolSmall')
         .attr('x', 120)
         .text('High: ' + data[data.length - 1].high);
 
       svg.append('text')
-        .attr('class', 'symbol')
+        .attr('class', 'symbolSmall')
         .attr('x', 220)
         .text('Low: ' + data[data.length - 1].low);
 
       svg.append('text')
-        .attr('class', 'symbol')
+        .attr('class', 'symbolSmall')
         .attr('x', 320)
         .text('Close: ' + data[data.length - 1].close);
 

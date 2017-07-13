@@ -2,31 +2,31 @@
   <div>
     <a ng-click="$ctrl.showAdvancedTools = !$ctrl.showAdvancedTools" class="btn btn-primary advancedToolOptions">Tools</a>
     <span ng-show="$ctrl.showAdvancedTools" class="advancedTools">
-      <a href="#" ng-click="$ctrl.sma0Tool($event)" class="btn btn-primary toolButtons">SMA-5</a>
-      <a ng-click="$ctrl.sma1Tool($event)" href="#" class="btn btn-primary toolButtons">SMA-10</a>
-      <a ng-click="$ctrl.emaTool($event)" href="#" class="btn btn-primary toolButtons">EMA</a>
+      <a href="#" ng-click="$ctrl.sma0Tool($event)" class="btn btn-primary toolButtons">SMA-10</a>
+      <a ng-click="$ctrl.sma1Tool($event)" href="#" class="btn btn-primary toolButtons">SMA-20</a>
+      <a ng-click="$ctrl.emaTool($event)" href="#" class="btn btn-primary toolButtons">EMA-50</a>
       <a ng-click="$ctrl.macdTool($event)" href="#" class="btn btn-primary toolButtons">MACD</a>
       <a ng-click="$ctrl.rsiTool($event)" href="#" class="btn btn-primary toolButtons">RSI</a>
     </span>
   </div>
   <div class="timeOptions">
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '1 Week')" class="timeScale btn btn-default">1 Week</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '1 Week')" class="timeScale btn btn-default">1W</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '1 Month')" class="timeScale btn btn-default">1 Month</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '1 Month')" class="timeScale btn btn-default">1M</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '3 Months')" class="timeScale btn btn-default">3 Months</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '3 Months')" class="timeScale btn btn-default">3M</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '6 Months')" class="timeScale btn btn-default">6 Months</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '6 Months')" class="timeScale btn btn-default">6M</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '1 Year')" class="timeScale btn btn-default">1 Year</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '1 Year')" class="timeScale btn btn-default">1Y</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '3 Years')" class="timeScale btn btn-default">3 Years</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '3 Years')" class="timeScale btn btn-default">3Y</a>
     </div>
     <div class="">
       <a href="#" ng-click="$ctrl.dateOption($event, 'Max')" class="timeScale btn btn-default">Max</a>

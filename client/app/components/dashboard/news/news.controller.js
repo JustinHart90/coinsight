@@ -18,7 +18,7 @@ export default function NewsController (newsService, $log) {
     newsService.getNews()
       .then(res => {
         vm.articles = getSecureUrl(res.data.articles.results);
-        $log.log(vm.articles);
+        // $log.log(vm.articles);
         vm.articles.showArticleDetails = false;
 
         getSocialScore(vm.articles);
@@ -57,7 +57,7 @@ export default function NewsController (newsService, $log) {
         article.source.details.thumbImage = imgUrl;
       } else if (imgUrl.indexOf('http') === 0) {
         article.source.details.thumbImage = imgUrl.replace('http://', 'https://');
-        $log.log(imgUrl);
+        // $log.log(imgUrl);
       } else {
         $log.log('image url error!');
       }
@@ -67,7 +67,7 @@ export default function NewsController (newsService, $log) {
         article.url = linkUrl;
       } else if (linkUrl.indexOf('http') === 0) {
         article.url = linkUrl.replace('http://', 'https://');
-        $log.log(linkUrl);
+        // $log.log(linkUrl);
       } else {
         $log.log('link url error!');
       }
