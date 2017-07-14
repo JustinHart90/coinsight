@@ -5,6 +5,7 @@ export default function NewsController (newsService, $log) {
   vm.$onInit = $onInit;
   vm.getArticles = getArticles;
   vm.showEvents = showEvents;
+  vm.showSentiment = showSentiment;
   vm.eventsRequest = eventsRequest;
   vm.showDetails = showDetails;
   vm.getSocialScore = getSocialScore;
@@ -13,14 +14,29 @@ export default function NewsController (newsService, $log) {
 
   function $onInit () {
     vm.articles = [];
+    vm.events = [];
     getArticles();
     // eventsRequest();
     showEvents();
+    showSentiment();
+  }
+
+  function showSentiment () {
+    return newsService.getSentiment()
+      .then(res => {
+        $log.log('WATSON RESPONSE', res);
+      })
+      .catch(err => $log.log(err));
   }
 
   function showEvents () {
     newsService.getDbEvents()
-      .then(events => $log.log('EVENTS FROM DB', events))
+      .then(res => {
+        $log.log('EVENTS FROM DB', res);
+        vm.events.showArticleDetails = false;
+        vm.events = res.data;
+        getTimeAgo(null, vm.events);
+      })
       .catch(err => $log.log(err));
   }
 
@@ -55,7 +71,7 @@ export default function NewsController (newsService, $log) {
         vm.articles.showArticleDetails = false;
 
         getSocialScore(vm.articles);
-        getTimeAgo(vm.articles);
+        getTimeAgo(vm.articles, null);
       })
       .catch(err => $log.log(err))
   }
@@ -73,10 +89,18 @@ export default function NewsController (newsService, $log) {
     })
   }
 
-  function getTimeAgo (articles) {
-    articles.forEach(article => {
-      article.created_at = article['dateTime'];
-    })
+  function getTimeAgo (articles, events) {
+    if (articles) {
+      articles.forEach(article => {
+        article.created_at = article['dateTime'];
+      })
+    }
+
+    if (events) {
+      events.forEach(event => {
+        event.created_at = event['date'];
+      })
+    }
   }
 
   function showDetails (e) {

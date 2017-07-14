@@ -8,6 +8,7 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const prices = require('./routes/prices');
 const news = require('./routes/news');
+const sentiment = require('./routes/sentiment');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/prices', prices);
 app.use('/news', news);
+app.use('/sentiment', sentiment);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -5,13 +5,28 @@ export default function newsService ($http, $log) {
   vm.getNews = getNews;
   vm.getEvents = getEvents;
   vm.getDbEvents = getDbEvents;
+  vm.getSentiment = getSentiment;
   // vm.getSentiment = getSentiment;
-  vm.requestUrl = ''
+  vm.requestUrl = '';
+
+  function getSentiment () {
+    return $http
+      .get('http://localhost:3000/sentiment')
+      .then(res => res)
+      .catch(err => $log.log(err));
+  }
 
   function getNews () {
     let apiKey = 'fda14e3b-91e2-455b-b7d4-a1283e6f8845';
     let sortBy = 'socialScore';
-    vm.requestUrl = 'https://eventregistry.org/json/article?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22conceptUri%22%3A%7B%22%24and%22%3A%5B%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBitcoin%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEthereum%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCryptocurrency%22%5D%7D%7D%2C%7B%22dateStart%22%3A%222017-06-09%22%2C%22dateEnd%22%3A%222017-07-09%22%7D%5D%7D%7D&action=getArticles&resultType=articles&articlesSortBy=' + sortBy + '&articlesCount=20&articlesIncludeArticleCategories=true&articlesIncludeArticleSocialScore=true&articlesIncludeArticleDetails=true&articlesIncludeConceptImage=true&articlesIncludeConceptDescription=true&articlesIncludeConceptDetails=true&articlesIncludeConceptTrendingScore=true&articlesIncludeSourceDescription=true&articlesIncludeSourceImportance=true&articlesIncludeSourceDetails=true&apiKey=' + apiKey;
+    let dateStart = '2017-07-06';
+    let dateEnd = '2017-07-20';
+    vm.requestUrl =
+    'http://eventregistry.org/json/article?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22conceptUri%22%3A%7B%22%24and%22%3A%5B%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCryptocurrency%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBitcoin%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEthereum%22%5D%7D%7D%2C%7B%22dateStart%22%3A%22' + dateStart + '%22%2C%22dateEnd%22%3A%22' + dateEnd + '%22%2C%22lang%22%3A%22eng%22%7D%5D%7D%7D&action=getArticles&resultType=articles&articlesSortBy=' + sortBy + '&articlesCount=20&articlesIncludeArticleConcepts=true&articlesIncludeArticleDuplicateList=true&articlesIncludeArticleOriginalArticle=true&articlesIncludeArticleImage=true&articlesIncludeArticleSocialScore=true&articlesIncludeArticleDetails=true&articlesIncludeConceptImage=true&articlesIncludeConceptDescription=true&articlesIncludeConceptDetails=true&articlesIncludeConceptTrendingScore=true&articlesIncludeSourceImportance=true&articlesIncludeSourceDetails=true&apiKey=' + apiKey;
+
+    // 'http://eventregistry.org/json/article?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22conceptUri%22%3A%7B%22%24and%22%3A%5B%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCryptocurrency%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBitcoin%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEthereum%22%5D%7D%7D%2C%7B%22' + dateStart + dateEnd + 'lang%22%3A%22eng%22%7D%5D%7D%7D&action=getArticles&resultType=articles&articlesSortBy=' + sortBy + 'socialScore&articlesCount=20&articlesIncludeArticleConcepts=true&articlesIncludeArticleDuplicateList=true&articlesIncludeArticleOriginalArticle=true&articlesIncludeArticleImage=true&articlesIncludeArticleSocialScore=true&articlesIncludeArticleDetails=true&articlesIncludeConceptImage=true&articlesIncludeConceptDescription=true&articlesIncludeConceptDetails=true&articlesIncludeConceptTrendingScore=true&articlesIncludeSourceImportance=true&articlesIncludeSourceDetails=true&apiKey=' + apiKey;
+
+    // 'https://eventregistry.org/json/article?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22conceptUri%22%3A%7B%22%24and%22%3A%5B%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBitcoin%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEthereum%22%2C%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCryptocurrency%22%5D%7D%7D%2C%7B%22dateStart%22%3A%222017-06-09%22%2C%22dateEnd%22%3A%222017-07-09%22%7D%5D%7D%7D&action=getArticles&resultType=articles&articlesSortBy=' + sortBy + '&articlesCount=20&articlesIncludeArticleCategories=true&articlesIncludeArticleSocialScore=true&articlesIncludeArticleDetails=true&articlesIncludeConceptImage=true&articlesIncludeConceptDescription=true&articlesIncludeConceptDetails=true&articlesIncludeConceptTrendingScore=true&articlesIncludeSourceDescription=true&articlesIncludeSourceImportance=true&articlesIncludeSourceDetails=true&apiKey=' + apiKey;
     return $http
       .get(vm.requestUrl)
       .then(res => res)
