@@ -484,7 +484,7 @@ export default function CandlestickController (candlestickService, $log, moment)
     d3.select('button').on('click', reset);
 
     d3.csv('btc.csv', function(error, data) {
-      $log.log('raw btc.csv: ', data);
+      // $log.log('raw btc.csv: ', data);
       let dataLength = 0;
 
       if (dynamicDate === '1 Week') {
@@ -514,7 +514,7 @@ export default function CandlestickController (candlestickService, $log, moment)
         for (let i = dataLength - 1; i >= 0; i--) {
           newData.push(data[i])
         }
-        $log.log('New Data Array: ', newData);
+        // $log.log('New Data Array: ', newData);
       }
 
       if (newData.length) {
@@ -541,7 +541,7 @@ export default function CandlestickController (candlestickService, $log, moment)
         }).sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
       }
 
-      $log.log('ACTUAL DATA USED: ', data)
+      // $log.log('ACTUAL DATA USED: ', data)
 
       x.domain(techan.scale.plot.time(data).domain());
       y.domain(techan.scale.plot.ohlc(data.slice(indicatorPreRoll)).domain());

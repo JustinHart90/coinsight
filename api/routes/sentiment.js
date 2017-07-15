@@ -9,57 +9,62 @@ const natural_language_understanding = new NaturalLanguageUnderstandingV1({
   'version_date': '2017-02-27'
 });
 
+let urls
+
 /* GET home page. */
-router.get('/', (req, res, next) => {
-  let url = 'http://www.businessinsider.com/ethers-value-volatility-investors-staying-put-2017-7';
-  let sentiment = getSentiment(url);
-  return sentiment
-    .then(data => {
-      console.log(data);
-      return data;
-    })
-    .catch(err => res.json(err));
-  res.send(data);
+router.post('/', (req, res, next) => {
+  // let result = [];
+  urls = req.body.urlArray;
+  console.log('URLS: ', urls);
+  let promises = [];
+  urls.forEach(url => {
+    promises.push(asynch(url))
+  });
+  console.log('PROMISES: ', promises);
+  Promise.all(promises)
+    .then((data) => res.send(data))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;
 
-function getSentiment (articleUrl) {
-  var parameters = {
-    'url': articleUrl,
+function asynch (url) {
+  return new Promise ((resolve, reject) => {
+    let parameters = getParams(url);
+    natural_language_understanding.analyze(parameters, (err, response) => {
+      err ? resolve('error') : resolve(response)});
+  })
+}
+
+function getParams (url) {
+  let params = {
+    'url': url,
     'features': {
       'sentiment': {
         'targets': [
-          'ether'
+          'ethereum',
+          'ether',
+          'bitcoin',
+          'cryptocurrency',
+          'blockchain'
         ]
       }
     }
-
-    // 'features': {
-    //   'sentiment': {
-    //     'targets': [
-    //       'ethereum'
-    //     ]
-    //   },
-    //   'emotion': {
-    //     'targets': [
-    //       'ethereum'
-    //     ]
-    //   },
-    //   'keywords': {
-    //     'sentiment': true,
-    //     'emotion': true,
-    //     'limit': 3
-    //   }
-    // }
   }
-
-  natural_language_understanding.analyze(parameters, (err, response) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(JSON.stringify(response, null, 2));
-      return JSON.stringify(response, null, 2);
-    }
-  });
+  return params;
 }
+
+// 'emotion': {
+//   'targets': [
+//     'ethereum',
+//     'ether',
+//     'bitcoin',
+//     'cryptocurrency',
+//     'blockchain'
+//   ]
+// },
+// 'keywords': {
+//   'sentiment': true,
+//   'emotion': true,
+//   'limit': 4
+// }

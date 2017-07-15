@@ -4,9 +4,7 @@ export default function NewsController (newsService, $log) {
   const vm = this;
   vm.$onInit = $onInit;
   vm.getArticles = getArticles;
-  vm.showEvents = showEvents;
   vm.showSentiment = showSentiment;
-  vm.eventsRequest = eventsRequest;
   vm.showDetails = showDetails;
   vm.getSocialScore = getSocialScore;
   vm.getTimeAgo = getTimeAgo;
@@ -14,66 +12,61 @@ export default function NewsController (newsService, $log) {
 
   function $onInit () {
     vm.articles = [];
-    vm.events = [];
+    vm.articlesRaw = [];
     getArticles();
-    // eventsRequest();
-    showEvents();
-    showSentiment();
-  }
-
-  function showSentiment () {
-    return newsService.getSentiment()
-      .then(res => {
-        $log.log('WATSON RESPONSE', res);
-      })
-      .catch(err => $log.log(err));
-  }
-
-  function showEvents () {
-    newsService.getDbEvents()
-      .then(res => {
-        $log.log('EVENTS FROM DB', res);
-        vm.events.showArticleDetails = false;
-        vm.events = res.data;
-        getTimeAgo(null, vm.events);
-      })
-      .catch(err => $log.log(err));
-  }
-
-  function eventsRequest () {
-    newsService.getEvents()
-      .then(data => {
-        let eventsArray = data.data.events.results;
-        let result = [];
-        eventsArray.forEach(e => {
-          result.push({
-            eventId: e.uri,
-            articleCount: e.totalArticleCount,
-            date: e.eventDate,
-            imgUrl: e.images[0],
-            socialScore: e.socialScore,
-            summary: e.summary.eng,
-            title: e.title.eng
-          })
-        })
-        $log.log('RESULT OBJ: ', result);
-        // return result;
-      })
-      .catch(err => $log.log(err));
-
   }
 
   function getArticles () {
     newsService.getNews()
       .then(res => {
-        vm.articles = getSecureUrl(res.data.articles.results);
-        // $log.log(vm.articles);
+        vm.articlesRaw = getSecureUrl(res.data.articles.results);
+        $log.log(vm.articlesRaw);
+        showSentiment(vm.articlesRaw);
+        getSocialScore(vm.articlesRaw);
+        getTimeAgo(vm.articlesRaw, null);
+        let duplicates = [];
+        vm.articlesRaw.forEach(article => {
+          if (article.isDuplicate === true) {
+            duplicates.push(article.uri)
+          }
+        })
+        vm.articlesRaw.forEach(raw => {
+          let shouldInclude = (!raw.isDuplicate && raw.sentiment !== 0 && raw.uri !== '690930357') || raw.uri === duplicates[0]
+          if (shouldInclude) {
+            vm.articles.push(raw);
+          }
+        })
+        $log.log('REFINED LIST: ', vm.articles)
         vm.articles.showArticleDetails = false;
-
-        getSocialScore(vm.articles);
-        getTimeAgo(vm.articles, null);
       })
       .catch(err => $log.log(err))
+  }
+
+  function showSentiment (articles) {
+    let urls = [];
+    articles.forEach(article => urls.push(article.url));
+    return newsService.getSentiment(urls)
+      .then(res => {
+        $log.log('sentiment res array: ', res);
+        let sentimentScores = [];
+        let sentimentLabels = [];
+        res.data.forEach(r => {
+          if (typeof r === 'string') {
+            sentimentScores.push(0);
+            sentimentLabels.push('nuetral');
+          } else {
+            sentimentScores.push(Math.round(r.sentiment.document.score * 100));
+            sentimentLabels.push(r.sentiment.document.label);
+          }
+        })
+        let index = 0;
+        vm.articlesRaw.forEach(article => {
+          article.sentiment = sentimentScores[index];
+          article.sentimentLabel = sentimentLabels[index];
+          index++;
+        })
+      })
+      .catch(err => $log.log(err));
   }
 
   function getSocialScore (articles) {
