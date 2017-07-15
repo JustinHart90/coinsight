@@ -572,15 +572,15 @@ export default function CandlestickController (candlestickService, $log, moment)
 
       if (vm.showMacd) {
         svg.select('g.macd .indicator-plot').datum(macdData).call(macd);
-        svg.select('g.crosshair.macd').call(macdCrosshair).call(zoom);
+        svg.select('g.crosshair.macd').call(macdCrosshair).call(zoom).on('wheel.zoom', null);
       }
 
       if (vm.showRsi) {
         svg.select('g.rsi .indicator-plot').datum(rsiData).call(rsi);
-        svg.select('g.crosshair.rsi').call(rsiCrosshair).call(zoom);
+        svg.select('g.crosshair.rsi').call(rsiCrosshair).call(zoom).on('wheel.zoom', null);
       }
 
-      svg.select('g.crosshair.ohlc').call(ohlcCrosshair).call(zoom);
+      svg.select('g.crosshair.ohlc').call(ohlcCrosshair).call(zoom).on('wheel.zoom', null);
 
       // svg.select('g.trendlines').datum(trendlineData).call(trendline).call(trendline.drag);
       // svg.select('g.supstances').datum(supstanceData).call(supstance).call(supstance.drag);
