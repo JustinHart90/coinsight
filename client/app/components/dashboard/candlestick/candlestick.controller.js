@@ -116,25 +116,72 @@ export default function CandlestickController (candlestickService, $log, moment)
   }
 
   function resetD3 () {
-    d3.select('.candleChart').selectAll('*').remove();
-    d3.select('.candleSvg').append('svg.candleChart');
+    d3.select('#candleChart').selectAll('*').remove();
+    d3.select('.candleSvg').append('svg#candleChart');
   }
 
   function getD3 (dynamicDate, resizeFactor) {
-    window.addEventListener('resize', reset);
+    d3.select(window).on('resize', reset);
     let screenWidth = window.innerWidth;
     let screenHeight = window.innerHeight;
     let dimWidth;
     let dimHeight;
 
+    // function resize () {
+    //   /* Find the new window dimensions */
+    //   var width = parseInt(d3.select("#graph").style("width")) - margin * 2,
+    //   height = parseInt(d3.select("#graph").style("height")) - margin * 2;
+    //
+    //   /* Update the range of the scale with new width/height */
+    //   xScale.range([0, width]).nice(d3.time.year);
+    //   yScale.range([height, 0]).nice();
+    //
+    //   /* Update the axis with the new scale */
+    //   graph.select('.x.axis')
+    //     .attr("transform", "translate(0," + height + ")")
+    //     .call(xAxis);
+    //
+    //   graph.select('.y.axis')
+    //     .call(yAxis);
+    //
+    //   /* Force D3 to recalculate and update the line */
+    //   graph.selectAll('.line')
+    //     .attr("d", line);
+    //   /* Find the new window dimensions */
+    //   var width = parseInt(d3.select("#graph").style("width")) - margin*2,
+    //   height = parseInt(d3.select("#graph").style("height")) - margin*2;
+    //
+    //   /* Update the range of the scale with new width/height */
+    //   xScale.range([0, width]).nice(d3.time.year);
+    //   yScale.range([height, 0]).nice();
+    //
+    //   /* Update the axis with the new scale */
+    //   graph.select('.x.axis')
+    //     .attr("transform", "translate(0," + height + ")")
+    //     .call(xAxis);
+    //
+    //   graph.select('.y.axis')
+    //     .call(yAxis);
+    //
+    //   /* Force D3 to recalculate and update the line */
+    //   graph.selectAll('.line')
+    //     .attr("d", line);
+    // }
+
+    // let svgContainerWidth = Math.round(parseFloat(d3.select('div.candleSvg').style('width')));
+    // let svgContainerHeight = Math.round(parseFloat(d3.select('div.candleSvg').style('height')));
+    //
+    // $log.log('container width', svgContainerWidth);
+    // $log.log('container height', svgContainerHeight);
+
     if (screenWidth <= 768) {
-      d3.select('#test')
-        .attr('width', screenWidth)
-        .attr('height', 'auto');
+      d3.select('div.candleSvg')
+        .attr('width', '100vw')
+        .attr('height', '85vh');
 
       d3.select('#hide-when-small')
-        .attr('width', screenWidth)
-        .attr('height', 'auto');
+        .attr('width', '100vw')
+        .attr('height', '100vh');
 
       dimWidth = screenWidth;
       dimHeight = screenHeight;
@@ -158,7 +205,7 @@ export default function CandlestickController (candlestickService, $log, moment)
 
     var dim = {
       width: dimWidth, height: dimHeight,
-      margin: { top: 20, right: 50, bottom: 30, left: 50 },
+      margin: { top: 20, right: 10, bottom: 30, left: 50 },
       ohlc: { height: ohlcHeight },
       indicator: { height: 65, padding: 5 }
     };
@@ -353,7 +400,7 @@ export default function CandlestickController (candlestickService, $log, moment)
       .yAnnotation([rsiAnnotation, rsiAnnotationLeft])
       .verticalWireRange([0, rsiCrosshairHeight]);
 
-    var svg = d3.select('svg.candleChart')
+    var svg = d3.select('svg#candleChart')
       .attr('width', dim.width)
       .attr('height', dim.height);
 
@@ -398,6 +445,25 @@ export default function CandlestickController (candlestickService, $log, moment)
     svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + dim.plot.height + ')');
+
+    // svg.selectAll('rect')
+    //   .attr('x', Math.min.apply(null, xRange))
+    //   .attr('y', Math.min.apply(null, yRange))
+    //   .attr('height', Math.abs(yRange[yRange.length-1] - yRange[0]))
+    //   .attr('width', Math.abs(xRange[xRange.length-1] - xRange[0]))
+    //   .on('mouseenter', () => {
+    //     dispatcher.call('enter', this);
+    //   })
+    //   .on('mouseout', () => {
+    //     dispatcher.call('out', this);
+    //     // Redraw with null values to ensure when we enter again, there is nothing cached when redisplayed
+    //     delete group.node().__coord__;
+    //     initialiseWire(group.datum()); // Mutating data, don't need to manually pass down
+    //     refresh(group, pathVerticalSelection, pathHorizontalSelection, xAnnotationSelection, yAnnotationSelection);
+    //   })
+    //   .on('mousemove', mousemoveRefresh(group, pathVerticalSelection, pathHorizontalSelection,
+    //     xAnnotationSelection, yAnnotationSelection)
+    //   );
 
     var ohlcSelection = svg.append('g')
       .attr('class', 'ohlc')
@@ -445,8 +511,8 @@ export default function CandlestickController (candlestickService, $log, moment)
     ohlcSelection.append('g')
       .attr('class', 'percent axis');
 
-    // ohlcSelection.append('g')
-    //   .attr('class', 'volume axis');
+    ohlcSelection.append('g')
+      .attr('class', 'volume axis');
 
     var indicatorSelection = svg.selectAll('svg > g.indicator').data(['macd', 'rsi']).enter()
       .append('g')
@@ -482,9 +548,9 @@ export default function CandlestickController (candlestickService, $log, moment)
       .attr('class', 'tradearrow')
       .attr('clip-path', 'url(#ohlcClip)');
 
-    d3.select('button').on('click', reset);
+    d3.select('.resetButton').on('click', reset);
 
-    d3.csv('btc.csv', function(error, data) {
+    d3.csv('btc.csv', (error, data) => {
       // $log.log('raw btc.csv: ', data);
       let dataLength = 0;
 
