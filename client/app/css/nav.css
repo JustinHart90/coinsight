@@ -5,7 +5,7 @@ header.darken {
   padding-left: 15px !important;
   padding-right: 10px !important;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -32,9 +32,45 @@ img#coinLogo {
 }
 
 div.rightbuttons a {
+  display: none;
   margin-right: 15px;
 }
 
 div.rightbuttons {
+  display: none;
   margin-right: 20px;
+}
+
+@media (min-width: 420px) {
+
+}
+
+@media (min-width: 801px) {
+  header.darken {
+    background-color: black;
+    color: white;
+    opacity: 0.90;
+    padding-left: 15px !important;
+    padding-right: 10px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  img#coinLogo {
+    height: 33px;
+    width: auto;
+    padding-left: 5px;
+    padding-right: 3px;
+  }
+
+  div.rightbuttons a {
+    display: block;
+    margin-right: 15px;
+  }
+
+  div.rightbuttons {
+    display: block;
+    margin-right: 20px;
+  }
 }

@@ -18,24 +18,40 @@ body {
 
 /* Dashboard */
 
-div.row.align-right {
+div#test.align-right {
   display: flex;
-  justify-content: center;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
+  height: auto;
+  width: 100vw;
   margin-left: 0;
   margin-right: 0;
   background-color: black;
+  overflow: auto;
 }
 
-div.col-lg-4.news {
+div#hide-when-small.news {
+  display: none;
+  height: 80vh;
+  width: 100vw;
   border: 2px solid #BBBBBB;
   margin-left: 5px;
   margin-right: 0px;
   padding-left: 5px;
   padding-right: 2px;
   border-radius: 3px;
-  height: 556px;
+  /*height: 556px;*/
   overflow: auto;
   background-color: #BBBBBB;
+}
+
+div.candleContainer {
+  height: 80vh;
+  width: 100vw;
+  border: 2px solid #BBBBBB;
+  border-radius: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .showDetails {
@@ -54,13 +70,6 @@ div.col-lg-4.news {
   border-radius: 4px;
   background-color: rgb(16,53,105);
   -webkit-box-shadow: 0 0 1px rgb(16,53,105);
-}
-
-div.col-lg-8 {
-  border: 2px solid #BBBBBB;
-  border-radius: 3px;
-  padding-left: 5px;
-  padding-right: 5px;
 }
 
 div.article-container {
@@ -161,29 +170,51 @@ div.row.hide {
   display: none;
 }
 
-/*@media only screen and (max-width: 768px) {
-    [class*='col-'] {
-      width: 100% !important;
-      height: 50% !important;
-      flex-wrap: wrap !important;
-    },
-    [id="test"] {
-      flex-direction: column !important;
-    },
-    [class="candleSvg"] {
-      width: 700px !important;
-      height: 500px !important;
-    },
-    [id="hide-when-large"] {
-      display: flex;
-      clear: left;
-    },
-    [class="hide"] {
-      display: flex;
-      clear: left;
-    }
-}*/
+@media (min-width: 420px) {
+  div#test.align-right {
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    height: auto;
+    width: 95vw;
+  }
+  div#hide-when-small.news {
+    height: 80vh;
+    width: 95vw;
+    display: none;
+  }
+  div.candleContainer {
+    height: 80vh;
+    width: 95vw;
+  }
+  #mobile-menu {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+  }
+}
 
-/*[id="hide-when-small"] {
-  display: none;
-}*/
+@media (min-width: 801px) {
+  div#test.align-right {
+    height: 80vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+  }
+  div#hide-when-small.news {
+    display: block;
+    height: 80vh;
+    width: 30vw;
+  }
+  div.candleContainer {
+    height: 80vh;
+    width: 70vw;
+  }
+  #mobile-menu {
+    display: none;
+  }
+}

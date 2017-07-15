@@ -121,6 +121,7 @@ export default function CandlestickController (candlestickService, $log, moment)
   }
 
   function getD3 (dynamicDate, resizeFactor) {
+    window.addEventListener('resize', reset);
     let screenWidth = window.innerWidth;
     let screenHeight = window.innerHeight;
     let dimWidth;
@@ -595,22 +596,7 @@ export default function CandlestickController (candlestickService, $log, moment)
       svg.append('text')
         .attr('class', 'symbolSmall')
         .attr('x', 20)
-        .text('Open: ' + data[data.length - 1].open);
-
-      svg.append('text')
-        .attr('class', 'symbolSmall')
-        .attr('x', 120)
-        .text('High: ' + data[data.length - 1].high);
-
-      svg.append('text')
-        .attr('class', 'symbolSmall')
-        .attr('x', 220)
-        .text('Low: ' + data[data.length - 1].low);
-
-      svg.append('text')
-        .attr('class', 'symbolSmall')
-        .attr('x', 320)
-        .text('Close: ' + data[data.length - 1].close);
+        .text('BTC/USD Candlestick Chart');
 
       // let div = d3.select('body').append('div').attr('class', 'toolTip');
       //
