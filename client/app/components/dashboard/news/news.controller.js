@@ -43,28 +43,18 @@ export default function NewsController (newsService, $log) {
   }
 
   function showSentiment (articles) {
-    let urls = [];
-    articles.forEach(article => urls.push(article.url));
-    return newsService.getSentiment(urls)
+    return newsService.getSentiment()
       .then(res => {
-        $log.log('sentiment res array: ', res);
-        let sentimentScores = [];
-        let sentimentLabels = [];
-        res.data.forEach(r => {
-          if (typeof r === 'string') {
-            sentimentScores.push(0);
-            sentimentLabels.push('nuetral');
-          } else {
-            sentimentScores.push(Math.round(r.sentiment.document.score * 100));
-            sentimentLabels.push(r.sentiment.document.label);
-          }
-        })
-        let index = 0;
-        vm.articlesRaw.forEach(article => {
-          article.sentiment = sentimentScores[index];
-          article.sentimentLabel = sentimentLabels[index];
-          index++;
-        })
+        $log.log('sentiment res array: ', res.data);
+        let sentimentData = res.data;
+        articles.forEach(article => {
+          sentimentData.forEach(s => {
+            if (s.url === article.url) {
+              article.sentiment = s.score;
+              article.sentimentLabel = s.label;
+            }
+          });
+        });
       })
       .catch(err => $log.log(err));
   }

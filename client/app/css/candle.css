@@ -31,14 +31,14 @@ a.timeScale.btn.btn-default {
   padding: 5px 5px;
 }
 
-svg#candleChart {
+svg.candleChart {
   display: block;
   position: absolute;
   top: 0;
   left: 0;
   background-color: black;
   padding: 10px;
-  margin-right: 10px;
+  /*margin-right: 10px;*/
   margin-bottom: 5px;
 }
 
@@ -49,15 +49,6 @@ div.candleSvg {
   width: 100%;
   padding-bottom: 15%; /* depends on svg ratio, for my zebra height/width = 1.2 so padding-bottom = 50% * 1.2 = 60% */
   vertical-align: middle; /* top | middle | bottom ... do what you want */
-}
-
-
-.my-svg{ /* svg into : object, img or inline */
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%; /* only required for <img /> */
 }
 
 .toolTip {

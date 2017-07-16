@@ -13,9 +13,13 @@ export default function newsService ($http, $log) {
     let urlArray = urls;
     // $log.log('getSentiment newsService urls: ', urlArray)
     return $http
-      .post('http://localhost:3000/sentiment', {urlArray})
+      .get('http://localhost:3000/sentiment')
       .then(res => res)
       .catch(err => $log.log(err));
+    // return $http
+    //   .post('http://localhost:3000/sentiment', {urlArray})
+    //   .then(res => res)
+    //   .catch(err => $log.log(err));
   }
 
   function getNews () {

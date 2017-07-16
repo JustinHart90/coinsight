@@ -116,8 +116,8 @@ export default function CandlestickController (candlestickService, $log, moment)
   }
 
   function resetD3 () {
-    d3.select('#candleChart').selectAll('*').remove();
-    d3.select('.candleSvg').append('svg#candleChart');
+    d3.select('.candleChart').selectAll('*').remove();
+    d3.select('.candleSvg').append('svg.candleChart');
   }
 
   function getD3 (dynamicDate, resizeFactor) {
@@ -174,24 +174,24 @@ export default function CandlestickController (candlestickService, $log, moment)
     // $log.log('container width', svgContainerWidth);
     // $log.log('container height', svgContainerHeight);
 
-    if (screenWidth <= 768) {
+    if (window.innerWidth <= 801) {
       d3.select('div.candleSvg')
         .attr('width', '100vw')
         .attr('height', '85vh');
 
       d3.select('#hide-when-small')
-        .attr('width', '100vw')
+        .attr('width', '90vw')
         .attr('height', '100vh');
 
       dimWidth = screenWidth;
       dimHeight = screenHeight;
     } else {
-      dimWidth = screenWidth * 0.65;
-      dimHeight = screenHeight * 0.74;
+      dimWidth = screenWidth * 0.67;
+      dimHeight = screenHeight * 0.73;
     }
 
-    $log.log('HEIGHT: ', screenHeight);
-    $log.log('WIDTH: ', screenWidth);
+    $log.log('SVG HEIGHT: ', dimHeight);
+    $log.log('SVG WIDTH: ', dimWidth);
 
     let ohlcHeight = dimHeight * 0.85;
     if (resizeFactor === 1) {
@@ -241,16 +241,6 @@ export default function CandlestickController (candlestickService, $log, moment)
       .xScale(x)
       .yScale(y);
 
-    var tradearrow = techan.plot.tradearrow()
-      .xScale(x)
-      .yScale(y)
-      .y(function(d) {
-        // Display the buy and sell arrows a bit above and below the price, so the price is still visible
-        if (d.type === 'buy') return y(d.low)  +  5;
-        if (d.type === 'sell') return y(d.high) - 5;
-        else return y(d.price);
-      });
-
     var sma0 = techan.plot.sma()
       .xScale(x)
       .yScale(y);
@@ -290,13 +280,6 @@ export default function CandlestickController (candlestickService, $log, moment)
     var ohlcAnnotation = techan.plot.axisannotation()
       .axis(yAxis)
       .orient('right')
-      .format(d3.format(',.2f'))
-      .translate([x(1), 0]);
-
-    var closeAnnotation = techan.plot.axisannotation()
-      .axis(yAxis)
-      .orient('right')
-      .accessor(candlestick.accessor())
       .format(d3.format(',.2f'))
       .translate([x(1), 0]);
 
@@ -400,12 +383,9 @@ export default function CandlestickController (candlestickService, $log, moment)
       .yAnnotation([rsiAnnotation, rsiAnnotationLeft])
       .verticalWireRange([0, rsiCrosshairHeight]);
 
-    var svg = d3.select('svg#candleChart')
+    var svg = d3.select('svg.candleChart')
       .attr('width', dim.width)
       .attr('height', dim.height);
-
-    var news = d3.select('.news')
-      .attr('height', screenHeight * 0.74);
 
     var defs = svg.append('defs');
 
@@ -417,14 +397,17 @@ export default function CandlestickController (candlestickService, $log, moment)
       .attr('width', dim.plot.width)
       .attr('height', dim.ohlc.height)
 
-    defs.selectAll('indicatorClip').data([0, 1])
-      .enter()
-      .append('clipPath')
+    defs.selectAll('indicatorClip')
+      .data([0, 1])
+      .enter().append('clipPath')
       .attr('id', (d, i) => 'indicatorClip-' + i)
       .append('rect')
       .attr('x', 0)
-      .attr('y', (d, i) => indicatorTop(i))
+      .attr('y', 0)
       .attr('width', dim.plot.width)
+      .transition()
+      .duration(1000)
+      .attr('y', (d, i) => indicatorTop(i))
       .attr('height', dim.indicator.height);
 
     svg = svg.append('g')
@@ -480,15 +463,12 @@ export default function CandlestickController (candlestickService, $log, moment)
       .text('Price ($)');
 
     ohlcSelection.append('g')
-      .attr('class', 'close annotation up');
-
-    ohlcSelection.append('g')
       .attr('class', 'volume')
       .attr('clip-path', 'url(#ohlcClip)');
 
     ohlcSelection.append('g')
       .attr('class', 'candlestick')
-      .attr('clip-path', 'url(#ohlcClip)');
+      .attr('clip-path', 'url(#ohlcClip)')
 
     if (vm.showSma0) {
       ohlcSelection.append('g')
@@ -543,10 +523,6 @@ export default function CandlestickController (candlestickService, $log, moment)
     // Add trendlines and other interactions last to be above zoom pane
     svg.append('g')
       .attr('class', 'crosshair ohlc');
-
-    svg.append('g')
-      .attr('class', 'tradearrow')
-      .attr('clip-path', 'url(#ohlcClip)');
 
     d3.select('.resetButton').on('click', reset);
 
@@ -622,7 +598,23 @@ export default function CandlestickController (candlestickService, $log, moment)
       rsiScale.domain(techan.scale.plot.rsi(rsiData).domain());
 
       svg.select('g.candlestick').datum(data).call(candlestick);
-      svg.select('g.close.annotation').datum([data[data.length - 1]]).call(closeAnnotation);
+      // svg.select('g.candlestick')
+      //   .data(data)
+      //   .enter().append("svg")
+
+      // defs.selectAll('indicatorClip')
+      //   .data([0, 1])
+      //   .enter().append('clipPath')
+      //   .attr('id', (d, i) => 'indicatorClip-' + i)
+      //   .append('rect')
+      //   .attr('x', 0)
+      //   .attr('y', 0)
+      //   .attr('width', dim.plot.width)
+      //   .transition()
+      //   .duration(1000)
+      //   .attr('y', (d, i) => indicatorTop(i))
+      //   .attr('height', dim.indicator.height);
+
       svg.select('g.volume').datum(data).call(volume);
 
       if (vm.showSma0) {
@@ -648,11 +640,6 @@ export default function CandlestickController (candlestickService, $log, moment)
       }
 
       svg.select('g.crosshair.ohlc').call(ohlcCrosshair).call(zoom).on('wheel.zoom', null);
-
-      // svg.select('g.trendlines').datum(trendlineData).call(trendline).call(trendline.drag);
-      // svg.select('g.supstances').datum(supstanceData).call(supstance).call(supstance.drag);
-      //
-      // svg.select('g.tradearrow').datum(trades).call(tradearrow);
 
       // Stash for zooming
       zoomableInit = x.zoomable().domain([indicatorPreRoll, data.length]).copy(); // Zoom in a little to hide indicator preroll
@@ -688,8 +675,8 @@ export default function CandlestickController (candlestickService, $log, moment)
     });
 
     function reset() {
-      zoom.scale(1);
-      zoom.translate([0,0]);
+      // zoom.scale(1);
+      // zoom.translate([0,0]);
       draw();
     }
 
@@ -719,7 +706,6 @@ export default function CandlestickController (candlestickService, $log, moment)
 
       // We know the data does not change, a simple refresh that does not perform data joins will suffice.
       svg.select('g.candlestick').call(candlestick.refresh);
-      svg.select('g.close.annotation').call(closeAnnotation.refresh);
       svg.select('g.volume').call(volume.refresh);
 
       if (vm.showSma0) {
@@ -745,9 +731,6 @@ export default function CandlestickController (candlestickService, $log, moment)
       }
 
       svg.select('g.crosshair.ohlc').call(ohlcCrosshair.refresh);
-      // svg.select('g.trendlines').call(trendline.refresh);
-      // svg.select('g.supstances').call(supstance.refresh);
-      // svg.select('g.tradearrow').call(tradearrow.refresh);
     }
   }
 }

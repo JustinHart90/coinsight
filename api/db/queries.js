@@ -17,8 +17,26 @@ function getEvents () {
     .select()
 }
 
+function postSentiment (score, label, url) {
+  return knex('sentiment')
+    .returning('id')
+    .insert({
+      score,
+      label,
+      url
+    })
+    .first()
+}
+
+function getSentiment () {
+  return knex('sentiment')
+    .select()
+}
+
 module.exports = {
   addBtcUsdData,
   getBtcUsdData,
-  getEvents
+  getEvents,
+  postSentiment,
+  getSentiment
 };

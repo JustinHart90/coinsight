@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './css/dashboard.css';
 import './css/nav.css';
 import './css/candle.css';
+import './css/gauge.css';
 
 angular.module('app', [
   uirouter,
