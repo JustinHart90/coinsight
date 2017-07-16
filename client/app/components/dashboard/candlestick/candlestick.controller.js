@@ -177,7 +177,7 @@ export default function CandlestickController (candlestickService, $log, moment)
     if (window.innerWidth <= 801) {
       d3.select('div.candleSvg')
         .attr('width', '100vw')
-        .attr('height', '85vh');
+        .attr('height', '84vh');
 
       d3.select('#hide-when-small')
         .attr('width', '90vw')
@@ -187,7 +187,7 @@ export default function CandlestickController (candlestickService, $log, moment)
       dimHeight = screenHeight;
     } else {
       dimWidth = screenWidth * 0.67;
-      dimHeight = screenHeight * 0.73;
+      dimHeight = screenHeight * 0.72;
     }
 
     $log.log('SVG HEIGHT: ', dimHeight);
@@ -205,7 +205,7 @@ export default function CandlestickController (candlestickService, $log, moment)
 
     var dim = {
       width: dimWidth, height: dimHeight,
-      margin: { top: 20, right: 10, bottom: 30, left: 50 },
+      margin: { top: 20, right: 5, bottom: 30, left: 50 },
       ohlc: { height: ohlcHeight },
       indicator: { height: 65, padding: 5 }
     };
@@ -551,7 +551,7 @@ export default function CandlestickController (candlestickService, $log, moment)
 
       let newData = []
       let accessor = candlestick.accessor();
-      let indicatorPreRoll = newData.length;
+      let indicatorPreRoll = newData.length * (2/3);
 
       if (dataLength > 0) {
         for (let i = dataLength - 1; i >= 0; i--) {
@@ -646,10 +646,10 @@ export default function CandlestickController (candlestickService, $log, moment)
       yInit = y.copy();
       yPercentInit = yPercent.copy();
 
-      svg.append('text')
-        .attr('class', 'symbolSmall')
-        .attr('x', 20)
-        .text('BTC/USD Candlestick Chart');
+      // svg.append('text')
+      //   .attr('class', 'symbolSmall')
+      //   .attr('x', 20)
+      //   .text('BTC / USD Candlestick Chart');
 
       // let div = d3.select('body').append('div').attr('class', 'toolTip');
       //

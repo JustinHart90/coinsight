@@ -5,141 +5,244 @@ export default function GaugeController (gaugeService, $log) {
   vm.$onInit = $onInit;
   // vm.createGauge = createGauge;
 
-  function $onInit () {
-    var needle;
-
-    var barWidth, chart, chartInset, degToRad, repaintGauge,
-        height, margin, numSections, padRad, percToDeg, percToRad,
-        percent, radius, sectionIndx, svg, totalPercent, width;
-
-      percent = .65;
-      numSections = 1;
-      sectionPerc = 1 / numSections / 2;
-      padRad = 0.025;
-      chartInset = 10;
-
-      // Orientation of gauge:
-      totalPercent = .75;
-
-      el = d3.select('.chart-gauge');
-
-      margin = {
-        top: 20,
-        right: 20,
-        bottom: 30,
-        left: 20
-      };
-
-      width = el[0][0].offsetWidth - margin.left - margin.right;
-      height = width;
-      radius = Math.min(width, height) / 2;
-      barWidth = 40 * width / 300;
-      /*
-        Utility methods
-      */
-      percToDeg = function(perc) {
-        return perc * 360;
-      };
-
-      percToRad = function(perc) {
-        return degToRad(percToDeg(perc));
-      };
-
-      degToRad = function(deg) {
-        return deg * Math.PI / 180;
-      };
-
-      // Create SVG element
-      svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom);
-
-      // Add layer for the panel
-      chart = svg.append('g').attr('transform', 'translate(' + ((width + margin.left) / 2) + ', ' + ((height + margin.top) / 2) + ')');
-      chart.append('path').attr('class', 'arc chart-filled');
-      chart.append('path').attr('class', 'arc chart-empty');
-
-      arc2 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
-      arc1 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
-
-      repaintGauge = function (perc)
-      {
-        var nextStart = totalPercent;
-        arcStartRad = percToRad(nextStart);
-        arcEndRad = arcStartRad + percToRad(perc / 2);
-        nextStart += perc / 2;
-
-        arc1.startAngle(arcStartRad).endAngle(arcEndRad);
-
-        arcStartRad = percToRad(nextStart);
-        arcEndRad = arcStartRad + percToRad((1 - perc) / 2);
-
-        arc2.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
-
-        chart.select('.chart-filled').attr('d', arc1);
-        chart.select('.chart-empty').attr('d', arc2);
-
-      }
-
-      var Needle = (function() {
-        var recalcPointerPos = function(perc) {
-          var centerX, centerY, leftX, leftY, rightX, rightY, thetaRad, topX, topY;
-          thetaRad = percToRad(perc / 2);
-          centerX = 0;
-          centerY = 0;
-          topX = centerX - this.len * Math.cos(thetaRad);
-          topY = centerY - this.len * Math.sin(thetaRad);
-          leftX = centerX - this.radius * Math.cos(thetaRad - Math.PI / 2);
-          leftY = centerY - this.radius * Math.sin(thetaRad - Math.PI / 2);
-          rightX = centerX - this.radius * Math.cos(thetaRad + Math.PI / 2);
-          rightY = centerY - this.radius * Math.sin(thetaRad + Math.PI / 2);
-          return 'M ' + leftX + ' ' + leftY + ' L ' + topX + ' ' + topY + ' L ' + rightX + ' ' + rightY;
-        };
-
-        function Needle(el) {
-          this.el = el;
-          this.len = width / 3;
-          this.radius = this.len / 6;
-        }
-
-        Needle.prototype.render = function() {
-          this.el.append('circle').attr('class', 'needle-center').attr('cx', 0).attr('cy', 0).attr('r', this.radius);
-          return this.el.append('path').attr('class', 'needle').attr('d', recalcPointerPos.call(this, 0));
-        };
-
-        Needle.prototype.moveTo = function(perc) {
-          var self,
-              oldValue = this.perc || 0;
-
-          this.perc = perc;
-          self = this;
-
-          // Reset pointer position
-          this.el.transition().delay(100).ease('quad').duration(200).select('.needle').tween('reset-progress', function() {
-            return function(percentOfPercent) {
-              var progress = (1 - percentOfPercent) * oldValue;
-
-              repaintGauge(progress);
-              return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
-            };
-          });
-
-          this.el.transition().delay(300).ease('bounce').duration(1500).select('.needle').tween('progress', function() {
-            return function(percentOfPercent) {
-              var progress = percentOfPercent * perc;
-
-              repaintGauge(progress);
-              return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
-            };
-          });
-
-        };
-
-        return Needle;
-
-      })();
-
-      needle = new Needle(chart);
-      needle.render();
-
-      needle.moveTo(percent);
+  function $onInit() {
+    // getPieChart();
   }
+
+  // function getPieChart () {
+  //   var div = d3.select('body').append('div').attr('class', 'toolTip');
+  //
+  //   let dri = {
+  //       'calcium': {
+  //           'value': 1000,
+  //           'unit': 'mg/d'
+  //       },
+  //       'chromium': {
+  //           'value': 35,
+  //           'unit': 'μg/d'
+  //       },
+  //       'copper': {
+  //           'value': 900,
+  //           'unit': 'μg/d'
+  //       },
+  //       'fluoride': {
+  //           'value': 4,
+  //           'unit': 'mg/d'
+  //       },
+  //       'iodine': {
+  //           'value': 150,
+  //           'unit': 'μg/d'
+  //       },
+  //       'iron': {
+  //           'value': 8,
+  //           'unit': 'mg/d'
+  //       },
+  //       'magnesium': {
+  //           'value': 400,
+  //           'unit': 'mg/d'
+  //       },
+  //       'manganese': {
+  //           'value': 2.3,
+  //           'unit': 'mg/d'
+  //       },
+  //       'molybdenum': {
+  //           'value': 45,
+  //           'unit': 'μg/d'
+  //       },
+  //       'phosphorus': {
+  //           'value': 700,
+  //           'unit': 'mg/d'
+  //       },
+  //       'selenium': {
+  //           'value': 55,
+  //           'unit': 'μg/d'
+  //       },
+  //       'zinc': {
+  //           'value': 11,
+  //           'unit': 'mg/d'
+  //       },
+  //       'potassium': {
+  //           'value': 4.7,
+  //           'unit': 'g/d'
+  //       },
+  //       'sodium': {
+  //           'value': 1.5,
+  //           'unit': 'g/d'
+  //       },
+  //       'chloride': {
+  //           'value': 2.3,
+  //           'unit': 'g/d'
+  //       }
+  //   };
+  //
+  //   let current = {
+  //       'calcium': {
+  //           'value': 600,
+  //           'unit': 'mg/d'
+  //       },
+  //       'chromium': {
+  //           'value': 10,
+  //           'unit': 'μg/d'
+  //       },
+  //       'copper': {
+  //           'value': 200,
+  //           'unit': 'μg/d'
+  //       },
+  //       'fluoride': {
+  //           'value': 1,
+  //           'unit': 'mg/d'
+  //       },
+  //       'iodine': {
+  //           'value': 30,
+  //           'unit': 'μg/d'
+  //       },
+  //       'iron': {
+  //           'value': 5,
+  //           'unit': 'mg/d'
+  //       },
+  //       'magnesium': {
+  //           'value': 400,
+  //           'unit': 'mg/d'
+  //       },
+  //       'manganese': {
+  //           'value': 1.1,
+  //           'unit': 'mg/d'
+  //       },
+  //       'molybdenum': {
+  //           'value': 45,
+  //           'unit': 'μg/d'
+  //       },
+  //       'phosphorus': {
+  //           'value': 900,
+  //           'unit': 'mg/d'
+  //       },
+  //       'selenium': {
+  //           'value': 0,
+  //           'unit': 'μg/d'
+  //       },
+  //       'zinc': {
+  //           'value': 4,
+  //           'unit': 'mg/d'
+  //       },
+  //       'potassium': {
+  //           'value': 2.9,
+  //           'unit': 'g/d'
+  //       },
+  //       'sodium': {
+  //           'value': 0.4,
+  //           'unit': 'g/d'
+  //       },
+  //       'chloride': {
+  //           'value': 1,
+  //           'unit': 'g/d'
+  //       }
+  //   };
+  //
+  //   let percentages = [];
+  //
+  //   Object.keys(dri).forEach((key) => {
+  //     percentages.push({
+  //       name: key,
+  //       value: Math.min(1, current[key].value / dri[key].value)
+  //     });
+  //   });
+  //
+  //   let average = percentages.reduce((total, current) => {
+  //       return total + current.value;
+  //   }, 0);
+  //
+  //   average /= percentages.length;
+  //
+  //   var dataset = [{
+  //           name: 'Calories',
+  //           total: 8124,
+  //           percent: 67.9
+  //       },
+  //       {
+  //           name: 'Carbohydrates',
+  //           total: 1567,
+  //           percent: 13.1
+  //       },
+  //       {
+  //           name: 'Proteins',
+  //           total: 1610,
+  //           percent: 13.5
+  //       },
+  //       {
+  //           name: 'Fats',
+  //           total: 660,
+  //           percent: 5.5
+  //       }
+  //   ];
+  //
+  //   var width = 150,
+  //       height = 100,
+  //       radius = Math.min(width, height) / 2;
+  //
+  //   var color = d3.scale.ordinal()
+  //       .range(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']);
+  //
+  //   var arc = d3.svg.arc()
+  //       .outerRadius(radius - 10)
+  //       .innerRadius(0);
+  //
+  //   var pie = d3.layout.pie()
+  //       .sort(null)
+  //       .startAngle(0)
+  //       .endAngle(average * 2 * Math.PI)
+  //       .value(function(d) {
+  //         return d.value;
+  //       });
+  //
+  //   var svg = d3.select('svg.d3pie').append('svg')
+  //       .append('g')
+  //       .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+  //
+  //   var g = svg.selectAll('.arc')
+  //       .data(pie(percentages))
+  //       .enter().append('g')
+  //       .attr('class', 'arc');
+  //
+  //   g.append('path')
+  //       .style('fill', function(d) {
+  //         return color(d.data.name);
+  //       })
+  //       .transition()
+  //       .delay(function(d, i) {
+  //         return i * 100;
+  //       })
+  //       .duration(100)
+  //       .attrTween('d', function(d) {
+  //         var i = d3.interpolate(d.startAngle + 0.001, d.endAngle);
+  //         return function(t) {
+  //           d.endAngle = i(t);
+  //           return arc(d)
+  //         }
+  //       });
+  //
+  //   /*g.append('text')*/
+  //   //.attr('transform', function(d) { return 'translate(' + arc.centroid(d) + ')'; })
+  //   //.attr('dy', '.35em')
+  //   //.transition()
+  //   //.duration(2000)
+  //   //.delay(1000)
+  //   /*.text(function(d) { return d.data.name; });*/
+  //
+  //   d3.selectAll('path').on('mousemove', function(d) {
+  //     div.style('left', d3.event.pageX + 10 + 'px');
+  //     div.style('top', d3.event.pageY - 25 + 'px');
+  //     div.style('display', 'inline-block');
+  //     div.html((d.data.name) + '<br>' + (Math.round(d.data.value * 100)) + '% of DRI');
+  //   });
+  //
+  //   d3.selectAll('path').on('mouseout', function(d) {
+  //     div.style('display', 'none');
+  //   });
+  //
+  //   // d3.select('body').transition().style('background-color', '#d3d3d3');
+  //   function type(d) {
+  //     d.total = +d.total;
+  //     return d;
+  //   }
+  // }
 }

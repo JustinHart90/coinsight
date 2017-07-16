@@ -13,6 +13,9 @@ export default function NewsController (newsService, $log) {
   function $onInit () {
     vm.articles = [];
     vm.articlesRaw = [];
+    vm.sentimentScores = [];
+    vm.showChartIcon = true;
+    vm.showNewsIcon = false;
     getArticles();
   }
 
@@ -31,7 +34,7 @@ export default function NewsController (newsService, $log) {
           }
         })
         vm.articlesRaw.forEach(raw => {
-          let shouldInclude = (!raw.isDuplicate && raw.sentiment !== 0 && raw.uri !== '690930357') || raw.uri === duplicates[0]
+          let shouldInclude = (!raw.isDuplicate && raw.sentiment !== 0 && raw.uri !== '690930357' && raw.uri !== '690235957') || raw.uri === duplicates[0]
           if (shouldInclude) {
             vm.articles.push(raw);
           }
@@ -52,9 +55,17 @@ export default function NewsController (newsService, $log) {
             if (s.url === article.url) {
               article.sentiment = s.score;
               article.sentimentLabel = s.label;
+              if (s.label === 'positive') {
+                vm.sentimentScores.push(+s.score);
+              } else if (s.label === 'negative') {
+                vm.sentimentScores.push(+('-' + s.score));
+              } else {
+                vm.sentimentScores.push(+s.score);
+              }
             }
           });
         });
+        $log.log('sentiment scores: ', vm.sentimentScores);
       })
       .catch(err => $log.log(err));
   }

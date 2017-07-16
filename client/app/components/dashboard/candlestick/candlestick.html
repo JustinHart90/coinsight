@@ -1,7 +1,12 @@
 <div class="candleTools">
-  <div>
+  <div class="toolOptions">
+    <select class="btn btn-primary advancedToolOptions">
+      <option selectedOption>BTC/USD</option>
+      <option>ETH/USD</option>
+      <option>ETH/BTC</option>
+    </select>
     <a ng-click="$ctrl.showAdvancedTools = !$ctrl.showAdvancedTools" class="btn btn-primary advancedToolOptions">Tools</a>
-    <span ng-show="$ctrl.showAdvancedTools" class="advancedTools">
+    <span ng-show="$ctrl.showAdvancedTools">
       <a href="#" ng-click="$ctrl.sma0Tool($event)" class="btn btn-primary toolButtons">SMA-10</a>
       <a ng-click="$ctrl.sma1Tool($event)" href="#" class="btn btn-primary toolButtons">SMA-20</a>
       <a ng-click="$ctrl.emaTool($event)" href="#" class="btn btn-primary toolButtons">EMA-50</a>
@@ -11,25 +16,25 @@
   </div>
   <div class="timeOptions">
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '1 Week')" class="timeScale btn btn-default">1W</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '1 Week')" class="advancedToolOptions btn btn-primary">1W</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '1 Month')" class="timeScale btn btn-default">1M</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '1 Month')" class="advancedToolOptions btn btn-primary">1M</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '3 Months')" class="timeScale btn btn-default">3M</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '3 Months')" class="advancedToolOptions btn btn-primary">3M</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '6 Months')" class="timeScale btn btn-default">6M</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '6 Months')" class="advancedToolOptions btn btn-primary">6M</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '1 Year')" class="timeScale btn btn-default">1Y</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '1 Year')" class="advancedToolOptions btn btn-primary">1Y</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, '3 Years')" class="timeScale btn btn-default">3Y</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, '3 Years')" class="advancedToolOptions btn btn-primary">3Y</a>
     </div>
     <div class="">
-      <a href="#" ng-click="$ctrl.dateOption($event, 'Max')" class="timeScale btn btn-default">Max</a>
+      <a href="#" ng-click="$ctrl.dateOption($event, 'Max')" id="maxButton" class="advancedToolOptions btn btn-primary">Max</a>
     </div>
   </div>
 </div>

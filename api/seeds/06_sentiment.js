@@ -84,6 +84,27 @@ exports.seed = function(knex, Promise) {
           score: 7,
           label: "negative",
           url: "https://www.inc.com/brian-d-evans/entrepreneurs-are-making-cryptocurrency-mainstream.html",
+        },
+        {
+          score: 37,
+          label: "positive",
+          url: "https://www.businessinsider.com/ethereum-price-sends-marketcap-sky-high-vs-bitcoin-price-marketcap-2017-7",
+        },
+        {
+          score: 25,
+          label: "positive",
+          url: "https://fieldguide.gizmodo.com/how-exactly-do-you-get-rich-of-the-hot-new-cryptocurren-1796758326",
+        },
+        {
+          score: 7,
+          label: "positive",
+          url: "https://social.techcrunch.com/2017/07/12/behind-the-scenes-with-tezos-a-new-blockchain-upstart/",
+
+        },
+        {
+          score: 49,
+          label: "negative",
+          url: "https://www.marketwatch.com/story/ethereum-has-lost-175-billion-in-market-value-in-4-weeks-2017-07-11",
         }
       ]);
     });

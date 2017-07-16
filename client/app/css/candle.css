@@ -7,20 +7,30 @@ div.timeOptions {
   display: flex;
 }
 
+.toolOptions {
+  display: flex;
+}
+
 a.timeScale.btn.btn-default {
-  font-size: 0.85em !important;
+  font-size: 0.75em !important;
   margin-top: 10px;
-  margin-right: 10px;
+  margin-right: 5px;
   padding: 5px 5px;
   background-color: #BBBBBB;
   border: none;
 }
 
 .advancedToolOptions {
-  font-size: 0.85em !important;
+  background-color: #BBBBBB;
+  color: black;
+  font-size: 0.75em !important;
   margin-top: 10px;
-  margin-left: 10px;
+  margin-left: 5px;
   padding: 5px 5px;
+}
+
+#maxButton {
+  margin-right: 10px;
 }
 
 .toolButtons {
@@ -66,11 +76,6 @@ div.candleSvg {
 	text-align: center;
 }
 
-g.close.annotation.up g.data text {
-  /*stroke: black;
-  fill: white;*/
-}
-
 g.data.scope-composed-annotation g.data text {
   stroke: black;
   padding: 15px;
@@ -79,7 +84,7 @@ g.data.scope-composed-annotation g.data text {
 text {
   fill: black;
   stroke: #BBBBBB;
-  font-size: 0.9em !important;
+  font-size: 1em !important;
 }
 
 text.symbol {
@@ -88,7 +93,7 @@ text.symbol {
 
 text.symbolSmall {
   fill: white;
-  font-size: 0.65em !important;
+  font-size: 1.1em !important;
   font-weight: lighter !important;
 }
 

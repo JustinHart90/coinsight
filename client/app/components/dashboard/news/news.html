@@ -1,13 +1,20 @@
+<!-- <div class="pie-chart">
+  <svg class="d3pie" width="150" height="100"></svg>
+</div> -->
 <div class="search-sort">
   <span class="search">
+    <!-- <gauge-component></gauge-component>
     <label>Search:</label>
-    <input class="searchText" type="text" ng-model="searchText">
+    <input class="searchText" type="text" ng-model="searchText"> -->
+    <img class="newsIcon" src="../../../images/newsIcon.png" alt="news">
+    <img id="showFade" class="newsIcon" src="../../../images/pie.png" alt="chart">
   </span>
-  <!-- <gauge-component></gauge-component> -->
   <span class="sort">
-    <label>Sort:</label>
+    <label>Sort:&nbsp;</label>
     <select class="sortText" ng-model="sortBy" ng-init="sortBy='-created_at'">
-      <option value="-socialScore">Social Score</option>
+      <option value="-socialScore">Social Media Shares</option>
+      <option value="-$ctrl.sentimentScores">Positive Reaction</option>
+      <option value="$ctrl.sentimentScores">Negative Reaction</option>
       <option value="sim">Source Importance</option>
       <option value="-created_at">Date</option>
     </select>
@@ -20,10 +27,12 @@
       <span class="align-time">{{article.sentiment}}%&nbsp;{{article.sentimentLabel}}</span>
       <span>Social Score: {{article.socialScore}}</span>
     </div>
+    <img class="divider" src="../../../images/divider.png">
     <div class="article-heading">
-      <img class="articleThumbnail" ng-src="{{article.source.details.thumbImage}}" alt="">
+      <img class="articleThumbnail" ng-src="{{article.source.details.thumbImage}}" alt="../../../images/BitcoinWorld.png">
       <span class="title"><a ng-href="{{article.url}}" target="_blank">{{article.title}}</a></span>
-      <a href="#" class="showDetails btn btn-success" ng-click="article.showArticleDetails = !article.showArticleDetails">Show Details</a>
+      <img class="showDetails" ng-if="!article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails" src="../../../images/downArrow.png" alt="details">
+      <img class="showDetails" ng-if="article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails" src="../../../images/upArrow.png" alt="details">
     </div>
   </div>
   <div class="article-details" ng-show="article.showArticleDetails">

@@ -36,6 +36,11 @@ div.rightbuttons a {
   margin-right: 15px;
 }
 
+a.signinButton {
+  padding: 5px;
+  margin-right: 7.5px;
+}
+
 div.rightbuttons {
   display: none;
   margin-right: 20px;
