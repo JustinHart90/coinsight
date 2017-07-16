@@ -9,6 +9,7 @@ export default function NewsController (newsService, $log) {
   vm.getSocialScore = getSocialScore;
   vm.getTimeAgo = getTimeAgo;
   vm.getSecureUrl = getSecureUrl;
+  vm.cardFlip = cardFlip;
 
   function $onInit () {
     vm.articles = [];
@@ -16,7 +17,12 @@ export default function NewsController (newsService, $log) {
     vm.sentimentScores = [];
     vm.showChartIcon = true;
     vm.showNewsIcon = false;
+    vm.isFlipped = false;
     getArticles();
+  }
+
+  function cardFlip () {
+    vm.isFlipped = !vm.isFlipped;
   }
 
   function getArticles () {

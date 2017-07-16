@@ -8,6 +8,7 @@ import './css/dashboard.css';
 import './css/nav.css';
 import './css/candle.css';
 import './css/gauge.css';
+import './css/news.css';
 
 angular.module('app', [
   uirouter,

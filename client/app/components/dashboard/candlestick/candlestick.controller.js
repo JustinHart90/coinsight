@@ -205,7 +205,7 @@ export default function CandlestickController (candlestickService, $log, moment)
 
     var dim = {
       width: dimWidth, height: dimHeight,
-      margin: { top: 20, right: 5, bottom: 30, left: 50 },
+      margin: { top: 20, right: 20, bottom: 30, left: 50 },
       ohlc: { height: ohlcHeight },
       indicator: { height: 65, padding: 5 }
     };
@@ -520,7 +520,6 @@ export default function CandlestickController (candlestickService, $log, moment)
         .attr('class', 'crosshair rsi');
     }
 
-    // Add trendlines and other interactions last to be above zoom pane
     svg.append('g')
       .attr('class', 'crosshair ohlc');
 
@@ -551,7 +550,7 @@ export default function CandlestickController (candlestickService, $log, moment)
 
       let newData = []
       let accessor = candlestick.accessor();
-      let indicatorPreRoll = newData.length * (2/3);
+      let indicatorPreRoll = newData.length * (2 / 3);
 
       if (dataLength > 0) {
         for (let i = dataLength - 1; i >= 0; i--) {

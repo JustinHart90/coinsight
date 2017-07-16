@@ -1,0 +1,177 @@
+section.container {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: relative;
+  -webkit-perspective: 30vw;
+  -moz-perspective: 30vw;
+  -ms-perspective: 30vw;
+  -o-perspective: 30vw;
+  perspective: 30vw;
+  perspective: 30vw;
+}
+
+#card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-transition: transform 1s;
+  -moz-transition: transform 1s;
+  -ms-transition: transform 1s;
+  -o-transition: transform 1s;
+  transition: transform 1s;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+#card figure {
+  margin: 0;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+#card .front {
+}
+
+#card .back {
+  background: white;
+  transform: rotateY( 180deg );
+}
+
+#card.flipped {
+  transform: rotateY( 180deg );
+}
+
+div.search-sort {
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+  color: white;
+  margin-top: 0px;
+  border: 1px solid #BBBBBB;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+span.sort {
+  display: flex;
+  align-items: center;
+}
+
+img.newsIcon {
+  height: 4.5vh;
+  width: auto;
+  cursor: pointer;
+}
+
+.showFade {
+  opacity: 0.3;
+}
+
+.showFade:hover {
+  opacity: 1.0;
+}
+
+.showDetails {
+  cursor: pointer;
+  border-radius: 5px;
+  height: auto;
+  width: 10%;
+}
+
+div.article-container {
+  background-color: black;
+  margin-top: 5px;
+  border: 1px solid #BBBBBB;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+label {
+  margin-bottom: 0;
+}
+
+div.article-details {
+  background-color: black;
+  align-items: center;
+  margin-top: 0px;
+  border: 1px solid #BBBBBB;
+  border-radius: 5px;
+  padding: 20px;
+  color: white;
+}
+
+input.searchText {
+  font-size: .75em;
+}
+
+.sortText {
+  border-radius: 5px;
+  color: black;
+  background-color: #BBBBBB;
+}
+
+div.article-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subHeading {
+  color: rgb(104,4,7);
+}
+
+.article-indicators {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-size: 0.5em;
+  margin-bottom: 4vh;
+}
+
+div.articles.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.title {
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title a {
+  font-size: 0.9;
+  width: 77.5%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.articleThumbnail {
+  height: auto;
+  width: 10%;
+  border-radius: 4px;
+}
+
+.divider {
+  display: inline-flex;
+  width: 100%;
+  background-color: transparent;
+  height: auto;
+  margin-top: -4.5vh;
+  margin-bottom: -1.5vh;
+}

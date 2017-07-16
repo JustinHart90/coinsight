@@ -21,7 +21,7 @@ a.timeScale.btn.btn-default {
 }
 
 .advancedToolOptions {
-  background-color: #BBBBBB;
+  background-color: #BBBBBB !important;
   color: black;
   font-size: 0.75em !important;
   margin-top: 10px;
@@ -42,6 +42,7 @@ a.timeScale.btn.btn-default {
 }
 
 svg.candleChart {
+  z-index: 10;
   display: block;
   position: absolute;
   top: 0;
