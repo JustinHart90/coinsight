@@ -18,7 +18,7 @@ module.exports = new WebpackConfig().merge({
         enforce: 'pre',
         test: /\.js$/,
         loader: 'eslint-loader',
-        exclude: /(node_modules)/,
+        exclude: /(node_modules)/
       },
       {
         test: /\.css$/,
@@ -73,8 +73,11 @@ module.exports = new WebpackConfig().merge({
       {from: 'service-worker.js', to: 'service-worker.js'},
       {from: 'manifest.json', to: 'manifest.json'},
       {from: 'components/dashboard/candlestick/btc.csv', to: 'btc.csv'},
+      {from: 'components/dashboard/candlestick/eth.csv', to: 'eth.csv'},
+      {from: 'components/dashboard/candlestick/ltc.csv', to: 'ltc.csv'},
       {from: 'libraries/d3.js', to: 'd3.js'},
       {from: 'libraries/techan.js', to: 'techan.js'},
+      {from: 'libraries/d3v3.js', to: 'd3v3.js'},
       {from: 'fonts/PoiretOne-Regular.ttf', to: 'PoiretOne-Regular.ttf'}
     ])
   ]

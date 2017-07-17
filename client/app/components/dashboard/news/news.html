@@ -4,10 +4,10 @@
 <section class="container">
   <div id="card" ng-class="{'flipped': $ctrl.isFlipped}">
     <figure class="front">
+      <!-- <span class="power-gauge"></span> -->
       <div class="search-sort">
         <span class="search">
-          <!-- <gauge-component></gauge-component>
-          <label>Search:</label>
+          <!-- <label>Search:</label>
           <input class="searchText" type="text" ng-model="searchText"> -->
           <img class="newsIcon" src="../../../images/newsIcon.png" alt="news">
           <img class="newsIcon showFade" ng-click="$ctrl.cardFlip()" src="../../../images/pie.png" alt="chart">
@@ -27,18 +27,20 @@
         <div class="article-container">
           <div class="article-indicators">
             <span class="align-time" am-time-ago="article.created_at"></span>
+            <!-- <span class="align-time"></span> -->
             <span class="align-time">{{article.sentiment}}%&nbsp;{{article.sentimentLabel}}</span>
             <span>Social Score: {{article.socialScore}}</span>
           </div>
           <img class="divider" src="../../../images/divider.png">
           <div class="article-heading">
-            <img class="articleThumbnail" ng-src="{{article.source.details.thumbImage}}" alt="../../../images/BitcoinWorld.png">
+            <img class="articleThumbnail" ng-src="{{article.source.details.thumbImage}}" alt="img" onerror="$ctrl.standby()">
             <span class="title"><a ng-href="{{article.url}}" target="_blank">{{article.title}}</a></span>
-            <img class="showDetails" ng-if="!article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails" src="../../../images/downArrow.png" alt="details">
+            <img class="showDetails" ng-if="!article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails; $ctrl.newGauge(article.sentiment)" src="../../../images/downArrow.png" alt="details">
             <img class="showDetails" ng-if="article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails" src="../../../images/upArrow.png" alt="details">
           </div>
         </div>
         <div class="article-details" ng-show="article.showArticleDetails">
+          <div class="power-gauge"></div>
           <p>Date:   {{article.date}}</p>
           <p>Social Score:  {{article.socialScore}}</p>
           <p>Source Importance:  {{article.sim}}</p>
@@ -56,40 +58,8 @@
           <img class="newsIcon showFade" ng-click="$ctrl.cardFlip()" src="../../../images/newsIcon.png" alt="news">
           <img class="newsIcon" src="../../../images/pie.png" alt="chart">
         </span>
-        <span class="sort">
-          <label>Sort:&nbsp;</label>
-          <select class="sortText" ng-model="sortBy" ng-init="sortBy='-created_at'">
-            <option value="-socialScore">Social Media Shares</option>
-            <option value="-$ctrl.sentimentScores">Positive Reaction</option>
-            <option value="$ctrl.sentimentScores">Negative Reaction</option>
-            <option value="sim">Source Importance</option>
-            <option value="-created_at">Date</option>
-          </select>
-        </span>
       </div>
-      <div class="articles container-fluid" ng-repeat="article in $ctrl.articles | filter:searchText | orderBy:sortBy">
-        <div class="article-container">
-          <div class="article-indicators">
-            <span class="align-time" am-time-ago="article.created_at"></span>
-            <span class="align-time">{{article.sentiment}}%&nbsp;{{article.sentimentLabel}}</span>
-            <span>Social Score: {{article.socialScore}}</span>
-          </div>
-          <img class="divider" src="../../../images/divider.png">
-          <div class="article-heading">
-            <img class="articleThumbnail" ng-src="{{article.source.details.thumbImage}}" alt="../../../images/BitcoinWorld.png">
-            <span class="title"><a ng-href="{{article.url}}" target="_blank">{{article.title}}</a></span>
-            <img class="showDetails" ng-if="!article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails" src="../../../images/downArrow.png" alt="details">
-            <img class="showDetails" ng-if="article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails" src="../../../images/upArrow.png" alt="details">
-          </div>
-        </div>
-        <div class="article-details" ng-show="article.showArticleDetails">
-          <p>Date:   {{article.date}}</p>
-          <p>Social Score:  {{article.socialScore}}</p>
-          <p>Source Importance:  {{article.sim}}</p>
-          <h4 class="subHeading">Description</h4>
-          <p>{{article.body}}</p>
-        </div>
-      </div>
+
     </figure>
   </div>
 </section>

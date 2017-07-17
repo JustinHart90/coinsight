@@ -14,12 +14,19 @@ export default function CandlestickController (candlestickService, $log, moment)
   vm.macdTool = macdTool;
   vm.rsiTool = rsiTool;
   vm.calculateResizeFactor = calculateResizeFactor;
+  vm.changeCoin = changeCoin;
 
   vm.testdata = []
   vm.rawTradeData = []
   vm.tradeHistory = {}
   vm.tradeHistory = {}
   let transactionDate = ''
+  vm.selectedCoinOption = 'BTC/USD';
+  vm.coins = [
+    {name: 'BTC/USD'},
+    {name: 'ETH/USD'},
+    {name: 'LTC/USD'}
+  ];
 
   function $onInit () {
     vm.dateOptionText = '3 Months'
@@ -30,6 +37,13 @@ export default function CandlestickController (candlestickService, $log, moment)
     vm.showMacd = false;
     vm.showRsi = false;
     getD3(vm.dateOptionText, 0);
+  }
+
+  function changeCoin (coin) {
+    $log.log('coin in changeCoin function: ', coin);
+    vm.selectedCoinOption = coin.name;
+    resetD3();
+    return getD3(vm.dateOptionText, 0);
   }
 
   function dateOption (e, selectedOption) {
@@ -525,10 +539,19 @@ export default function CandlestickController (candlestickService, $log, moment)
 
     d3.select('.resetButton').on('click', reset);
 
-    d3.csv('btc.csv', (error, data) => {
-      // $log.log('raw btc.csv: ', data);
-      let dataLength = 0;
+    $log.log('selectedCoin: ', vm.selectedCoinOption);
 
+    let dataFile = 'btc.csv';
+
+    if (vm.selectedCoinOption === 'ETH/USD') {
+      dataFile = 'eth.csv';
+    } else if (vm.selectedCoinOption === 'LTC/USD') {
+      dataFile = 'ltc.csv';
+    }
+
+    d3.csv(dataFile, (error, data) => {
+      $log.log('ALL THE DATA:', data);
+      let dataLength = 0;
       if (dynamicDate === '1 Week') {
         dataLength = 7;
       }
@@ -556,7 +579,6 @@ export default function CandlestickController (candlestickService, $log, moment)
         for (let i = dataLength - 1; i >= 0; i--) {
           newData.push(data[i])
         }
-        // $log.log('New Data Array: ', newData);
       }
 
       if (newData.length) {
@@ -583,8 +605,6 @@ export default function CandlestickController (candlestickService, $log, moment)
         }).sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
       }
 
-      // $log.log('ACTUAL DATA USED: ', data)
-
       x.domain(techan.scale.plot.time(data).domain());
       y.domain(techan.scale.plot.ohlc(data.slice(indicatorPreRoll)).domain());
       yPercent.domain(techan.scale.plot.percent(y, accessor(data[indicatorPreRoll])).domain());
@@ -597,42 +617,22 @@ export default function CandlestickController (candlestickService, $log, moment)
       rsiScale.domain(techan.scale.plot.rsi(rsiData).domain());
 
       svg.select('g.candlestick').datum(data).call(candlestick);
-      // svg.select('g.candlestick')
-      //   .data(data)
-      //   .enter().append("svg")
-
-      // defs.selectAll('indicatorClip')
-      //   .data([0, 1])
-      //   .enter().append('clipPath')
-      //   .attr('id', (d, i) => 'indicatorClip-' + i)
-      //   .append('rect')
-      //   .attr('x', 0)
-      //   .attr('y', 0)
-      //   .attr('width', dim.plot.width)
-      //   .transition()
-      //   .duration(1000)
-      //   .attr('y', (d, i) => indicatorTop(i))
-      //   .attr('height', dim.indicator.height);
 
       svg.select('g.volume').datum(data).call(volume);
 
       if (vm.showSma0) {
         svg.select('g.sma.ma-0').datum(techan.indicator.sma().period(10)(data)).call(sma0);
       }
-
       if (vm.showSma1) {
         svg.select('g.sma.ma-1').datum(techan.indicator.sma().period(20)(data)).call(sma1);
       }
-
       if (vm.showEma) {
         svg.select('g.ema.ma-2').datum(techan.indicator.ema().period(50)(data)).call(ema2);
       }
-
       if (vm.showMacd) {
         svg.select('g.macd .indicator-plot').datum(macdData).call(macd);
         svg.select('g.crosshair.macd').call(macdCrosshair).call(zoom).on('wheel.zoom', null);
       }
-
       if (vm.showRsi) {
         svg.select('g.rsi .indicator-plot').datum(rsiData).call(rsi);
         svg.select('g.crosshair.rsi').call(rsiCrosshair).call(zoom).on('wheel.zoom', null);
@@ -640,35 +640,9 @@ export default function CandlestickController (candlestickService, $log, moment)
 
       svg.select('g.crosshair.ohlc').call(ohlcCrosshair).call(zoom).on('wheel.zoom', null);
 
-      // Stash for zooming
-      zoomableInit = x.zoomable().domain([indicatorPreRoll, data.length]).copy(); // Zoom in a little to hide indicator preroll
+      zoomableInit = x.zoomable().domain([indicatorPreRoll, data.length]).copy();
       yInit = y.copy();
       yPercentInit = yPercent.copy();
-
-      // svg.append('text')
-      //   .attr('class', 'symbolSmall')
-      //   .attr('x', 20)
-      //   .text('BTC / USD Candlestick Chart');
-
-      // let div = d3.select('body').append('div').attr('class', 'toolTip');
-      //
-      // let dataPoint = svg.selectAll('.data').data(newData);
-      // let dataSelector = d3.selectAll('.candlestick');
-      // $log.log('dataPoint: ', dataPoint['_groups'][0][0]['__data__']);
-      // $log.log('dataSelector: ', dataSelector);
-      //
-      // dataSelector.on('mousemove', (d) => {
-      //   $log.log('MOUSEMOVE');
-      //   div.style('left', d3.event.pageX + 10 + 'px');
-      //   div.style('top', d3.event.pageY - 25 + 'px');
-      //   div.style('display', 'inline-block');
-      //   div.html((d.open) + '<br>' + (d.close));
-      // });
-      //
-      // dataSelector.on('mouseout', (d) => {
-      //   $log.log('MOUSEOUT');
-      //   div.style('display', 'none');
-      // });
 
       draw();
     });

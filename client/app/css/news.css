@@ -1,3 +1,22 @@
+.power-gauge g.arc path {
+	fill: steelblue;
+}
+
+.power-gauge g.arc {
+}
+
+.power-gauge g.pointer {
+	fill: #e85116;
+	stroke: #b64011;
+}
+
+.power-gauge g.label text {
+	text-anchor: middle;
+	font-size: 1.5em;
+	font-weight: bold;
+	fill: white;
+}
+
 section.container {
   width: 100%;
   height: 100%;
@@ -15,11 +34,11 @@ section.container {
   width: 100%;
   height: 100%;
   position: absolute;
-  -webkit-transition: transform 1s;
-  -moz-transition: transform 1s;
-  -ms-transition: transform 1s;
-  -o-transition: transform 1s;
-  transition: transform 1s;
+  -webkit-transition: transform 0.75s;
+  -moz-transition: transform 0.75s;
+  -ms-transition: transform 0.75s;
+  -o-transition: transform 0.75s;
+  transition: transform 0.75s;
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   -ms-transform-style: preserve-3d;
@@ -83,7 +102,7 @@ img.newsIcon {
   cursor: pointer;
   border-radius: 5px;
   height: auto;
-  width: 10%;
+  width: 1.5vw;
 }
 
 div.article-container {
@@ -132,7 +151,7 @@ div.article-heading {
   display: flex;
   justify-content: space-between;
   color: white;
-  font-size: 0.5em;
+  font-size: 0.65em;
   margin-bottom: 4vh;
 }
 

@@ -105,6 +105,16 @@ exports.seed = function(knex, Promise) {
           score: 49,
           label: "negative",
           url: "https://www.marketwatch.com/story/ethereum-has-lost-175-billion-in-market-value-in-4-weeks-2017-07-11",
+        },
+        {
+          score: 31,
+          label: "positive",
+          url: "https://social.techcrunch.com/2017/07/15/the-decentralization-of-startup-building/",
+        },
+        {
+          score: 14,
+          label: "negative",
+          url: "https://www.wired.co.uk/article/what-is-initial-coin-offering-ico-token-sale",
         }
       ]);
     });
