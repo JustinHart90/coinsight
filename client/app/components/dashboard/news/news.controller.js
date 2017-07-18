@@ -13,6 +13,7 @@ export default function NewsController (newsService, $log) {
   vm.createGauge = createGauge;
   vm.standby = standby;
   vm.newGauge = newGauge;
+  vm.removeGauge = removeGauge;
 
   function $onInit () {
     vm.articles = [];
@@ -24,8 +25,8 @@ export default function NewsController (newsService, $log) {
     getArticles();
   }
 
-  function newGauge(sentiment) {
-    var powerGauge = createGauge('.power-gauge', {
+  function newGauge(article) {
+    var sentimentGauge = createGauge('.sentiment-gauge', {
       size: 80,
       clipWidth: 80,
       clipHeight: 60,
@@ -33,18 +34,45 @@ export default function NewsController (newsService, $log) {
       maxValue: 100,
       transitionMs: 4000,
     });
-    powerGauge.render();
+    var socialGauge = createGauge('.social-gauge', {
+      size: 80,
+      clipWidth: 80,
+      clipHeight: 60,
+      ringWidth: 50,
+      maxValue: 100,
+      transitionMs: 4000,
+    });
+    var impactGauge = createGauge('.impact-gauge', {
+      size: 80,
+      clipWidth: 80,
+      clipHeight: 60,
+      ringWidth: 50,
+      maxValue: 100,
+      transitionMs: 4000,
+    });
+
+    sentimentGauge.render();
+    socialGauge.render();
+    impactGauge.render();
 
     function updateReadings() {
-      // just pump in random data here...
-      powerGauge.update(sentiment);
+      sentimentGauge.update(article.sentiment);
+      socialGauge.update(article.sentiment);
+      impactGauge.update(article.sentiment);
     }
 
-    // every few seconds update reading values
     updateReadings();
     setInterval(function() {
       updateReadings();
     }, 5 * 1000);
+  }
+
+  function removeGauge () {
+    $log.log('before remove')
+    d3.select('.sentiment-gauge').remove();
+    d3.select('.social-gauge').remove();
+    d3.select('.impact-gauge').remove();
+    $log.log('after remove')
   }
 
   function cardFlip () {

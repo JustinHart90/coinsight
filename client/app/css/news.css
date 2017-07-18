@@ -1,20 +1,63 @@
-.power-gauge g.arc path {
+.sentiment-gauge g.arc path, .social-gauge g.arc path, .impact-gauge g.arc path {
 	fill: steelblue;
 }
 
-.power-gauge g.arc {
+.sentiment-gauge g.arc, .social-gauge g.arc, .impact-gauge g.arc {
 }
 
-.power-gauge g.pointer {
+.sentiment-gauge g.pointer, .social-gauge g.pointer, .impact-gauge g.pointer {
 	fill: #e85116;
 	stroke: #b64011;
 }
 
-.power-gauge g.label text {
+.sentiment-gauge g.label text, .social-gauge g.label text, .impact-gauge g.label text {
 	text-anchor: middle;
 	font-size: 1.5em;
 	font-weight: bold;
 	fill: white;
+}
+
+d.pointer path {
+	fill: #e85116 !important;
+}
+
+.gaugeGroup {
+	display: flex;
+	justify-content: center;
+}
+
+.sentimentGroup {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	width: 30%;
+	font-size: 1em;
+}
+
+.sentimentLabel {
+	font-size: 0.75em;
+	margin-bottom: 2vh;
+}
+
+.groupTitle {
+	margin-bottom: 2vh;
+}
+
+.align-time {
+	font-size: 1.1em;
+}
+
+.sentimentLabel {
+	color: green;
+}
+
+.colorIndicator {
+	color: red;
+}
+
+.sentimentGroup .groupTitle {
+	color: #DDDDDD;
 }
 
 section.container {
@@ -85,7 +128,7 @@ span.sort {
 }
 
 img.newsIcon {
-  height: 4.5vh;
+  height: 3vh;
   width: auto;
   cursor: pointer;
 }
@@ -152,7 +195,7 @@ div.article-heading {
   justify-content: space-between;
   color: white;
   font-size: 0.65em;
-  margin-bottom: 4vh;
+  margin-bottom: 3vh;
 }
 
 div.articles.container-fluid {
