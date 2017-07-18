@@ -32,7 +32,7 @@
           </div>
           <img class="divider" src="../../../images/divider.png">
           <div class="article-heading">
-            <img class="articleThumbnail" fallback-src="$ctrl.standby()" ng-src="{{article.source.details.thumbImage}}" alt="img">
+            <img class="articleThumbnail" ng-src="{{article.source.details.thumbImage}}" src="../../../images/BitcoinWorld.png" alt="img">
             <span class="title"><a ng-href="{{article.url}}" target="_blank">{{article.title}}</a></span>
             <img class="showDetails" ng-if="!article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails; $ctrl.newGauge(article)" src="../../../images/downArrow.png" alt="details">
             <img class="showDetails" ng-if="article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails; $ctrl.removeGauge()" src="../../../images/upArrow.png" alt="details">
@@ -47,17 +47,17 @@
             </div>
             <div class="sentimentGroup">
               <div class="groupTitle">Social Score</div>
-              <div class="sentimentLabel">{{article.socialScore}}</div>
+              <div class="socialLabel">{{article.socialScore}}</div>
               <div class="social-gauge"></div>
             </div>
             <div class="sentimentGroup">
               <div class="groupTitle">Price Impact</div>
-              <div class="sentimentLabel">{{article.socialScore}}</div>
+              <div class="impactLabel">{{article.socialScore}}</div>
               <div class="impact-gauge"></div>
             </div>
           </div>
           <p>Date:   {{article.date}}</p>
-          <p>Source Importance:  {{article.sim}}</p>
+          <!-- <p>Source Importance:  {{article.sim}}</p> -->
           <h4 class="subHeading">Description</h4>
           <p>{{article.body}}</p>
         </div>

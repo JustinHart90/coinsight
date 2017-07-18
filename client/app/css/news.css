@@ -1,31 +1,3 @@
-.sentiment-gauge g.arc path, .social-gauge g.arc path, .impact-gauge g.arc path {
-	fill: steelblue;
-}
-
-.sentiment-gauge g.arc, .social-gauge g.arc, .impact-gauge g.arc {
-}
-
-.sentiment-gauge g.pointer, .social-gauge g.pointer, .impact-gauge g.pointer {
-	fill: #e85116;
-	stroke: #b64011;
-}
-
-.sentiment-gauge g.label text, .social-gauge g.label text, .impact-gauge g.label text {
-	text-anchor: middle;
-	font-size: 1.5em;
-	font-weight: bold;
-	fill: white;
-}
-
-d.pointer path {
-	fill: #e85116 !important;
-}
-
-.gaugeGroup {
-	display: flex;
-	justify-content: center;
-}
-
 .sentimentGroup {
 	display: flex;
 	flex-direction: column;
@@ -35,9 +7,10 @@ d.pointer path {
 	font-size: 1em;
 }
 
-.sentimentLabel {
+.sentimentLabel, .socialLabel, .impactLabel {
 	font-size: 0.75em;
 	margin-bottom: 2vh;
+	color: green;
 }
 
 .groupTitle {
@@ -46,10 +19,6 @@ d.pointer path {
 
 .align-time {
 	font-size: 1.1em;
-}
-
-.sentimentLabel {
-	color: green;
 }
 
 .colorIndicator {

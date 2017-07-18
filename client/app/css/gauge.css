@@ -1,0 +1,27 @@
+.sentiment-gauge g.arc path, .social-gauge g.arc path, .impact-gauge g.arc path {
+	fill: steelblue;
+}
+
+.sentiment-gauge g.arc, .social-gauge g.arc, .impact-gauge g.arc {
+}
+
+.sentiment-gauge g.pointer, .social-gauge g.pointer, .impact-gauge g.pointer {
+	fill: #e85116;
+	stroke: #b64011;
+}
+
+.sentiment-gauge g.label text, .social-gauge g.label text, .impact-gauge g.label text {
+	text-anchor: middle;
+	font-size: 1.5em;
+	font-weight: bold;
+	fill: white;
+}
+
+g.pointer, g.pointer path {
+	fill: #e85116 !important;
+}
+
+.gaugeGroup {
+	display: flex;
+	justify-content: center;
+}
