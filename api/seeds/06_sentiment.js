@@ -115,6 +115,16 @@ exports.seed = function(knex, Promise) {
           score: 14,
           label: "negative",
           url: "https://www.wired.co.uk/article/what-is-initial-coin-offering-ico-token-sale",
+        },
+        {
+          score: -17,
+          label: "negative",
+          url: "https://www.cnbc.com/2017/07/17/coindash-website-hacked-7-million-stolen-in-ico.html",
+        },
+        {
+          score: 30,
+          label: "negative",
+          url: "https://www.rt.com/business/396337-ether-stretch-cryptocurrency-market/",
         }
       ]);
     });
