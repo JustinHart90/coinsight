@@ -57,8 +57,8 @@ export default function NewsController (newsService, $log) {
 
     function updateReadings() {
       sentimentGauge.update(article.sentiment);
-      socialGauge.update(article.sentiment);
-      impactGauge.update(article.sentiment);
+      socialGauge.update(10);
+      impactGauge.update(25.5);
     }
 
     updateReadings();

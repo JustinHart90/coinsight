@@ -18,7 +18,7 @@
 }
 
 .align-time {
-	font-size: 1.1em;
+	font-size: 1.25em;
 }
 
 .colorIndicator {
@@ -156,7 +156,12 @@ div.article-heading {
 }
 
 .subHeading {
-  color: rgb(104,4,7);
+  color: rgb(232,81,22);
+}
+
+.currencyChart img {
+	width: 100%;
+	height: auto;
 }
 
 .article-indicators {

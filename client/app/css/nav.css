@@ -16,6 +16,11 @@ img#coinLogo {
   padding-right: 3px;
 }
 
+.bot img {
+  height: 10vh;
+  width: auto;
+}
+
 .tagline {
   margin: 10px 0;
   padding: 5px;

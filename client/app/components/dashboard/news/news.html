@@ -46,17 +46,17 @@
               <div class="sentiment-gauge"></div>
             </div>
             <div class="sentimentGroup">
-              <div class="groupTitle">Social Score</div>
-              <div class="socialLabel">{{article.socialScore}}</div>
+              <div class="groupTitle">Social</div>
+              <div class="socialLabel">10</div>
               <div class="social-gauge"></div>
             </div>
             <div class="sentimentGroup">
-              <div class="groupTitle">Price Impact</div>
-              <div class="impactLabel">{{article.socialScore}}</div>
+              <div class="groupTitle">Impact</div>
+              <div class="impactLabel">25.5</div>
               <div class="impact-gauge"></div>
             </div>
           </div>
-          <p>Date:   {{article.date}}</p>
+          <p>{{article.date}}</p>
           <!-- <p>Source Importance:  {{article.sim}}</p> -->
           <h4 class="subHeading">Description</h4>
           <p>{{article.body}}</p>
@@ -73,7 +73,32 @@
           <img class="newsIcon" src="../../../images/pie.png" alt="chart">
         </span>
       </div>
-
+      <div class="currencyChart">
+        <img src="../../../images/currencyChart.png" alt="table">
+        <!-- <table class="dataTable" role="grid">
+          <thead>
+            <tr role="row">
+              <th>Name</th>
+              <th>Market Cap</th>
+              <th>Price</th>
+              <th>High (24h)</th>
+              <th>Low (24h)</th>
+              <th>Open (24h)</th>
+              <th>Close (24h)</th>
+              <th>% Change (24h)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="no-wrap">
+                <img src="https://files.coinmarketcap.com/static/img/coins/16x16/bitcoin.png" class="currency-logo" alt="Bitcoin">
+                <span>Bitcoin</span>
+              </td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
     </figure>
   </div>
 </section>
