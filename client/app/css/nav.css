@@ -17,8 +17,9 @@ img#coinLogo {
 }
 
 .bot img {
-  height: 10vh;
+  height: 15vh;
   width: auto;
+  cursor: pointer;
 }
 
 .tagline {

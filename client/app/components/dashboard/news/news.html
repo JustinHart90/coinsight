@@ -28,7 +28,6 @@
           <div class="article-indicators">
             <span ng-model="article.timeAgo" class="align-time" am-time-ago="article.created_at"></span>
             <span class="align-time topLabel" ng-class="{'colorIndicator': article.sentimentLabel !== 'positive'}">{{article.sentiment}}%&nbsp;{{article.sentimentLabel}}</span>
-            <span>Social Score: {{article.socialScore}}</span>
           </div>
           <img class="divider" src="../../../images/divider.png">
           <div class="article-heading">
