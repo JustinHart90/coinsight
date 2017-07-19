@@ -13,7 +13,7 @@ export default function newsService ($http, $log) {
     let urlArray = urls;
     // $log.log('getSentiment newsService urls: ', urlArray)
     return $http
-      .get('http://localhost:3000/sentiment')
+      .get('https://coinsight-api.herokuapp.com/sentiment')
       .then(res => res)
       .catch(err => $log.log(err));
   }
@@ -40,7 +40,7 @@ export default function newsService ($http, $log) {
 
   function getDbEvents () {
     return $http
-      .get('http://localhost:3000/news')
+      .get('https://coinsight-api.herokuapp.com/news')
       .then(res => res)
       .catch(err => $log.log(err));
   }
