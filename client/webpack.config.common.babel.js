@@ -78,6 +78,8 @@ module.exports = new WebpackConfig().merge({
       {from: 'libraries/d3.js', to: 'd3.js'},
       {from: 'libraries/techan.js', to: 'techan.js'},
       {from: 'libraries/d3v3.js', to: 'd3v3.js'},
+      {from: 'libraries/localforage.js', to: 'localforage.js'},
+      {from: 'libraries/angular-localforage.js', to: 'angular-localforage.js'},
       {from: 'fonts/PoiretOne-Regular.ttf', to: 'PoiretOne-Regular.ttf'}
     ])
   ]

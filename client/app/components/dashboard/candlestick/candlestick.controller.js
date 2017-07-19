@@ -15,6 +15,7 @@ export default function CandlestickController (candlestickService, $log, moment)
   vm.rsiTool = rsiTool;
   vm.calculateResizeFactor = calculateResizeFactor;
   vm.changeCoin = changeCoin;
+  vm.resize = resize;
 
   vm.testdata = []
   vm.rawTradeData = []
@@ -28,6 +29,36 @@ export default function CandlestickController (candlestickService, $log, moment)
     {name: 'LTC/USD'}
   ];
 
+  d3.select(window).on('resize', resize);
+
+  let screenWidth = window.innerWidth;
+  let screenHeight = window.innerHeight;
+
+  let dimWidth;
+  let dimHeight;
+
+  if (screenWidth <= 985) {
+    dimWidth = screenWidth - 100;
+    dimHeight = screenHeight - 200;
+  } else {
+    dimWidth = screenWidth * 0.67;
+    dimHeight = screenHeight * 0.72;
+  }
+
+  function resize () {
+    screenWidth = window.innerWidth;
+    screenHeight = window.innerHeight;
+    if (screenWidth <= 985) {
+      dimWidth = screenWidth - 100;
+      dimHeight = screenHeight - 200;
+    } else {
+      dimWidth = screenWidth * 0.67;
+      dimHeight = screenHeight * 0.72;
+    }
+    vm.resetD3();
+    return getD3(vm.dateOptionText, 0, dimWidth, dimHeight);
+  }
+
   function $onInit () {
     vm.dateOptionText = '3 Months'
     vm.showAdvancedTools = false;
@@ -36,42 +67,41 @@ export default function CandlestickController (candlestickService, $log, moment)
     vm.showEma = false;
     vm.showMacd = false;
     vm.showRsi = false;
-    getD3(vm.dateOptionText, 0);
+    getD3(vm.dateOptionText, 0, dimWidth, dimHeight);
   }
 
   function changeCoin (coin) {
-    $log.log('coin in changeCoin function: ', coin);
     vm.selectedCoinOption = coin.name;
     resetD3();
-    return getD3(vm.dateOptionText, 0);
+    return getD3(vm.dateOptionText, 0, dimWidth, dimHeight);
   }
 
   function dateOption (e, selectedOption) {
     e.preventDefault();
     vm.dateOptionText = selectedOption;
     resetD3();
-    return getD3(selectedOption, 0);
+    return getD3(selectedOption, 0, dimWidth, dimHeight);
   }
 
   function sma0Tool (e) {
     e.preventDefault();
     vm.showSma0 = !vm.showSma0;
     resetD3();
-    return getD3(vm.dateOptionText, 0);
+    return getD3(vm.dateOptionText, 0, dimWidth, dimHeight);
   }
 
   function sma1Tool (e) {
     e.preventDefault();
     vm.showSma1 = !vm.showSma1;
     resetD3();
-    return getD3(vm.dateOptionText, 0);
+    return getD3(vm.dateOptionText, 0, dimWidth, dimHeight);
   }
 
   function emaTool (e) {
     e.preventDefault();
     vm.showEma = !vm.showEma;
     resetD3();
-    return getD3(vm.dateOptionText, 0);
+    return getD3(vm.dateOptionText, 0, dimWidth, dimHeight);
   }
 
   function macdTool (e) {
@@ -79,7 +109,7 @@ export default function CandlestickController (candlestickService, $log, moment)
     vm.showMacd = !vm.showMacd;
     let factor = calculateResizeFactor();
     resetD3();
-    return getD3(vm.dateOptionText, factor);
+    return getD3(vm.dateOptionText, factor, dimWidth, dimHeight);
   }
 
   function rsiTool (e) {
@@ -87,7 +117,7 @@ export default function CandlestickController (candlestickService, $log, moment)
     vm.showRsi = !vm.showRsi;
     let factor = calculateResizeFactor();
     resetD3();
-    return getD3(vm.dateOptionText, factor);
+    return getD3(vm.dateOptionText, factor, dimWidth, dimHeight);
   }
 
   function calculateResizeFactor () {
@@ -134,76 +164,7 @@ export default function CandlestickController (candlestickService, $log, moment)
     d3.select('.candleSvg').append('svg.candleChart');
   }
 
-  function getD3 (dynamicDate, resizeFactor) {
-    d3.select(window).on('resize', reset);
-    let screenWidth = window.innerWidth;
-    let screenHeight = window.innerHeight;
-    let dimWidth;
-    let dimHeight;
-
-    // function resize () {
-    //   /* Find the new window dimensions */
-    //   var width = parseInt(d3.select("#graph").style("width")) - margin * 2,
-    //   height = parseInt(d3.select("#graph").style("height")) - margin * 2;
-    //
-    //   /* Update the range of the scale with new width/height */
-    //   xScale.range([0, width]).nice(d3.time.year);
-    //   yScale.range([height, 0]).nice();
-    //
-    //   /* Update the axis with the new scale */
-    //   graph.select('.x.axis')
-    //     .attr("transform", "translate(0," + height + ")")
-    //     .call(xAxis);
-    //
-    //   graph.select('.y.axis')
-    //     .call(yAxis);
-    //
-    //   /* Force D3 to recalculate and update the line */
-    //   graph.selectAll('.line')
-    //     .attr("d", line);
-    //   /* Find the new window dimensions */
-    //   var width = parseInt(d3.select("#graph").style("width")) - margin*2,
-    //   height = parseInt(d3.select("#graph").style("height")) - margin*2;
-    //
-    //   /* Update the range of the scale with new width/height */
-    //   xScale.range([0, width]).nice(d3.time.year);
-    //   yScale.range([height, 0]).nice();
-    //
-    //   /* Update the axis with the new scale */
-    //   graph.select('.x.axis')
-    //     .attr("transform", "translate(0," + height + ")")
-    //     .call(xAxis);
-    //
-    //   graph.select('.y.axis')
-    //     .call(yAxis);
-    //
-    //   /* Force D3 to recalculate and update the line */
-    //   graph.selectAll('.line')
-    //     .attr("d", line);
-    // }
-
-    // let svgContainerWidth = Math.round(parseFloat(d3.select('div.candleSvg').style('width')));
-    // let svgContainerHeight = Math.round(parseFloat(d3.select('div.candleSvg').style('height')));
-    //
-    // $log.log('container width', svgContainerWidth);
-    // $log.log('container height', svgContainerHeight);
-
-    if (window.innerWidth <= 801) {
-      d3.select('div.candleSvg')
-        .attr('width', '100vw')
-        .attr('height', '84vh');
-
-      d3.select('#hide-when-small')
-        .attr('width', '90vw')
-        .attr('height', '100vh');
-
-      dimWidth = screenWidth;
-      dimHeight = screenHeight;
-    } else {
-      dimWidth = screenWidth * 0.67;
-      dimHeight = screenHeight * 0.72;
-    }
-
+  function getD3 (dynamicDate, resizeFactor, dimWidth, dimHeight) {
     $log.log('SVG HEIGHT: ', dimHeight);
     $log.log('SVG WIDTH: ', dimWidth);
 
@@ -219,7 +180,7 @@ export default function CandlestickController (candlestickService, $log, moment)
 
     var dim = {
       width: dimWidth, height: dimHeight,
-      margin: { top: 20, right: 20, bottom: 30, left: 50 },
+      margin: { top: 20, right: 50, bottom: 30, left: 50 },
       ohlc: { height: ohlcHeight },
       indicator: { height: 65, padding: 5 }
     };
@@ -280,7 +241,7 @@ export default function CandlestickController (candlestickService, $log, moment)
       .xScale(x)
       .yScale(y);
 
-    var xAxis = d3.axisBottom(x);
+    var xAxis = d3.axisBottom(x).ticks(Math.max((dim.plot.width - (dim.indicator.height - dim.indicator.padding * 2))/50, 2));
 
     var timeAnnotation = techan.plot.axisannotation()
       .axis(xAxis)
@@ -289,7 +250,7 @@ export default function CandlestickController (candlestickService, $log, moment)
       .width(65)
       .translate([0, dim.plot.height]);
 
-    var yAxis = d3.axisRight(y);
+    var yAxis = d3.axisRight(y).ticks(Math.max(dim.plot.height/50, 2));;
 
     var ohlcAnnotation = techan.plot.axisannotation()
       .axis(yAxis)

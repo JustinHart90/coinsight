@@ -17,6 +17,7 @@
     "knex": "^0.13.0",
     "pg": "^6.4.0",
     "request": "^2.81.0",
+    "request-promise": "^4.2.1",
     "requestify": "^0.2.5",
     "watson-developer-cloud": "^2.34.0"
   },

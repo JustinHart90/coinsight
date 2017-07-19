@@ -45,7 +45,7 @@
     "angular/window-service": 0,
     "angular/timeout-service": 2,
     "angular/no-jquery-angularelement": 2,
-    "angular/log": 2,
+    "angular/log": 1,
     "angular/json-functions": 2,
     "angular/interval-service": 0,
     "angular/foreach": 0,

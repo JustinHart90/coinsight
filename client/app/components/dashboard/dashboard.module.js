@@ -14,12 +14,15 @@ import newsService from './news/news.service';
 import gaugeComponent from './news/gauge/gauge.component';
 import gaugeService from './news/gauge/gauge.service';
 
+import localForageComponent from './localForage/localForage.component';
+
 export default angular
   .module('dashboard', [uirouter, angularMoment])
   .component('dashboard', DashboardComponent)
   .component('candlestickComponent', candlestickComponent)
   .component('newsComponent', newsComponent)
   .component('gaugeComponent', gaugeComponent)
+  .component('localForageComponent', gaugeComponent)
   .service('dashboardService', DashboardService)
   .service('candlestickService', candlestickService)
   .service('newsService', newsService)

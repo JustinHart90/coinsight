@@ -10,10 +10,10 @@ header.darken {
 }
 
 img#coinLogo {
-  height: 33px;
+  height: 10vh;
   width: auto;
-  padding-left: 5px;
-  padding-right: 3px;
+  padding-left: 2vw;
+  padding-right: 1.5vw;
 }
 
 .bot img {

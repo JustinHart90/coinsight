@@ -7,7 +7,17 @@
 	font-size: 1em;
 }
 
-.sentimentLabel, .socialLabel, .impactLabel {
+.topLabel {
+	color: green;
+}
+
+.sentimentLabel, .impactLabel {
+	font-size: 0.75em;
+	margin-bottom: 2vh;
+	color: red;
+}
+
+.socialLabel {
 	font-size: 0.75em;
 	margin-bottom: 2vh;
 	color: green;
@@ -38,7 +48,6 @@ section.container {
   -moz-perspective: 30vw;
   -ms-perspective: 30vw;
   -o-perspective: 30vw;
-  perspective: 30vw;
   perspective: 30vw;
 }
 

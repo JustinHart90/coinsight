@@ -93,22 +93,26 @@ div.row.hide {
   display: none;
 }
 
+.collapse.navbar-collapse, .navbar-header {
+  display: none;
+}
+
 @media (min-width: 420px) {
   div#test.align-right {
     display: flex;
     flex-direction: column-reverse;
     flex-wrap: wrap;
     height: auto;
-    width: 95vw;
+    width: 100vw;
   }
   div#hide-when-small.news {
     height: 80vh;
-    width: 95vw;
+    width: 100vw;
     display: none;
   }
   div.candleContainer {
     height: 80vh;
-    width: 95vw;
+    width: 100vw;
   }
   #mobile-menu {
     display: flex;
@@ -120,9 +124,12 @@ div.row.hide {
   .article-indicators {
     font-size: 0.65em;
   }
+  .collapse.navbar-collapse, .navbar-header {
+    display: none;
+  }
 }
 
-@media (min-width: 801px) {
+@media (min-width: 985px) {
   div#test.align-right {
     height: 80vh;
     width: 100vw;
@@ -145,5 +152,8 @@ div.row.hide {
   }
   .article-indicators {
     font-size: 0.75em;
+  }
+  .collapse.navbar-collapse, .navbar-header {
+    display: block;
   }
 }
