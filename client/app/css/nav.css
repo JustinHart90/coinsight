@@ -22,6 +22,13 @@ img#coinLogo {
   cursor: pointer;
 }
 
+#bot-text {
+  height: 8vh;
+  padding: 5px;
+  border: 2px solid #DDDDDD;
+  border-radius: 1em;
+}
+
 .tagline {
   margin: 10px 0;
   padding: 5px;

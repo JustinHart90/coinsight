@@ -28,8 +28,11 @@ module.exports = new WebpackConfig().merge({
         })
       },
       {
-        test: /\.(eot|woff|woff2|ttf|png|svg|jpg)$/,
-        loader: 'url-loader?limit=300'
+        test: /\.(eot|woff|woff2|ttf|png|svg|jpg|gif)$/,
+        use: [
+          'url-loader?limit=300',
+          'img-loader'
+        ]
       },
       {
         test: /\.json$/,
