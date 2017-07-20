@@ -74,10 +74,6 @@
     "no-irregular-whitespace": 2,
     "no-new": 2,
     "no-plusplus": 0,
-    "quotes": [
-      2,
-      "single"
-    ],
     "no-undef": 0,
     "no-unused-vars": 0,
     "strict": 0,

@@ -63,10 +63,10 @@ export default function NewsController (newsService, $log) {
       impactGauge.render();
 
       function updateReadings() {
-        let impactScore = (article.sentiment * 0.4) + (article.social * 0.6);
+        article.impactScore = Math.round((article.sentiment * 0.4) + (article.social * 0.6));
         sentimentGauge.update(article.sentiment);
         socialGauge.update(article.social);
-        impactGauge.update(impactScore);
+        impactGauge.update(article.impactScore);
       }
 
       updateReadings();
@@ -98,6 +98,10 @@ export default function NewsController (newsService, $log) {
 
   let unsafeUrl = 'Bitcoin slides below $2,000 as cryptocurrency selloff continues';
 
+  let unsafeUrl2 = 'The FBI just took down AlphaBay, an online black market for drugs that was 10 times bigger than Silk Road';
+
+  let unsafeUrl3 = 'https://www.zdnet.com/article/hacker-steals-7-4m-in-ethereum-during-coindash-ico-launch/';
+
   function getArticles () {
     newsService.getNews()
       .then(res => {
@@ -113,13 +117,35 @@ export default function NewsController (newsService, $log) {
           if (article.isDuplicate === true) {
             duplicates.push(article.uri);
           }
-          let shouldInclude = (!article.isDuplicate && article.sentiment !== 0 && article.uri !== '690930357' && article.uri !== '690235957' && article.title !== unsafeUrl) || article.uri === duplicates[0]
+          let shouldInclude = (!article.isDuplicate && article.sentiment !== 0 && article.uri !== '690930357' && article.uri !== '690235957' && article.title !== unsafeUrl) && article.title !== unsafeUrl2 && article.title !== unsafeUrl3 || article.uri === duplicates[0]
           if (shouldInclude) {
             vm.articles.push(article);
           }
         })
         $log.log('REFINED LIST: ', vm.articles)
         vm.articles.showArticleDetails = false;
+        vm.articles.unshift({
+          body: "Bitcoin is soaring on Thursday, trading up 13.01% at $2,576 a coin. The cryuptocurrency continues to rally as traders look ahead to the August 1 decision on whether or not bitcoin will be split in two. Thursday's gain has the cryptocurrency up 40% from its July 17 low of $1,852. That's the day bitcoin tumbled 20% amid renewed fears it would be split in two.",
+          created_at: '2017-07-20T10:50:00Z',
+          date: '2017-07-17',
+          dateTime: '2017-07-20T10:50:00Z',
+          image: 'http://www.socialbliss.com/assets/favicons/favicon-50ff351d794f9.ico',
+          source: {
+            details: {
+              thumbImage: 'http://www.socialbliss.com/assets/favicons/favicon-50ff351d794f9.ico'
+            }
+          },
+          sim: '0.6078431606292725',
+          socialScore: 3039,
+          sentiment: 24,
+          sentimentLabel: 'positive',
+          isDuplicate: false,
+          url: 'https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=newssearch&cd=2&cad=rja&uact=8&ved=0ahUKEwjOzfqusZjVAhVksVQKHVKOA2kQqQIILygAMAE&url=http%3A%2F%2Fwww.businessinsider.com%2Fbitcoin-price-explodes-above-2500-2017-7&usg=AFQjCNFBkvxgKc4Y5mYT4JtC-K1kro-hVQ',
+          title: 'Bitcoin explodes above $2500',
+          social: 70,
+          impactScore: 31,
+          showGaugeCharts: 0
+        })
       })
       .catch(err => $log.log(err))
   }
@@ -189,9 +215,9 @@ export default function NewsController (newsService, $log) {
       let indicator;
       $log.log('sentimentLabel', a.sentimentLabel);
       if (a.sentimentLabel === 'negative') {
-        a.social = Math.round(((a.socialScore / socialRange) - 0.05) * 100 * -1);
+        a.social = Math.round(((a.socialScore / socialRange) + 0.05) * 100 * -1);
       } else {
-        a.social = Math.round(((a.socialScore / socialRange) - 0.05) * 100);
+        a.social = Math.round(((a.socialScore / socialRange) + 0.05) * 100);
       }
       $log.log('a.social', a.social)
     })

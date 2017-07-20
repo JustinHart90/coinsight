@@ -14,7 +14,7 @@
 .sentimentLabel, .impactLabel {
 	font-size: 0.75em;
 	margin-bottom: 2vh;
-	color: red;
+	color: green;
 }
 
 .socialLabel {
@@ -25,6 +25,7 @@
 
 .groupTitle {
 	margin-bottom: 2vh;
+	color: green;
 }
 
 .align-time {
@@ -32,7 +33,7 @@
 }
 
 .colorIndicator {
-	color: red;
+	color: red !important;
 }
 
 .sentimentGroup .groupTitle {

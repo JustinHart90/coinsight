@@ -41,17 +41,17 @@
           <div class="gaugeGroup">
             <div class="sentimentGroup">
               <div class="groupTitle">Sentiment</div>
-              <div class="sentimentLabel">{{article.sentiment}}</div>
+              <div class="sentimentLabel" ng-class="{'colorIndicator': article.sentimentLabel !== 'positive'}">{{article.sentiment}}</div>
               <div class="sentiment-gauge"></div>
             </div>
             <div class="sentimentGroup">
               <div class="groupTitle">Social</div>
-              <div class="socialLabel">{{article.social}}</div>
+              <div class="socialLabel" ng-class="{'colorIndicator': article.sentimentLabel !== 'positive'}">{{article.social}}</div>
               <div class="social-gauge"></div>
             </div>
             <div class="sentimentGroup">
               <div class="groupTitle">Impact</div>
-              <div class="impactLabel">-32</div>
+              <div class="impactLabel" ng-class="{'colorIndicator': article.sentimentLabel !== 'positive'}">{{article.impactScore}}</div>
               <div class="impact-gauge"></div>
             </div>
           </div>

@@ -22,7 +22,7 @@ a.timeScale.btn.btn-default {
 
 .advancedToolOptions {
   background-color: #BBBBBB !important;
-  color: black;
+  color: black !important;
   font-size: 0.75em !important;
   margin-top: 10px;
   margin-left: 5px;
