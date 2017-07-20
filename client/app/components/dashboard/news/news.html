@@ -10,7 +10,7 @@
           <!-- <label>Search:</label>
           <input class="searchText" type="text" ng-model="searchText"> -->
           <img class="newsIcon" src="../../../images/newsIcon.png" alt="news">
-          <img class="newsIcon showFade" ng-click="$ctrl.cardFlip()" src="../../../images/pie.png" alt="chart">
+          <img class="newsIcon showFade" ng-click="$ctrl.cardFlip(); $ctrl.overallGauge()" src="../../../images/pie.png" alt="chart">
         </span>
         <span class="sort">
           <label>Sort:&nbsp;</label>
@@ -73,30 +73,47 @@
         </span>
       </div>
       <div class="currencyChart">
-        <img src="../../../images/currencyChart.png" alt="table">
-        <!-- <table class="dataTable" role="grid">
+        <!-- <img src="../../../images/currencyChart.png" alt="table"> -->
+        <table class="dataTable" role="grid">
           <thead>
             <tr role="row">
               <th>Name</th>
               <th>Market Cap</th>
               <th>Price</th>
-              <th>High (24h)</th>
-              <th>Low (24h)</th>
-              <th>Open (24h)</th>
-              <th>Close (24h)</th>
-              <th>% Change (24h)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td class="no-wrap">
-                <img src="https://files.coinmarketcap.com/static/img/coins/16x16/bitcoin.png" class="currency-logo" alt="Bitcoin">
+                <img src="https://files.coinmarketcap.com/static/img/coins/16x16/bitcoin.png" class="currency-logo" alt="btc">
                 <span>Bitcoin</span>
               </td>
-              <td></td>
+              <td>$43,547,880,560</td>
+              <td>$2,645.84</td>
+            </tr>
+            <tr>
+              <td class="no-wrap">
+                <img src="https://us.v-cdn.net/5021640/uploads/favicon_85d47ba50743e3c3.ico" class="currency-logo" alt="eth">
+                <span>Ethereum</span>
+              </td>
+              <td>$21,243,664,978</td>
+              <td>$227.39</td>
+            </tr>
+            <tr>
+              <td class="no-wrap">
+                <img src="https://litecoin.info/images/0/08/Litecoin-ren1.png" class="currency-logo" alt="ltc">
+                <span>Litecoin</span>
+              </td>
+              <td>$2,335,836,654</td>
+              <td>$44.85</td>
             </tr>
           </tbody>
-        </table> -->
+        </table>
+        <div class="sentContainer">
+          <h4>Overall Sentiment (5 days)</h4>
+          <p class="sentLabel">-15</p>
+          <div class="overall-gauge"></div>
+        </div>
       </div>
     </figure>
   </div>

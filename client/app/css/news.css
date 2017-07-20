@@ -7,6 +7,39 @@
 	font-size: 1em;
 }
 
+img.currency-logo {
+	height: 15px;
+	width: auto;
+}
+
+/*table {
+	border-collapse:collapse;
+	border:1px solid #FF0000;
+}
+
+table td {
+	border:1px solid #FF0000;
+}*/
+
+th {
+	text-align: center;
+	padding-top: 15px;
+	padding-bottom: 5px;
+}
+
+tr {
+	padding-top: 15px;
+	padding-left: 15px;
+}
+
+td {
+	padding-right: 15px;
+}
+
+td.no-wrap {
+	padding-left: 15px;
+}
+
 .topLabel {
 	color: green;
 }
@@ -167,11 +200,6 @@ div.article-heading {
 
 .subHeading {
   color: rgb(232,81,22);
-}
-
-.currencyChart img {
-	width: 100%;
-	height: auto;
 }
 
 .article-indicators {

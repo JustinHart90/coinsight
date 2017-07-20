@@ -25,3 +25,36 @@ g.pointer, g.pointer path {
 	display: flex;
 	justify-content: center;
 }
+
+div.overall-gauge {
+	margin-top: 20px;
+}
+
+div.currencyChart {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	/*align-items: center;*/
+}
+
+div.sentContainer {
+	margin-top: 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+
+p.sentLabel {
+	color: red;
+	font-size: 1.5em;
+}
+
+div.overall-gauge {
+	display: flex;
+	justify-content: center;
+}
+
+.overall-gauge g.arc path {
+	fill: black;
+}

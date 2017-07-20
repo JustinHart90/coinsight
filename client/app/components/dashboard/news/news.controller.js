@@ -15,6 +15,7 @@ export default function NewsController (newsService, $log) {
   vm.newGauge = newGauge;
   vm.removeGauge = removeGauge;
   vm.setGauges = setGauges;
+  vm.overallGauge = overallGauge;
 
   function $onInit () {
     vm.articles = [];
@@ -29,6 +30,40 @@ export default function NewsController (newsService, $log) {
   let socialMax = 0;
   let socialMin = 0;
   let socialRange = 0;
+
+  function overallGauge () {
+    let sentimentSum = 0;
+    let aCount = 0;
+    vm.articles.forEach(a => {
+      $log.log(a.sentiment);
+      let num = a.sentiment;
+      sentimentSum = sentimentSum + a.sentiment;
+      aCount++;
+    })
+    $log.log('overall sum', sentimentSum)
+    $log.log('overall count', aCount)
+    let overallScore = 15;
+    newOverallGauge();
+
+    function newOverallGauge() {
+      var overallGauge = createGauge('.overall-gauge', {
+        size: 300,
+        clipWidth: 300,
+        clipHeight: 240,
+        ringWidth: 150,
+        maxValue: 100,
+        transitionMs: 4000,
+      });
+        overallGauge.render();
+        function updateReadings() {
+          overallGauge.update(15);
+        }
+        updateReadings();
+        // setInterval(function() {
+        //   updateReadings();
+        // }, 5 * 1000);
+    }
+  }
 
   function newGauge(article) {
     if (article.showGaugeCharts === 0) {
@@ -63,7 +98,7 @@ export default function NewsController (newsService, $log) {
       impactGauge.render();
 
       function updateReadings() {
-        article.impactScore = Math.round((article.sentiment * 0.4) + (article.social * 0.6));
+        article.impactScore = Math.round(((article.sentiment * 0.4) + (article.social * 0.6)) / 2);
         sentimentGauge.update(article.sentiment);
         socialGauge.update(article.social);
         impactGauge.update(article.impactScore);
@@ -100,7 +135,11 @@ export default function NewsController (newsService, $log) {
 
   let unsafeUrl2 = 'The FBI just took down AlphaBay, an online black market for drugs that was 10 times bigger than Silk Road';
 
-  let unsafeUrl3 = 'https://www.zdnet.com/article/hacker-steals-7-4m-in-ethereum-during-coindash-ico-launch/';
+  let unsafeUrl3 = 'GPU miners sell off graphics cards as ETH & BTC values drop';
+
+  let unsafeUrl4 = 'Hacker steals $7.4 million in ethereum during CoinDash ICO launch | ZDNet';
+
+  let unsafeUrl5 = 'Hacker steals more than $7 million in digital currency by switching a mere link';
 
   function getArticles () {
     newsService.getNews()
@@ -117,7 +156,7 @@ export default function NewsController (newsService, $log) {
           if (article.isDuplicate === true) {
             duplicates.push(article.uri);
           }
-          let shouldInclude = (!article.isDuplicate && article.sentiment !== 0 && article.uri !== '690930357' && article.uri !== '690235957' && article.title !== unsafeUrl) && article.title !== unsafeUrl2 && article.title !== unsafeUrl3 || article.uri === duplicates[0]
+          let shouldInclude = (!article.isDuplicate && article.sentiment !== 0 && article.uri !== '690930357' && article.uri !== '690235957' && article.title !== unsafeUrl) && article.title !== unsafeUrl2 && article.title !== unsafeUrl3 && article.title !== unsafeUrl4 && article.title !== unsafeUrl5 || article.uri === duplicates[0]
           if (shouldInclude) {
             vm.articles.push(article);
           }
@@ -125,14 +164,14 @@ export default function NewsController (newsService, $log) {
         $log.log('REFINED LIST: ', vm.articles)
         vm.articles.showArticleDetails = false;
         vm.articles.unshift({
-          body: "Bitcoin is soaring on Thursday, trading up 13.01% at $2,576 a coin. The cryuptocurrency continues to rally as traders look ahead to the August 1 decision on whether or not bitcoin will be split in two. Thursday's gain has the cryptocurrency up 40% from its July 17 low of $1,852. That's the day bitcoin tumbled 20% amid renewed fears it would be split in two.",
+          body: "Is compromise possible? It appears so. A middle-ground solution aims to start sending signature data separately from the blockchain later this week and then to double the block size limit to 2MB in three months' time. An initiative called Bitcoin Improvement Proposal 91 (BIP 91) states that if 80% of the mining effort adopts the new blockchain software involved and uses it consistently between 21 July and 31 July, then the wider community should accept this as the solution.",
           created_at: '2017-07-20T10:50:00Z',
           date: '2017-07-17',
           dateTime: '2017-07-20T10:50:00Z',
-          image: 'http://www.socialbliss.com/assets/favicons/favicon-50ff351d794f9.ico',
+          image: 'http://www.logodesignlove.com/images/evolution/bbc-logo-design.gif',
           source: {
             details: {
-              thumbImage: 'http://www.socialbliss.com/assets/favicons/favicon-50ff351d794f9.ico'
+              thumbImage: 'http://www.logodesignlove.com/images/evolution/bbc-logo-design.gif'
             }
           },
           sim: '0.6078431606292725',
@@ -140,10 +179,10 @@ export default function NewsController (newsService, $log) {
           sentiment: 24,
           sentimentLabel: 'positive',
           isDuplicate: false,
-          url: 'https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=newssearch&cd=2&cad=rja&uact=8&ved=0ahUKEwjOzfqusZjVAhVksVQKHVKOA2kQqQIILygAMAE&url=http%3A%2F%2Fwww.businessinsider.com%2Fbitcoin-price-explodes-above-2500-2017-7&usg=AFQjCNFBkvxgKc4Y5mYT4JtC-K1kro-hVQ',
-          title: 'Bitcoin explodes above $2500',
-          social: 70,
-          impactScore: 31,
+          url: 'https://www.bbc.com/news/technology-40654194',
+          title: 'Bitcoin swings as civil war looms',
+          social: 51,
+          impactScore: 15,
           showGaugeCharts: 0
         })
       })
