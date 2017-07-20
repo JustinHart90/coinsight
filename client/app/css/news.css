@@ -12,32 +12,23 @@ img.currency-logo {
 	width: auto;
 }
 
-/*table {
-	border-collapse:collapse;
-	border:1px solid #FF0000;
-}
-
-table td {
-	border:1px solid #FF0000;
-}*/
-
 th {
-	text-align: center;
-	padding-top: 15px;
-	padding-bottom: 5px;
+	text-align: center !important;
+	padding-top: 15px !important;
+	padding-bottom: 5px !important;
 }
 
 tr {
-	padding-top: 15px;
-	padding-left: 15px;
+	padding-top: 15px !important;
+	padding-left: 15px !important;
 }
 
 td {
-	padding-right: 15px;
+	padding-right: 15px !important;
 }
 
 td.no-wrap {
-	padding-left: 15px;
+	padding-left: 15px !important;
 }
 
 .topLabel {
