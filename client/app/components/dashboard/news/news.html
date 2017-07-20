@@ -34,7 +34,7 @@
             <img class="articleThumbnail" ng-src="{{article.source.details.thumbImage}}" src="../../../images/BitcoinWorld.png" alt="img">
             <span class="title"><a ng-href="{{article.url}}" target="_blank">{{article.title}}</a></span>
             <img class="showDetails" ng-if="!article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails; $ctrl.newGauge(article)" src="../../../images/downArrow.png" alt="details">
-            <img class="showDetails" ng-if="article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails; $ctrl.removeGauge()" src="../../../images/upArrow.png" alt="details">
+            <img class="showDetails" ng-if="article.showArticleDetails" ng-click="article.showArticleDetails = !article.showArticleDetails" src="../../../images/upArrow.png" alt="details">
           </div>
         </div>
         <div class="article-details" ng-show="article.showArticleDetails">
@@ -46,7 +46,7 @@
             </div>
             <div class="sentimentGroup">
               <div class="groupTitle">Social</div>
-              <div class="socialLabel">70</div>
+              <div class="socialLabel">{{article.social}}</div>
               <div class="social-gauge"></div>
             </div>
             <div class="sentimentGroup">

@@ -14,6 +14,7 @@ export default function NewsController (newsService, $log) {
   vm.standby = standby;
   vm.newGauge = newGauge;
   vm.removeGauge = removeGauge;
+  vm.setGauges = setGauges;
 
   function $onInit () {
     vm.articles = [];
@@ -25,78 +26,96 @@ export default function NewsController (newsService, $log) {
     getArticles();
   }
 
+  let socialMax = 0;
+  let socialMin = 0;
+  let socialRange = 0;
+
   function newGauge(article) {
-    var sentimentGauge = createGauge('.sentiment-gauge', {
-      size: 80,
-      clipWidth: 80,
-      clipHeight: 60,
-      ringWidth: 50,
-      maxValue: 100,
-      transitionMs: 4000,
-    });
-    var socialGauge = createGauge('.social-gauge', {
-      size: 80,
-      clipWidth: 80,
-      clipHeight: 60,
-      ringWidth: 50,
-      maxValue: 100,
-      transitionMs: 4000,
-    });
-    var impactGauge = createGauge('.impact-gauge', {
-      size: 80,
-      clipWidth: 80,
-      clipHeight: 60,
-      ringWidth: 50,
-      maxValue: 100,
-      transitionMs: 4000,
-    });
+    if (article.showGaugeCharts === 0) {
+      article.showGaugeCharts++;
+      var sentimentGauge = createGauge('.sentiment-gauge', {
+        size: 80,
+        clipWidth: 80,
+        clipHeight: 60,
+        ringWidth: 50,
+        maxValue: 100,
+        transitionMs: 4000,
+      });
+      var socialGauge = createGauge('.social-gauge', {
+        size: 80,
+        clipWidth: 80,
+        clipHeight: 60,
+        ringWidth: 50,
+        maxValue: 100,
+        transitionMs: 4000,
+      });
+      var impactGauge = createGauge('.impact-gauge', {
+        size: 80,
+        clipWidth: 80,
+        clipHeight: 60,
+        ringWidth: 50,
+        maxValue: 100,
+        transitionMs: 4000,
+      });
 
-    sentimentGauge.render();
-    socialGauge.render();
-    impactGauge.render();
+      sentimentGauge.render();
+      socialGauge.render();
+      impactGauge.render();
 
-    function updateReadings() {
-      sentimentGauge.update(article.sentiment);
-      socialGauge.update(70);
-      impactGauge.update(-32);
-    }
+      function updateReadings() {
+        let impactScore = (article.sentiment * 0.4) + (article.social * 0.6);
+        sentimentGauge.update(article.sentiment);
+        socialGauge.update(article.social);
+        impactGauge.update(impactScore);
+      }
 
-    updateReadings();
-    setInterval(function() {
       updateReadings();
-    }, 5 * 1000);
+      // setInterval(function() {
+      //   updateReadings();
+      // }, 5 * 1000);
+    }
   }
 
-  function removeGauge () {
-    $log.log('before remove')
-    d3.select('.sentiment-gauge').remove();
-    d3.select('.social-gauge').remove();
-    d3.select('.impact-gauge').remove();
-    $log.log('after remove')
+  function setGauges () {
+    vm.articles.forEach(article => {
+      if (vm.articles[article] >= 1) {
+        newGauge(article);
+      }
+    });
+  }
+
+  function removeGauge (article) {
+    if (article.showGaugeCharts) {
+      d3.select('.sentiment-gauge').remove();
+      d3.select('.social-gauge').remove();
+      d3.select('.impact-gauge').remove();
+    }
   }
 
   function cardFlip () {
     vm.isFlipped = !vm.isFlipped;
   }
 
+  let unsafeUrl = 'Bitcoin slides below $2,000 as cryptocurrency selloff continues';
+
   function getArticles () {
     newsService.getNews()
       .then(res => {
         vm.articlesRaw = getSecureUrl(res.data.articles.results);
-        $log.log(vm.articlesRaw);
         showSentiment(vm.articlesRaw);
-        getSocialScore(vm.articlesRaw);
         getTimeAgo(vm.articlesRaw, null);
+        setGauges();
+        getSocialScore(vm.articlesRaw);
+        calculateSocial(vm.articlesRaw);
         let duplicates = [];
         vm.articlesRaw.forEach(article => {
+          article.showGaugeCharts = 0;
           if (article.isDuplicate === true) {
-            duplicates.push(article.uri)
+            duplicates.push(article.uri);
           }
-        })
-        vm.articlesRaw.forEach(raw => {
-          let shouldInclude = (!raw.isDuplicate && raw.sentiment !== 0 && raw.uri !== '690930357' && raw.uri !== '690235957') || raw.uri === duplicates[0]
+          let shouldInclude = (!article.isDuplicate && article.sentiment !== 0 && article.uri !== '690930357' && article.uri !== '690235957' && article.title !== unsafeUrl) || article.uri === duplicates[0]
           if (shouldInclude) {
-            vm.articles.push(raw);
+            vm.articles.push(article);
           }
         })
         $log.log('REFINED LIST: ', vm.articles)
@@ -108,7 +127,6 @@ export default function NewsController (newsService, $log) {
   function showSentiment (articles) {
     return newsService.getSentiment()
       .then(res => {
-        $log.log('sentiment res array: ', res.data);
         let sentimentData = res.data;
         articles.forEach(article => {
           sentimentData.forEach(s => {
@@ -125,12 +143,12 @@ export default function NewsController (newsService, $log) {
             }
           });
         });
-        $log.log('sentiment scores: ', vm.sentimentScores);
       })
       .catch(err => $log.log(err));
   }
 
   function getSocialScore (articles) {
+    vm.socialRangeArray = [];
     articles.forEach(article => {
       article.socialScore = 0;
       let shares = article.shares;
@@ -140,6 +158,42 @@ export default function NewsController (newsService, $log) {
           article.socialScore += score;
         }
       }
+      vm.socialRangeArray.push(article.socialScore);
+    })
+
+    vm.socialRangeArray.forEach(s => {
+      if (s >= socialMax) {
+        socialMax = s;
+      }
+      if (s <= socialMin) {
+        socialMin = s;
+      }
+    })
+    socialRange = socialMax - socialMin;
+    $log.log('socialRange', socialRange);
+
+    // calculateSocial(range);
+  }
+
+  function calculateSocial (articles) {
+    // function parseDate(s) {
+    //   let mdy = s.split('/');
+    //   return new Date(mdy[2], mdy[0]-1, mdy[1]);
+    // }
+    //
+    // function daydiff(first, second) {
+    //   return Math.round((second-first)/(1000*60*60*24));
+    // }
+    articles.forEach(a => {
+      // console.log(daydiff(parseDate(a.date), parseDate()));
+      let indicator;
+      $log.log('sentimentLabel', a.sentimentLabel);
+      if (a.sentimentLabel === 'negative') {
+        a.social = Math.round(((a.socialScore / socialRange) - 0.05) * 100 * -1);
+      } else {
+        a.social = Math.round(((a.socialScore / socialRange) - 0.05) * 100);
+      }
+      $log.log('a.social', a.social)
     })
   }
 
@@ -203,7 +257,7 @@ export default function NewsController (newsService, $log) {
       pointerTailLength			: 3.5,
       pointerHeadLengthPercent	: 0.7,
 
-  		minValue					: -100,
+  		minValue					: 0,
   		maxValue					: 100,
 
   		minAngle					: -90,

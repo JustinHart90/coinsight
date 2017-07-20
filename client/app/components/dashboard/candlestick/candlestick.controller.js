@@ -130,50 +130,15 @@ export default function CandlestickController (candlestickService, $log, moment)
     return resizeFactor;
   }
 
-  function candlestickChart () {
-    return getD3(vm.dateOptionText)
-    // candlestickService.getTradeData()
-    //   .then(data => {
-    //     $log.log('candlestick raw trade history array: ', data.data)
-    //     vm.rawTradeData = data.data
-    //     vm.rawTradeData.forEach(trade => {
-    //       let t = new Date(+trade['time'] * 1000);
-    //       // t.setSeconds();
-    //       let formatted = moment(t).format('MM.DD');
-    //       transactionDate = formatted
-    //       vm.tradeObject = {
-    //         date: transactionDate,
-    //         open: +trade['open'],
-    //         high: +trade['high'],
-    //         low: +trade['low'],
-    //         close: +trade['close'],
-    //         vwap: +trade['vwap'],
-    //         volume: +trade['volume'],
-    //         count: trade['count']
-    //       }
-    //       vm.tradeHistory[trade['id']] = vm.tradeObject
-    //     })
-    //     $log.log('Candlestick Trade History: ', vm.tradeHistory)
-    //     return getD3()
-    //   })
-    //   .catch(err => $log.error(err))
-  }
-
   function resetD3 () {
     d3.select('.candleChart').selectAll('*').remove();
     d3.select('.candleSvg').append('svg.candleChart');
   }
 
   function getD3 (dynamicDate, resizeFactor, dimWidth, dimHeight) {
-    $log.log('SVG HEIGHT: ', dimHeight);
-    $log.log('SVG WIDTH: ', dimWidth);
-
     let ohlcHeight = dimHeight * 0.85;
     if (resizeFactor === 1) {
       ohlcHeight = dimHeight * 0.75;
-      $log.log('screenHeight: ', screenHeight)
-      $log.log('resizeFactor: ', resizeFactor)
-      $log.log('ohlcHeight: ', ohlcHeight)
     } else if (resizeFactor === 2) {
       ohlcHeight = dimHeight * 0.65;
     }
@@ -500,8 +465,6 @@ export default function CandlestickController (candlestickService, $log, moment)
 
     d3.select('.resetButton').on('click', reset);
 
-    $log.log('selectedCoin: ', vm.selectedCoinOption);
-
     let dataFile = 'btc.csv';
 
     if (vm.selectedCoinOption === 'ETH/USD') {
@@ -511,7 +474,6 @@ export default function CandlestickController (candlestickService, $log, moment)
     }
 
     d3.csv(dataFile, (error, data) => {
-      $log.log('ALL THE DATA:', data);
       let dataLength = 0;
       if (dynamicDate === '1 Week') {
         dataLength = 7;
