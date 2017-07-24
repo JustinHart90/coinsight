@@ -12,6 +12,10 @@ img.currency-logo {
 	width: auto;
 }
 
+div.currencyChart {
+	background-color: white;
+}
+
 th {
 	text-align: center !important;
 	padding-top: 15px !important;

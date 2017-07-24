@@ -14,7 +14,7 @@
         </span>
         <span class="sort">
           <label>Sort:&nbsp;</label>
-          <select class="sortText" ng-model="sortBy" ng-init="sortBy='-created_at'">
+          <select class="sortText" ng-model="sortBy" ng-init="sortBy='-socialScore'">
             <option value="-socialScore">Social Media Shares</option>
             <option value="-$ctrl.sentimentScores">Positive Reaction</option>
             <option value="$ctrl.sentimentScores">Negative Reaction</option>
@@ -118,3 +118,11 @@
     </figure>
   </div>
 </section>
+<footer id="mobile-news">
+  <div class="footer-container">
+    <a ui-sref="dashboard"><img src="../../../images/chartIcon.png" id="chartIcon" alt="chart"></a>
+  </div>
+  <div class="footer-container">
+    <a ui-sref="news"><img src="../../../images/news.png" id="newsIcon" alt="news"></a>
+  </div>
+</footer>

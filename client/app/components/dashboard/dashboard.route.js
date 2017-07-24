@@ -8,6 +8,10 @@ export default function dashboardRoutes ($stateProvider, $locationProvider) {
       url: '/',
       component: 'dashboard'
     })
+    .state('news', {
+      url: '/news',
+      component: 'newsComponent'
+    })
 
   $locationProvider.html5Mode(true);
 }
