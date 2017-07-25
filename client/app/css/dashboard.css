@@ -114,7 +114,7 @@ div.row.hide {
 #mobile-menu img, #mobile-news img {
   height: 5vh;
   width: 5vh;
-  margin: 0.75vh;
+  margin: 1vh;
   cursor: pointer;
 }
 
@@ -152,7 +152,7 @@ div.row.hide {
   #mobile-menu img, #mobile-news img {
     height: 5vh;
     width: 5vh;
-    margin: 0.5vh;
+    margin: 1vh;
     cursor: pointer;
   }
   .article-indicators {

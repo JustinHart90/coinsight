@@ -141,6 +141,8 @@ export default function NewsController (newsService, $log) {
 
   let unsafeUrl5 = 'Hacker steals more than $7 million in digital currency by switching a mere link';
 
+  let unsafeUrl6 = 'Bitcoin swings as civil war looms';
+
   function getArticles () {
     newsService.getNews()
       .then(res => {
@@ -156,35 +158,13 @@ export default function NewsController (newsService, $log) {
           if (article.isDuplicate === true) {
             duplicates.push(article.uri);
           }
-          let shouldInclude = (!article.isDuplicate && article.sentiment !== 0 && article.uri !== '690930357' && article.uri !== '690235957' && article.title !== unsafeUrl) && article.title !== unsafeUrl2 && article.title !== unsafeUrl3 && article.title !== unsafeUrl4 && article.title !== unsafeUrl5 || article.uri === duplicates[0]
+          let shouldInclude = (!article.isDuplicate && article.sentiment !== 0 && article.uri !== '690930357' && article.uri !== '690235957' && article.title !== unsafeUrl) && article.title !== unsafeUrl2 && article.title !== unsafeUrl3 && article.title !== unsafeUrl4 && article.title !== unsafeUrl5 && article.title !== unsafeUrl6 || article.uri === duplicates[0]
           if (shouldInclude) {
             vm.articles.push(article);
           }
         })
         $log.log('REFINED LIST: ', vm.articles)
         vm.articles.showArticleDetails = false;
-        vm.articles.unshift({
-          body: "Is compromise possible? It appears so. A middle-ground solution aims to start sending signature data separately from the blockchain later this week and then to double the block size limit to 2MB in three months' time. An initiative called Bitcoin Improvement Proposal 91 (BIP 91) states that if 80% of the mining effort adopts the new blockchain software involved and uses it consistently between 21 July and 31 July, then the wider community should accept this as the solution.",
-          created_at: '2017-07-20T10:50:00Z',
-          date: '2017-07-17',
-          dateTime: '2017-07-20T10:50:00Z',
-          image: 'http://www.logodesignlove.com/images/evolution/bbc-logo-design.gif',
-          source: {
-            details: {
-              thumbImage: 'http://www.logodesignlove.com/images/evolution/bbc-logo-design.gif'
-            }
-          },
-          sim: '0.6078431606292725',
-          socialScore: 3039,
-          sentiment: 24,
-          sentimentLabel: 'positive',
-          isDuplicate: false,
-          url: 'https://www.bbc.com/news/technology-40654194',
-          title: 'Bitcoin swings as civil war looms',
-          social: 51,
-          impactScore: 15,
-          showGaugeCharts: 0
-        })
       })
       .catch(err => $log.log(err))
   }
@@ -254,9 +234,9 @@ export default function NewsController (newsService, $log) {
       let indicator;
       $log.log('sentimentLabel', a.sentimentLabel);
       if (a.sentimentLabel === 'negative') {
-        a.social = Math.round(((a.socialScore / socialRange) + 0.05) * 100 * -1);
+        a.social = Math.round(((a.socialScore / socialRange) - 0.07) * 100 * -1);
       } else {
-        a.social = Math.round(((a.socialScore / socialRange) + 0.05) * 100);
+        a.social = Math.round(((a.socialScore / socialRange) - 0.07) * 100);
       }
       $log.log('a.social', a.social)
     })
@@ -287,25 +267,21 @@ export default function NewsController (newsService, $log) {
   function getSecureUrl (articles) {
     return articles.map(article => {
       let imgUrl = article.source.details.thumbImage;
-      if (imgUrl.indexOf('https') === 0) {
-        article.source.details.thumbImage = imgUrl;
-      } else if (imgUrl.indexOf('http') === 0) {
-        article.source.details.thumbImage = imgUrl.replace('http://', 'https://');
-        // $log.log(imgUrl);
-      } else {
-        $log.log('image url error!');
-      }
-
       let linkUrl = article.url;
-      if (linkUrl.indexOf('https') === 0) {
+      if (imgUrl.indexOf(/https:/) === 0 || linkUrl.indexOf(/https:/) === 0) {
+        article.source.details.thumbImage = imgUrl;
         article.url = linkUrl;
-      } else if (linkUrl.indexOf('http') === 0) {
-        article.url = linkUrl.replace('http://', 'https://');
-        // $log.log(linkUrl);
+        return article;
+      } else if (imgUrl.indexOf(/http:/) === 0 && linkUrl.indexOf(/http:/) === 0) {
+        article.source.details.thumbImage = imgUrl.replace(/http:/, 'https:');
+        article.url = linkUrl.replace(/http:/, 'https:');
+        return article;
       } else {
-        $log.log('link url error!');
+        article.source.details.thumbImage = imgUrl.replace(/http:/, 'https:');
+        article.url = linkUrl.replace(/http:/, 'https:');
+        $log.log('image url error!');
+        return article;
       }
-      return article;
     })
   }
 
