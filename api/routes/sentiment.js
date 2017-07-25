@@ -11,15 +11,19 @@ const natural_language_understanding = new NaturalLanguageUnderstandingV1({
 
 let urls;
 
-/* GET home page. */
 router.get('/', (req, res, next) => {
   queries.getSentiment()
     .then(data => res.send(data))
     .catch(err => next(err));
 })
 
+router.get('/:id', (req, res, next) => {
+  queries.getOneSentiment()
+    .then(data => res.send(data))
+    .catch(err => next(err));
+})
+
 router.post('/', (req, res, next) => {
-  // let result = [];
   urls = req.body.urlArray;
   console.log('URLS: ', urls);
   let promises = [];
@@ -28,49 +32,9 @@ router.post('/', (req, res, next) => {
   });
   console.log('PROMISES: ', promises);
   Promise.all(promises)
-    .then((data) => res.send(data))
+    .then(data => res.send(data))
     .catch(err => console.log(err));
 });
-
-// router.post('/', (req, res, next) => {
-//   // let result = [];
-//   urls = req.body.urlArray;
-//   // console.log('URLS: ', urls);
-//   let promises = [];
-//   urls.forEach(url => {
-//     promises.push(asynch(url))
-//   });
-//   Promise.all(promises)
-//     .then(data => {
-//       let newIds = [];
-//       data.forEach(d => {
-//         console.log('data.forEach: ', d);
-//         if (d = 'error') {
-//           let sentimentScore = 0;
-//           let sentimentLabel = 'nuetral';
-//           let sentimentUrl = '';
-//         } else {
-//           let sentimentScore = toString(d.sentiment.document.score);
-//           let sentimentLabel = d.sentiment.document.label;
-//           let sentimentUrl = d.retrieved_url;
-//         }
-//         queries.postSentiment(sentimentScore, sentimentLabel, sentimentUrl)
-//           .then(id => {
-//             newIds.push(id);
-//           })
-//           .catch(err => next(err));
-//       })
-//       console.log('newIds Array: ', newIds);
-//       queries.getSentiment()
-//         .then(data => {
-//           console.log('data from GET SENTIMENT', data);
-//           res.send(data);
-//         })
-//         .catch(err => console.log(err));
-//     })
-//     .catch(err => console.log(err));
-// })
-
 
 module.exports = router;
 

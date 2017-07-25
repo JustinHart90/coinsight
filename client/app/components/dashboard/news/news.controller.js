@@ -148,6 +148,7 @@ export default function NewsController (newsService, $log) {
       .then(res => {
         vm.articlesRaw = getSecureUrl(res.data.articles.results);
         showSentiment(vm.articlesRaw);
+        checkForSentiment(vm.articlesRaw);
         getTimeAgo(vm.articlesRaw, null);
         setGauges();
         getSocialScore(vm.articlesRaw);
@@ -173,23 +174,42 @@ export default function NewsController (newsService, $log) {
     return newsService.getSentiment()
       .then(res => {
         let sentimentData = res.data;
+        $log.log('sentimentData: ', res);
         articles.forEach(article => {
           sentimentData.forEach(s => {
             if (s.url === article.url) {
               article.sentiment = s.score;
               article.sentimentLabel = s.label;
-              if (s.label === 'positive') {
-                vm.sentimentScores.push(+s.score);
-              } else if (s.label === 'negative') {
-                vm.sentimentScores.push(+('-' + s.score));
-              } else {
-                vm.sentimentScores.push(+s.score);
-              }
             }
           });
         });
       })
       .catch(err => $log.log(err));
+  }
+
+  function checkForSentiment (articles) {
+    articles.forEach(a => {
+      newsService.checkSentiment(a.url)
+        .then(res => {
+          $log.log(res);
+          let doesExist = res;
+          if (typeof res.data === 'object') {
+            $log.log('good responseFROMdb: ', res.data)
+            a.sentiment = res.data.score;
+            a.sentimentLabel = res.data.label;
+          } else {
+            $log.log('null responseFROMdb: ', res.data)
+            newsService.addSentiment(a.url)
+              .then(res => {
+                $log.log('RES FROM ADDING SENTIMENT: ', res);
+                a.sentiment = res.data.score;
+                a.sentimentLabel = res.data.label;
+              })
+              .catch(err => $log.log(err));
+          }
+        })
+        .catch(err => $log.log(err));
+    })
   }
 
   function getSocialScore (articles) {
@@ -215,9 +235,6 @@ export default function NewsController (newsService, $log) {
       }
     })
     socialRange = socialMax - socialMin;
-    $log.log('socialRange', socialRange);
-
-    // calculateSocial(range);
   }
 
   function calculateSocial (articles) {
@@ -232,13 +249,11 @@ export default function NewsController (newsService, $log) {
     articles.forEach(a => {
       // console.log(daydiff(parseDate(a.date), parseDate()));
       let indicator;
-      $log.log('sentimentLabel', a.sentimentLabel);
       if (a.sentimentLabel === 'negative') {
         a.social = Math.round(((a.socialScore / socialRange) - 0.07) * 100 * -1);
       } else {
         a.social = Math.round(((a.socialScore / socialRange) - 0.07) * 100);
       }
-      $log.log('a.social', a.social)
     })
   }
 

@@ -3,6 +3,8 @@ export default function newsService ($http, $log) {
   const vm = this
   vm.getNews = getNews;
   vm.getSentiment = getSentiment;
+  vm.checkSentiment = checkSentiment;
+  vm.addSentiment = addSentiment;
   vm.requestUrl = '';
 
   function getSentiment (urls) {
@@ -10,6 +12,22 @@ export default function newsService ($http, $log) {
     // $log.log('getSentiment newsService urls: ', urlArray)
     return $http
       .get('https://coinsight-api.herokuapp.com/sentiment')
+      .then(res => res)
+      .catch(err => $log.log(err));
+  }
+
+  function checkSentiment (url) {
+    return $http
+      .post('https://coinsight-api.herokuapp.com/sentiment/check', {url})
+      .then(res => res)
+      .catch(err => $log.log(err));
+  }
+
+  function addSentiment (url) {
+    let urls = [];
+    urls.push(url);
+    return $http
+      .post('https://coinsight-api.herokuapp.com/sentiment', {urls})
       .then(res => res)
       .catch(err => $log.log(err));
   }
