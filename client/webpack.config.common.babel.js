@@ -5,6 +5,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import Dotenv from 'dotenv-webpack';
 
 module.exports = new WebpackConfig().merge({
   output: {
@@ -59,6 +60,9 @@ module.exports = new WebpackConfig().merge({
     ]
   },
   plugins: [
+    new Dotenv({
+      path: './.env'
+    }),
     new ExtractTextPlugin('[name].css'),
     new CleanWebpackPlugin(['dist'], {
       root: __dirname,

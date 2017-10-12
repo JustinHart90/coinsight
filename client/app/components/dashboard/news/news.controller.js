@@ -283,6 +283,11 @@ export default function NewsController (newsService, $log) {
     return articles.map(article => {
       let imgUrl = article.source.details.thumbImage;
       let linkUrl = article.url;
+      if (!imgUrl || !linkUrl) {
+        article.source.details.thumbImage = 'https://lh5.ggpht.com/pdmkexRhik61JcVgrIsRnPo52iA5L8kneFUfRZQ0gNL-n7WvjOHerYk43YSGWaFYRuI9=w300';
+        article.url = 'https://lh5.ggpht.com/pdmkexRhik61JcVgrIsRnPo52iA5L8kneFUfRZQ0gNL-n7WvjOHerYk43YSGWaFYRuI9=w300';
+        return article;
+      }
       if (imgUrl.indexOf(/https:/) === 0 || linkUrl.indexOf(/https:/) === 0) {
         article.source.details.thumbImage = imgUrl;
         article.url = linkUrl;
